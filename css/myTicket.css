@@ -1,0 +1,59 @@
+.main5{
+	background: url(../img/pj.png) no-repeat;
+	background-size: 100% 100%;
+	box-shadow: none;
+	height: 4.5rem;
+	width: 94%;
+	align-items: center;
+	position: relative;
+}
+.mod_left{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 39%;
+	flex: none;
+	height: 60%;
+	border-right: #999 .02rem dashed;
+}
+.mod_left img{
+	width: 2rem;
+	height: 2rem;
+}
+.mod11{
+	flex: 1;
+	padding-left: 1rem;
+	display: flex;
+	justify-content: center;
+}
+.span1{
+	font-size: 0.4rem;
+	font-family: PingFangTC-Regular, PingFangTC;
+	font-weight: 400;
+	color: #505050;
+	margin-bottom: .2rem;
+}
+.span2{
+	font-size: 0.48rem;
+	font-family: PingFangTC-Regular, PingFangTC;
+	font-weight: 600;
+	color: #505050;
+}
+.word31{
+	position: absolute;
+	bottom: .3rem;
+	right: .6rem;
+	text-align: right;
+}
+.topright{
+	position: absolute;
+	background: #F2D735;
+	border-radius: 0.08rem;
+	font-size: 0.12rem;
+	font-family: PingFangTC-Regular, PingFangTC;
+	font-weight: 400;
+	color: #FFFFFF;
+	padding: .04rem .1rem;
+	top: .4rem;
+	right: .6rem;
+}

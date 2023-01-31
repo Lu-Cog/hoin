@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<title>訂單詳情</title>
+		<link rel="stylesheet" type="text/css" href="./css/orderInfo.css" />
+	</head>
+	<body>
+		<div class="page flex-col" id="orderInfo">
+			<div class="outer1 flex-col">
+				<div class="main2 flex-row">
+					<a class="section1 flex-row" href="javascript:history.back(-1);"><img src="img/1.png" alt=""></a>
+					<span class="word2">訂單詳情</span>
+				</div>
+				<div class="main3 flex-col">
+					<div class="wrap1 flex-col">
+						<div class="wrap2 flex-col">
+							<div class="main4 flex-row">
+								<span class="info1">預計配達日&nbsp;</span>
+								<span class="word3">2021/01/27(三)</span>
+							</div>
+							<span class="info2">運送方式：宅配/黑貓宅急便</span>
+							<span class="word5">繳款狀態尚待確認</span>
+							<span class="word4">
+								請於&nbsp;2021/01/23&nbsp;前完成繳納，謝謝！
+							</span>
+							<div class="look">
+								<a href="orderRealInfo.html">查看繳費資訊</a>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<div class="main5 flex-row">
+					<span class="info3">運送資訊</span>
+					<span class="info4" @click="golog">查看詳細</span>
+				</div>
+				<div class="main6 flex-col"></div>
+				<div class="main7 flex-row">
+					<span class="word6">包裹查詢碼</span>
+					<span class="word7">9064-2098-42996</span>
+					<img class="icon1" referrerpolicy="no-referrer"
+						src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPng340a77960eab50eae071d05b0a4601527c967d1429fb713d3d3288be13149f43" />
+				</div>
+				<div class="main8 flex-row">
+					<div class="layer1 flex-col"></div>
+					<div class="outer2 flex-col"></div>
+					<div class="layer2 flex-col">
+						<span class="word8">店家已將商品寄出</span>
+						<span class="txt1">2021/1/25&nbsp;10:00</span>
+					</div>
+				</div>
+				<div class="main5 flex-row">
+					<span class="info3">收件資訊</span>
+					<a href="editor_consignee.html?type=2" class="info4">更改收件資訊</a>
+				</div>
+				<div class="main9 flex-col"></div>
+				<div class="main10 flex-row">
+					<span class="info5">收件人</span>
+					<span class="info6">{{orderInfo.address_name}}</span>
+				</div>
+				<div class="main10 flex-row">
+					<span class="info5">聯絡電話</span>
+					<span class="info6">{{orderInfo.telephone}}</span>
+				</div>
+				<div class="main10 flex-row">
+					<span class="info5">收件地址</span>
+					<span class="info6">{{orderInfo.address}}</span>
+				</div>
+				<span class="txt3">訂單摘要</span>
+				<div class="main13 flex-col"></div>
+				<div class="main10 flex-row">
+					<span class="info5">訂單編號</span>
+					<span class="info6">{{orderInfo.order_sub_no}}</span>
+					<img class="label1" referrerpolicy="no-referrer"
+						src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPng340a77960eab50eae071d05b0a4601527c967d1429fb713d3d3288be13149f43" />
+				</div>
+				<div class="main10 flex-row">
+					<span class="info5">訂購日期</span>
+					<span class="info6">2021/01/17</span>
+				</div>
+				<div class="main10 flex-row">
+					<span class="info5">付款/取貨</span>
+					<span class="info6" v-if="orderInfo.pay_type==1">超商取货付款</span>
+					<span class="info6" v-if="orderInfo.pay_type==2">信用卡一次付清</span>
+					<span class="info6" v-if="orderInfo.pay_type==3">ATM付款</span>
+					<span class="info6" v-if="orderInfo.pay_type==4">货到付款</span>
+					<span class="info6" v-if="orderInfo.pay_type==5">街口支付</span>
+					<span class="word15">已付款</span>
+				</div>
+				<div class="main10 flex-row">
+					<span class="info5">商品數量&nbsp;&nbsp;&nbsp;</span>
+					<span class="info6">共&nbsp;{{orderInfo.goods_list.length}}&nbsp;項</span>
+				</div>
+				<div class="main10 flex-row">
+					<span class="info5">訂單金額</span>
+					<span class="word18">${{orderInfo.total_price}}（含運費）</span>
+				</div>
+				<!-- <div class="main5 flex-row">
+					<span class="info3">發票開立資訊</span>
+					<a href="invoice.html" class="info4">變更發票資訊</a>
+				</div>
+				<div class="main19 flex-col"></div>
+				<span class="txt6">公司用統編</span>
+				<span class="word20">12345678</span>
+				<span class="word21">雅米雅米有限公司</span>
+				<span class="word22">110台北市信義區松壽路25號12樓</span> -->
+				<!-- <div class="main20 flex-col">
+					<div class="mod1 flex-row">
+						<div class="section2 flex-col"></div>
+						<span class="word23">Jecky美妝天地</span>
+						<span class="txt7">店家主頁</span>
+						<div class="section3 flex-col"></div>
+					</div>
+				</div> -->
+				<div class="main21 flex-row" v-for="(item,index) in orderInfo.goods_list">
+					<img class="box1 flex-col"
+						:src="item.img">
+					<div class="box2 flex-col">
+						<span class="info10">{{item.goods_name}}</span>
+						<span class="word24">${{item.price}}</span>
+					</div>
+					<span class="info11">數量：{{item.num}}</span>
+				</div>
+				<div class="main23 flex-col">
+					<div class="bd1 flex-col">
+						<div class="section5 flex-row">
+							<span class="info12">商品金額小記</span>
+							<span class="info13">$1100</span>
+						</div>
+						<div class="section5 flex-row">
+							<span class="info12">折價券</span>
+							<span class="info13">&nbsp;&nbsp;-$150</span>
+						</div>
+						<div class="section5 flex-row">
+							<span class="info12">IN幣折抵</span>
+							<span class="info13">-$50</span>
+						</div>
+						<div class="section5 flex-row">
+							<span class="info12">運費</span>
+							<span class="info13">$70</span>
+						</div>
+						<div class="section8 flex-col"></div>
+						<div class="section9 flex-row">
+							<span class="txt12">共2項商品</span>
+							<span class="word27">${{orderInfo.total_price}}</span>
+						</div>
+					</div>
+				</div>
+				<div class="footer">
+					<a href="cancelOrder.html" class="cancel" v-if="false">
+						取消订单
+					</a>
+					<div class="evaluate" v-if="false">
+						已評價
+					</div>
+					<div class="goevaluate" @click="openMask" v-else>
+						去評價
+					</div>
+					<div class="payagren">
+						再買一次
+					</div>
+				</div>
+				<div class="main24 flex-row">
+					<div class="layer5 flex-col">
+						<img class="icon2" referrerpolicy="no-referrer"
+							src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPng6259bb8cb7f9a7ba9f6c6a7e83f7d2108546c4598b2b8e9073f99ad9c1ddfa1b" />
+						<span class="txt13">線上客服</span>
+					</div>
+					<div class="layer5 flex-col">
+						<img class="label2" referrerpolicy="no-referrer"
+							src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPng83d676d40cf435b8f7d9ddcf48a830c759b2ef9476031626395a0ca6e395fb63" />
+						<span class="txt13">客服電話</span>
+
+					</div>
+					<div class="layer5 flex-col">
+						<img class="label3" referrerpolicy="no-referrer"
+							src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPnga3214111e272356b222d44633597fb6f14c6ba2a2c620742abe95423e2dd051c" />
+						<span class="txt13">客服信箱</span>
+					</div>
+				</div>
+			</div>
+			<div class="mask" v-if="mask">
+				<div class="mask_main">
+					<img @click="mask=false" src="./img/gbc.png" class="close" />
+					<div class="mask_title">
+						我要評價
+					</div>
+					<div class="mask_content">
+						<div class="mask_item" @click="goEva()">
+							評價商品
+						</div>
+						<div class="mask_item bg" @click="goEva()">
+							評價店家
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+	<script src="./blis/layui/layui.all.js"></script>
+	<script src="./blis/layer_mobile/layer.js"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/router.js"></script>
+	<script src="./js/common.js"></script>
+
+	<script>
+		new Vue({
+			el: "#orderInfo",
+			data() {
+				return {
+					tabType: 1,
+					storeId: 0,
+					storeName: '',
+					mask:false,
+					orderInfo:{}
+				}
+			},
+
+			created() {
+				var that = this;
+				that.getOptions();
+
+			},
+			mounted() {
+				var that = this;
+			},
+			updated() {
+				var that = this;
+			},
+			methods: {
+				goEva(){
+					window.location.href = "orderScore.html"
+				},
+				openMask(){
+					this.mask = true
+				},
+				/**
+				 * *获取路由参数
+				 */
+
+				getOptions() {
+					var that = this;
+					var optionsArr = getAllUrlParams(window.location.href);
+					that.storeId = optionsArr.id;
+					this.getOrderInfo(optionsArr.id)
+					that.storeName = decodeURI(optionsArr.name);
+				},
+				changeTab(type) {
+					this.tabType = type
+				},
+				golog(){
+					window.location.href = "logistics.html"
+				},
+				toList() {
+					window.location.href = "info-index.html?id=" + this.storeId + "&name=" + this.storeName;
+				},
+				gotoInfo() {
+					window.location.href = "orderInfo.html"
+				},
+				getOrderInfo(id){
+					let data = {
+						order_sub_no :id,
+					}
+					getOrderInfo(data,(res)=>{
+						this.orderInfo = res
+					})
+				}
+			}
+		})
+	</script>
+</html>

@@ -1,0 +1,88 @@
+.apoint-end_body .list_item {
+  box-shadow: none;
+  background: none;
+  margin-bottom: 0;
+}
+.apoint-end_body .list_item .row {
+  display: flex;
+  justify-content: space-between;
+}
+.apoint-end_body .list-item_a {
+  padding: 0.15rem 0;
+}
+.apoint-end_body .apoint-end_cart .cart_block {
+  padding-bottom: 0.16rem;
+}
+.apoint-end_body .apoint-end_cart .cart_block .cart-title {
+  font-size: 0.14rem;
+  color: #a5a5a5;
+  border-bottom: 1px solid #a5a5a5;
+  padding: 0 0.12rem 0.08rem;
+}
+.apoint-end_body .apoint-end_cart .cart_block .cart-cont {
+  font-size: 0.16rem;
+  font-weight: 500;
+  color: #505050;
+  padding: 0.06rem 0.12rem 0;
+}
+.apoint-end_body .apoint-end_cart .cart_block .cart-cont #identity {
+  font-style: normal;
+}
+.apoint-end_body .apoint-end_cart .cart_block .cart-cont span {
+  color: #ff5252;
+  font-weight: 600;
+}
+.apoint-end_body .apoint-end_cart .cart_block .cart-ps {
+  font-size: 0.12rem;
+  color: #a1a1a1;
+  padding: 0 0.12rem;
+}
+.apoint-end_body .apoint-end_cart .cart_block .row {
+  padding: 0.14rem 0.12rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.apoint-end_body .apoint-end_cart .cart_block .row .cart-cont {
+  padding: 0;
+}
+.apoint-end_body .remind {
+  padding: 0.24rem 0;
+}
+.apoint-end_body .remind .remind_title {
+  font-size: 0.18rem;
+  font-weight: 600;
+  color: #505050;
+  line-height: 0.25rem;
+}
+.apoint-end_body .remind .title-after {
+  width: 0.52rem;
+  height: 0.04rem;
+  background-color: #fdd835;
+  margin: 0.05rem 0 0.07rem;
+}
+.apoint-end_body .remind .remind_p {
+  font-size: 0.14rem;
+  font-weight: 400;
+  color: #a1a1a1;
+}
+.apoint-end_body .layui-unselect {
+  height: 0.31rem !important;
+  line-height: 0.31rem !important;
+  min-width: 0.5rem !important;
+  margin-top: 0 !important;
+  border-radius: 0.2rem !important;
+}
+.apoint-end_body .layui-form-switch i {
+  position: absolute;
+  left: 0.02rem;
+  bottom: 0;
+  top: 0;
+  width: 0.27rem;
+  height: 0.27rem;
+  margin: auto;
+}
+.apoint-end_body .layui-form-onswitch i {
+  right: 0.02rem;
+  left: initial;
+}

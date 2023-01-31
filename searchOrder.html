@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link rel="stylesheet" type="text/css" href="./css/searchOrder.css" />
+	</head>
+	<body>
+		<div class="page flex-col" id="searchOrder">
+			<div class="box1 flex-col">
+				<div class="group2 flex-row">
+					<a class="outer1 flex-row" href="javascript:history.back(-1);"><img src="img/1.png" alt=""></a>
+					<span class="info1">搜尋訂單</span>
+				</div>
+				<div class="group3 flex-row">
+					<span class="info2" :class="{'active':tabType==0}" @click="changeTab(0)">關鍵字搜尋</span>
+					<span class="info2" :class="{'active':tabType==1}" @click="changeTab(1)">日期搜尋</span>
+				</div>
+				<div v-if="tabType==0">
+					<div class="group5">
+						<input type="" name="" id="" value="" placeholder="輸入賣家名稱、訂單編號或商品字搜尋" />
+						<img class="label1" referrerpolicy="no-referrer"
+							src="https://lanhu.oss-cn-beijing.aliyuncs.com/SketchPng9986d367ec08f541183b132359a6bbb19a5f51f3445a51f7eded8a820b5546cd" />
+					</div>
+					<span class="info3">訂單保留期為&nbsp;1年區間期限</span>
+				</div>
+				<div class="deta" v-else>
+					<span class="info12">訂購日查詢</span>
+					<div class="box5 flex-row">
+						<input class="mod2" type="" name="" id="" value="" placeholder="2020/12/14"/>
+						<span class="info22">-</span>
+						<input class="mod3" type="" name="" id="" value="" placeholder="2021/03/15"/>
+						<div class="mod4 flex-col"><span class="info4">查詢</span></div>
+					</div>
+					<span class="word4">訂單保留1年間紀錄,查詢區間最多3個月</span>
+				</div>
+			</div>
+			<div class="order_item" @click="gotoInfo">
+				<div class="store_info">
+					<div class="store_left">
+						<img src="img/coplogo.png" alt="">
+						<span>安仔的多肉世界</span>
+					</div>
+					<p>待付款</p>
+				</div>
+				<div class="order_info">
+					<p><span>訂單編號</span>TG210121T00895</p>
+					<p><span>訂購日期</span>2021/01/18</p>
+					<p><span>付款/取貨</span>ATM付款 / 宅配</p>
+					<p><span>商品數量</span>共 2項</p>
+					<p class="price"><span>訂單金額</span>$1085（含運費）</p>
+				</div>
+				<div class="good_list">
+					<div class="good_item">
+						<img src="img/img3.jpg" >
+						<div class="good_right">
+							<p class="good_title">
+								日安可頌
+							</p>
+							<p class="good_attr">
+								<span class="good_price">$40</span>
+								<span>數量：1</span>
+							</p>
+						</div>
+					</div>
+					<div class="good_item">
+						<img src="img/img3.jpg" >
+						<div class="good_right">
+							<p class="good_title">
+								日安可頌
+							</p>
+							<p class="good_attr">
+								<span class="good_price">$40</span>
+								<span>數量：1</span>
+							</p>
+						</div>
+					</div>
+					<a href="">查看訂單詳情</a>
+				</div>
+				<a href="logistics.html" class="payment">
+					<p>面交資訊<span>(取貨確認)</span></p>
+					<p>></p>
+				</a>
+			</div>
+		</div>
+	</body>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+	<script src="./blis/layui/layui.all.js"></script>
+	<script src="./blis/layer_mobile/layer.js"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/router.js"></script>
+	<script src="./js/common.js"></script>
+
+	<script>
+		new Vue({
+			el: "#searchOrder",
+			data() {
+				return {
+					tabType: 0,
+					storeId: 0,
+					storeName: ''
+				}
+			},
+
+			created() {
+				var that = this;
+				that.getOptions();
+
+			},
+			mounted() {
+				var that = this;
+			},
+			updated() {
+				var that = this;
+			},
+			methods: {
+				/**
+				 * *获取路由参数
+				 */
+
+				getOptions() {
+					var that = this;
+					var optionsArr = getAllUrlParams(window.location.href);
+					that.storeId = optionsArr.id;
+					that.storeName = decodeURI(optionsArr.name);
+				},
+				changeTab(type) {
+					this.tabType = type
+				},
+				toList() {
+					window.location.href = "info-index.html?id=" + this.storeId + "&name=" + this.storeName;
+				},
+				gotoInfo() {
+					window.location.href = "orderInfo.html"
+				}
+			}
+		})
+	</script>
+</html>

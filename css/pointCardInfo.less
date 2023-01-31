@@ -1,0 +1,161 @@
+.main_card {
+	width: 90%;
+	margin: -.6rem auto 1rem;
+	background: #FFFFFF;
+	box-shadow: 0rem 0.03rem 0.11rem 0rem rgba(0, 0, 0, 0.5);
+	border-radius: 0.21rem;
+	z-index: 50;
+	padding: .27rem;
+	.card_head{
+		img{
+			margin-right: .2rem;
+		}
+	}
+	.card_title{
+		font-size: .5rem;
+		position: relative;
+		margin-bottom: 1rem;
+		&::after{
+			content: '';
+			position: absolute;
+			width: 100%;
+			height: .04rem;
+			background-color: #999;
+			bottom: -.6rem;
+			left: 0;
+		}
+	}
+	.content {
+		word-break: break-all;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		/** 对象作为伸缩盒子模型显示 **/
+		-webkit-box-orient: vertical;
+		/** 设置或检索伸缩盒对象的子元素的排列方式 **/
+		-webkit-line-clamp: 3;
+		/** 显示的行数 **/
+		overflow: hidden;
+		/** 隐藏超出的内容 **/
+		transition: all 2s;
+	}
+	.contentshow{
+		-webkit-line-clamp: 100;
+	}
+	.title{
+		display: inline-block;
+		position: relative;
+		margin-bottom: .3rem;
+		font-size: .5rem;
+		&::after{
+			position: absolute;
+			bottom: -.1rem;
+			left: 0;
+			content: '';
+			height: .1rem;
+			width: 100%;
+			background-color: yellow;
+		}
+	}
+	.tip{
+		text-align: right;
+		span{
+			background-color: #F2D735;
+			color: #fff;
+			padding: .1rem .2rem;
+			border-radius: .2rem;
+		}
+	}
+	.tip2{
+		text-align: right;
+		span{
+			color: #A1A1A1;
+		}
+	}
+	.title2{
+		font-size: .5rem;
+	}
+	.dit{
+		text-align: center;
+		font-weight: 700;
+		font-size: .5rem;
+	}
+	.fpage{
+		text-align: center;
+		margin: .5rem 0;
+		font-size: .5rem;
+		color: #A1A1A1;
+		.numberPage{
+			margin: 0 2rem;
+		}
+	}
+}
+.main_type{
+	width: 90%;
+	margin: -.6rem auto .4rem;
+	padding: .27rem;
+	.title{
+		font-size: .5rem;
+	}
+	pre{
+		color: #A1A1A1;
+	}
+}
+
+.pjList {
+	width: 100%;
+	margin: 0;
+	justify-content: space-between;
+	.pjItem {
+		width: 1.33rem;
+		height: 1.33rem;
+		margin: .2rem .1rem;
+	}
+	.pjspan {
+		width: 1.13rem;
+		height: 1.13rem;
+	}
+	
+}
+.bottomFoot {
+	position: fixed;
+	right: .5rem;
+	bottom: 1rem;
+	padding: 2rem .6rem 0;
+	z-index: 1000;
+}
+.mask_main{
+	box-sizing: border-box;
+	.mask_type{
+		color: #505050;
+		margin: .4rem 0;
+	}
+	.mask_type1{
+		display: flex;
+		align-items: center;
+		margin-bottom: .5rem;
+		.left{
+			flex: 1;
+			// margin-right: 1rem;
+			.typeName{
+				font-size: .5rem;
+				color: #D38743;
+			}
+			.typeTip{
+				color: #505050;
+			}
+		}
+		.right{
+			background-color: #FDD835;
+			color: #000;
+			white-space: nowrap;
+			padding: .4rem .6rem;
+			border-radius: 1rem;
+		}
+	}
+	.btnhide{
+		background-color: #FDD835;
+		text-align: center;
+		padding: .3rem;
+		border-radius: 1rem;
+	}
+}

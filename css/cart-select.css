@@ -1,0 +1,83 @@
+.cart-select_body {
+  padding-top: 0.96rem;
+}
+.cart-select_body .header {
+  box-shadow: none;
+  top: .3rem !important;
+}
+.cart-select_body .select-title {
+  border-bottom: 1px solid #a1a1a1;
+  padding: 0.05rem;
+}
+.cart-select_body .search_body {
+  margin-bottom: 0.4rem;
+}
+.cart-select_body .search_body input[type=text] {
+  flex: 1;
+  height: 0.4rem;
+  background: #F1F1F1;
+  border-radius: 0.08rem;
+  padding: 0 0.11rem;
+  font-size: 0.16rem;
+  color: #A1A1A1;
+}
+.cart-select_body .search_body input[type=text]::-moz-placeholder,
+.cart-select_body .search_body input[type=text]::placeholder {
+  font-size: 0.16rem;
+  color: #A1A1A1;
+}
+.cart-select_body .search_body input[type=button] {
+  flex-basis: 0.81rem;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: 0.4rem;
+  background: #FF5252;
+  border-radius: 0.08rem;
+  margin-left: 0.06rem;
+  font-size: 0.16rem;
+  font-family: PingFangTC-Regular, PingFangTC;
+  font-weight: 400;
+  color: #FFFFFF;
+}
+.cart-select_body .user_list .list_item {
+  padding: 0.11rem;
+  width: 100%;
+  height: 1.85rem;
+  background: #FFFFFF;
+  border-radius: 0.08rem;
+  border: 0.01rem solid #A1A1A1;
+  margin-top: 0.16rem;
+  align-items: start;
+  box-shadow: none;
+}
+.cart-select_body .user_list .list_item .checkbox_label {
+  margin: 0;
+  font-size: 0.14rem;
+  font-weight: 500;
+  color: #505050;
+}
+.cart-select_body .user_list .list_item .right_block {
+  margin-left: 0.1rem;
+}
+.cart-select_body .user_list .list_item .right_block .top {
+  font-size: 0.16rem;
+  font-weight: 500;
+  color: #299242;
+}
+.cart-select_body .user_list .list_item .right_block .top img {
+  width: 0.24rem;
+  height: 0.18rem;
+  margin-right: 0.1rem;
+}
+.cart-select_body .user_list .list_item .right_block .select-title {
+  font-size: 0.12rem;
+  color: #505050;
+}
+.cart-select_body .user_list .list_item .right_block .text_block {
+  margin-top: 0.07rem;
+}
+.cart-select_body .user_list .list_item .right_block .text_block p {
+  font-size: 0.12rem;
+  color: #A1A1A1;
+  line-height: 0.17rem;
+}

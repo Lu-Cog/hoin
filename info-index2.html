@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>商品資訊總覽1-6</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/info-index.css?v=1">
+</head>
+
+<body>
+  <div class="body info_body" id="info_body" v-cloak>
+    <h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-zuo  i-left"></i></a>店铺名称
+    </h3>
+    <div class="tabs_body">
+      <div class="tab">
+        <div class="tab_item" :class="active===0?'active':''" @click="changeTabs(0)">產品總覽</div>
+        <div class="tab_item" :class="active===1?'active':''" @click="changeTabs(1)">價格表</div>
+        <div class="tab_item" :class="active===2?'active':''" @click="changeTabs(2)">服務介紹</div>
+      </div>
+      <!-- 搜索框，判斷隱藏 -->
+
+      <div class="content_block">
+        <div class="content_item all_block" v-if="active===0">
+          <div class="search_block">
+            <div class="search_select-body">
+              <div class="search_select a-block" @click="open(openState)">
+                <!-- :class="select ? 'selectColor' : '' " -->
+                <span class="clamp" class="select">裝飾盆栽</span><i
+                  class="iconfont icon-bottom"></i>
+              </div>
+              <div class="search_select a-block" @click="open2(openState2)">
+                <span class="clamp" class="select2">有貨優先</span><i
+                  class="iconfont icon-bottom"></i>
+              </div>
+            </div>
+            <img class="i-cart" src="./img/shopping_cart.png" alt="购物车">
+            <div class="open_list" v-show="openState">
+              <div class="open_item flex-bt active">
+                <span>有貨優先</span><span>✔</span>
+              </div>
+              <div class="open_item flex-bt">
+                <span>有貨優先</span>
+              </div>
+              <div class="open_item flex-bt">
+                <span>有貨優先</span>
+              </div>
+            </div>
+            <div class="open_list open_list2" v-show="openState2">
+              <div class="open_item flex-bt active">
+                <p><span>裝飾盆栽</span><span>42件</span></p><span>✔</span>
+              </div>
+              <div class="open_item flex-bt">
+                <p><span>裝飾盆栽</span><span>42件</span></p>
+              </div>
+              <div class="open_item flex-bt">
+                <p><span>裝飾盆栽</span><span>42件</span></p>
+              </div>
+            </div>
+          </div>
+          <div class="info_list">
+            <div class="list_item">
+              <img class="i-so" src="./img/info_so.png" alt="收藏图标">
+              <div class="item_img bg" style="background-image: url('./img/img3.jpg');"></div>
+              <div class="text_blcok">
+                <h3 class="name">雙人湯屋</h3>
+                <span class="badge">均一價</span>
+                <div class="dow_block flex-bt">
+                  <div class="price_block">
+                    <h3 class="old_price">$540</h3>
+                    <h3 class="price">$400</h3>
+                  </div>
+                  <div class="zan_block">
+                    <img src="./img/i-xing.png" alt="搜藏">4.5
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="list_item">
+              <img class="i-so" src="./img/info_so.png" alt="收藏图标">
+              <div class="item_img bg" style="background-image: url('./img/img3.jpg');">
+
+              </div>
+              <div class="text_blcok">
+                <h3 class="name">雙人湯屋</h3>
+                <span class="badge">均一價</span>
+                <div class="dow_block flex-bt">
+                  <div class="price_block">
+                    <h3 class="old_price">$540</h3>
+                    <h3 class="price">$400</h3>
+                  </div>
+                  <div class="zan_block">
+                    <img src="./img/i-xing.png" alt="搜藏">4.5
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="list_item">
+              <img class="i-so" src="./img/info_so.png" alt="收藏图标">
+              <div class="item_img bg" style="background-image: url('./img/img3.jpg');">
+
+              </div>
+              <div class="text_blcok">
+                <h3 class="name">雙人湯屋</h3>
+                <span class="badge">均一價</span>
+                <div class="dow_block flex-bt">
+                  <div class="price_block">
+                    <h3 class="old_price">$540</h3>
+                    <h3 class="price">$400</h3>
+                  </div>
+                  <div class="zan_block">
+                    <img src="./img/i-xing.png" alt="搜藏">4.5
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="content_item select_block" v-if="active===1">
+          <ul class="select_ul">
+            <li class="select_li">
+              <h4 class="select-title">運費</h4>
+              <div class="priec">$0-$150</div>
+              <div class="text">依據運送方式與商品規格而定，滿額可享免運優惠</div>
+            </li>
+            <li class="select_li">
+              <h4 class="select-title">付款方式</h4>
+              <ul class="select_cont">
+                <li class="select_item clamp active">線上支付</li>
+                <li class="select_item clamp">匯款支付</li>
+                <li class="select_item clamp">貨到付款</li>
+                <li class="select_item clamp">超商貨到付款</li>
+              </ul>
+            </li>
+            <li class="select_li">
+              <h4 class="select-title">商品類型</h4>
+              <ul class="select_cont">
+                <li class="select_item clamp active">現貨</li>
+                <li class="select_item clamp">預購</li>
+                <li class="select_item clamp">代購</li>
+              </ul>
+            </li>
+            <li class="select_li">
+              <h4 class="select-title">商品類型</h4>
+              <ul class="select_cont">
+                <li class="select_item clamp active">個人</li>
+              </ul>
+            </li>
+            <li class="select_li">
+              <h4 class="select-title">賣家類型</h4>
+              <div class="priec">付款後,一周內</div>
+              <div class="text">實際付款/運送方式, 以商品頁說明為準</div>
+            </li>
+          </ul>
+
+          <h3 class="title">付款說明補充 </h3>
+          <div class="content">
+            請勿相信不明詐騙電話之說詞
+            本人不會要求奇怪的付款事項
+            本賣場的商品可使用PChomePay支付連信用卡購物,使用PChomePay支付連信用卡的話須額外加收2%PChomePay支付連手續費&2%露天手續費
+            舉例來說：1000元的商品運費80元，總金額會是1000+(1000*0.02)+(1000*0.02)=1040+運費80=1120
+          </div>
+        </div>
+        <div class="content_item service_block" v-if="active===2">
+          <h3 class="title">住宿服務</h3>
+          <div class="content">水美溫泉會館共有69間客房，其部份為米色調性陳述，簡約的家具擺飾營造出一室溫馨暖怡的氛圍。 室內陳設物品多是日常生活用品，質樸隨意，沒有刻意的雕琢感，陳述出東方禪沉潛靜謐。
+          </div>
+          <h4 class="min_title">全方位服務中心</h4>
+          <div class="content">
+            設置於一樓，提供一下服務 <br>
+            ＞文件傳真．影印（收費服務）<br>
+            ＞代旅客安排高級轎車．小型巴士之租賃<br>
+            ＞代叫計程車<br>
+            ＞提供旅遊資訊
+          </div>
+          <h4 class="min_title">房館服務</h4>
+          <div class="content">提供房務清潔，增添被褥更換床單及衣物送洗等相關服務</div>
+          <button class="btn flex-center">了解更多</button>
+          <img class="dow_img" src="./img/banner/banner_1.jpg" alt="底部图" style="width: 100%; height: auto;">
+        </div>
+      </div>
+
+
+    </div>
+    <div class="btn_blcok">
+      <button class="flex-center">前往商家介紹</button>
+    </div>
+    <black-top></black-top>
+  </div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+<!-- <script src="./js/ifvisible.min.js"></script> -->
+
+<script>
+  new Vue({
+    el: "#info_body",
+    data() {
+      return {
+        storeName: '', //店铺名称
+        storeId: '', //店铺id
+        active: 0,
+        openState: false,
+        openState2: false
+      }
+    },
+
+
+    mounted() {
+      var that = this;
+
+    },
+
+
+    created() {
+      var that = this;
+      that.getOptions();
+
+    },
+
+
+    methods: {
+      /**
+       * *获取路由参数
+      */
+      getOptions() {
+        var that = this;
+        getAllUrlParams();
+        var path = window.location.href;
+        var optionsArr = getAllUrlParams(path);
+        that.storeId = optionsArr.id;
+        that.storeName = decodeURI(optionsArr.name);
+        console.log();
+        // 普通调用 optionsArr.xxx
+        // 含文字调用 decodeURI(optionsArr.xxx);
+      },
+
+
+      // 切换tabs
+      changeTabs(active) {
+        this.active = active
+      },
+
+      // 切换选框
+      open(openState) {
+        this.openState = !openState;
+        this.openState2=false;
+      },
+      // 切换选框
+      open2(openState2) {
+        this.openState2 = !openState2;
+        this.openState=false;
+      }
+    }
+  })
+</script>
+
+</html>

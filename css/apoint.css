@@ -1,0 +1,64 @@
+.apoint_body {
+  padding-top: 0.7rem;
+}
+.apoint_body .remind {
+  padding: 0.15rem 0;
+  padding-top: 0;
+}
+.apoint_body .remind .remind_title {
+  font-size: 0.18rem;
+  font-weight: 600;
+  color: #505050;
+  line-height: 0.25rem;
+}
+.apoint_body .remind .title-after {
+  width: 0.52rem;
+  height: 0.04rem;
+  background-color: #fdd835;
+  margin: 0.05rem 0 0.07rem;
+}
+.apoint_body .remind .remind_p {
+  font-size: 0.14rem;
+  font-weight: 400;
+  color: #a1a1a1;
+}
+.apoint_body .apoint_form {
+  padding: 0.15rem 0;
+}
+.apoint_body .apoint_form .form_p {
+  font-size: 0.14rem;
+  color: #505050;
+  line-height: 0.2rem;
+  margin-bottom: 0.1rem;
+}
+.apoint_body .apoint_form .form-group .form-group_p {
+  color: #d38743;
+  margin-left: 0.1rem;
+  font-size: 0.12rem;
+}
+.apoint_body .apoint_form label.checkbox_label {
+  color: #505050;
+  line-height: 0.2rem;
+  margin-bottom: 0.05rem;
+  margin-left: 0.1rem;
+  font-size: 0.14rem;
+}
+.apoint_body .apoint_form .checkbox label input {
+  font-size: 0.14rem;
+  color: #505050;
+  line-height: 0.2rem;
+}
+.apoint_body .apoint_form .checkbox label .checkbox_a {
+  color: #d38743 !important;
+  text-decoration: underline;
+}
+.apoint_body .apoint_form .form_botton {
+  width: 3rem;
+  height: 0.4rem;
+  background: #fdd835;
+  border-radius: 0.2rem;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>商品資訊總覽1-1實體店</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/info-index.css">
+</head>
+
+<body>
+  <div class="body info_body" id="info_body">
+    <div class="header_top"></div>
+    <h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-zuo  i-left"></i></a>{{storeName}}
+    </h3>
+    <div class="tabs_body">
+      <div class="tab">
+        <div class="tab_item" :class="active===0?'active':''" @click="changeTabs(0)">產品總覽</div>
+        <div class="tab_item" :class="active===1?'active':''" @click="changeTabs(1)">價格表</div>
+        <div class="tab_item" :class="active===2?'active':''" @click="changeTabs(2)">服務介紹</div>
+      </div>
+      <!-- 搜索框，判斷隱藏 -->
+      <div class="content_block">
+        <div class="content_item all_block" v-if="active===0">
+
+          <div class="info_list">
+            <div class="list_item" v-for="(item, index) in goodslist" :key="index" @click="toGoods(item.goods_id)">
+              <img class="i-so" src="./img/info_so.png" alt="收藏图标">
+              <div class="item_img bg" :style=`backgroundImage:url(${item.img})`>
+              </div>
+              <div class="text_blcok">
+                <h3 class="name">{{item.name}}</h3>
+                <span class="badge">均一價</span>
+                <h3 class="price">${{item.price}}</h3>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="content_item select_block" v-if="active===1">
+          <ul class="select_ul">
+            <li class="select_li">
+              <h4 class="select-title">運費</h4>
+              <div class="priec">$0-$150</div>
+              <div class="text">依據運送方式與商品規格而定，滿額可享免運優惠</div>
+            </li>
+            <li class="select_li">
+              <h4 class="select-title">付款方式</h4>
+              <ul class="select_cont">
+                <li class="select_item clamp active">線上支付</li>
+                <li class="select_item clamp">匯款支付</li>
+                <li class="select_item clamp">貨到付款</li>
+                <li class="select_item clamp">超商貨到付款</li>
+              </ul>
+            </li>
+            <li class="select_li">
+              <h4 class="select-title">商品類型</h4>
+              <ul class="select_cont">
+                <li class="select_item clamp active">現貨</li>
+                <li class="select_item clamp">預購</li>
+                <li class="select_item clamp">代購</li>
+              </ul>
+            </li>
+            <li class="select_li">
+              <h4 class="select-title">商品類型</h4>
+              <ul class="select_cont">
+                <li class="select_item clamp active">個人</li>
+              </ul>
+            </li>
+            <li class="select_li">
+              <h4 class="select-title">賣家類型</h4>
+              <div class="priec">付款後,一周內</div>
+              <div class="text">實際付款/運送方式, 以商品頁說明為準</div>
+            </li>
+          </ul>
+
+          <h3 class="title">付款說明補充 </h3>
+          <div class="content">
+            請勿相信不明詐騙電話之說詞
+            本人不會要求奇怪的付款事項
+            本賣場的商品可使用PChomePay支付連信用卡購物,使用PChomePay支付連信用卡的話須額外加收2%PChomePay支付連手續費&2%露天手續費
+            舉例來說：1000元的商品運費80元，總金額會是1000+(1000*0.02)+(1000*0.02)=1040+運費80=1120
+          </div>
+        </div>
+        <div class="content_item service_block" v-if="active===2">
+          <h3 class="title">住宿服務</h3>
+          <div class="content">水美溫泉會館共有69間客房，其部份為米色調性陳述，簡約的家具擺飾營造出一室溫馨暖怡的氛圍。 室內陳設物品多是日常生活用品，質樸隨意，沒有刻意的雕琢感，陳述出東方禪沉潛靜謐。
+          </div>
+          <h4 class="min_title">全方位服務中心</h4>
+          <div class="content">
+            設置於一樓，提供一下服務 <br>
+            ＞文件傳真．影印（收費服務）<br>
+            ＞代旅客安排高級轎車．小型巴士之租賃<br>
+            ＞代叫計程車<br>
+            ＞提供旅遊資訊
+          </div>
+          <h4 class="min_title">房館服務</h4>
+          <div class="content">提供房務清潔，增添被褥更換床單及衣物送洗等相關服務</div>
+          <button class="btn flex-center">了解更多</button>
+          <img class="dow_img" src="./img/banner/banner_1.jpg" alt="底部图" style="width: 100%; height: auto;">
+        </div>
+      </div>
+
+
+    </div>
+    <div class="btn_blcok">
+      <a href="#">
+        <button @click.prevent="toInfo()" class="flex-center">前往商家介紹</button>
+      </a>
+    </div>
+    <black-top></black-top>
+  </div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+<!-- <script src="./js/ifvisible.min.js"></script> -->
+
+<script>
+  new Vue({
+    el: "#info_body",
+    data() {
+      return {
+        storeName: '', //店铺名称
+        storeId: '', //店铺id
+        active: 0,
+        goodslist: [],//商品列表
+        pageIndex: 1,//当前页码
+        countPage: '',//总页数
+      }
+    },
+
+
+    mounted() {
+      var that = this;
+
+    },
+
+
+    created() {
+      var that = this;
+      that.getOptions();
+      var storeId = that.storeId
+      var pageIndex = that.pageIndex
+      console.log(storeId)
+      that.getGoodsList(storeId, pageIndex)
+
+      window.onscroll = function () {
+        //变量scrollTop是滚动条滚动时，距离顶部的距离
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        //变量windowHeight是可视区的高度
+        var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        //变量scrollHeight是滚动条的总高度
+        var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+        //滚动条到底部的条件
+        if (scrollTop + windowHeight == scrollHeight) {
+          //写后台加载数据的函数
+          console.log("距顶部" + scrollTop + "可视区高度" + windowHeight + "滚动条总高度" + scrollHeight);
+
+          let countPage = that.countPage;//总页数
+          let pageIndex = that.pageIndex + 1;//当前页数+1
+          console.log(pageIndex);
+          if (pageIndex <= countPage) {
+            that.getGoodsList(that.storeId, pageIndex)
+          } else {
+            console.log("已经到底了");
+            // msg('已经到底了', 2)
+          }
+        }
+      }
+    },
+
+
+    methods: {
+      toInfo(){
+        var that = this;
+        window.location.href = "storeInfo.html?id=" + that.storeId + "&name=" + that.storeName;
+      },
+      /**
+       * *获取路由参数
+      */
+      getOptions() {
+        var that = this;
+        getAllUrlParams();
+        var path = window.location.href;
+        var optionsArr = getAllUrlParams(path);
+        that.storeId = optionsArr.id;
+        that.storeName = decodeURI(optionsArr.name);
+        // 普通调用 optionsArr.xxx
+        // 含文字调用 decodeURI(optionsArr.xxx);
+      },
+
+      getGoodsList(storeId, pageIndex) {
+        var that = this;
+        var storeId = storeId;
+        var pageIndex = pageIndex
+        var params = {
+          "storeId": storeId,
+          "pageIndex": pageIndex,
+          "pageSize": 6
+        }
+        goodsList(params, function (res) {
+          let goodslist = res.list
+          let pageIndex = that.pageIndex = res.pageIndex;//当前分页页码
+          let countPage = that.countPage = res.countPage; //总页数
+
+          // 分页追加数据
+          if (pageIndex > 1) {
+            // 以前的数据
+            let list = that.goodslist;
+            // 新数据长度
+            let clinicLen = goodslist.length;
+
+            for (var i = 0; i < clinicLen; i++) {
+              list.push(goodslist[i])
+            }
+            goodslist = list;
+          }
+          that.goodslist = goodslist;
+        })
+      },
+      // 切换tabs
+      changeTabs(active) {
+        this.active = active
+      },
+      toGoods(id) {
+        window.location.href = "goods.html?id=" + id
+      }
+    }
+  })
+</script>
+
+</html>

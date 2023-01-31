@@ -1,0 +1,20 @@
+.life-list_body {
+  margin-top: 0.18rem;
+}
+.life-list_body .life_list .list_item {
+  margin-bottom: 0.16rem;
+}
+.life-list_body .life_list .list_item .item_text {
+  flex: 1;
+  font-size: 0.16rem;
+  font-weight: 500;
+  color: #5C5C5C;
+  text-align: center;
+}
+.life-list_body .life_list .list_item .item_img {
+  flex-basis: 2.23rem;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: 1.08rem;
+  border-radius: 0.06rem;
+}

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+
+    <title>删除优惠券</title>
+    <link rel="stylesheet" type="text/css" href="css/couponDelect.css" />
+	<link rel="stylesheet" href="./css/common.css">
+	<link rel="stylesheet" href="./css/loading.css">
+
+</head>
+
+<body>
+    <div class="loader">
+        <div>H</div>
+        <div>O</div>
+        <div>I</div>
+        <div>N</div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="page flex-col" id="couponDelete" v-cloak>
+        <div class="group2 flex-row">
+            <a href="javascript:history.back(-1);"><img src="img/1.png" alt=""></a>
+            <span class="word2">刪除{{type==1?"票券":"優惠券"}}</span>
+            <div></div>
+        </div>
+        <div class="group3 flex-row" @click.prevent="allSet()">
+            <div class="box1 flex-col" v-if="allSelect">
+                <div class="box2 flex-col"></div>
+            </div>
+            <div class="layer1 flex-col" v-else></div>
+            <span class="word3">全部</span>
+        </div>
+        <div class="deleteList" v-for="(item,index) in list" :key="index" @click.prevent="changeA(item.id)">
+            <div class="group4 flex-row" v-if="select.includes(item.id)">
+                <div class="box1 flex-col">
+                    <div class="box2 flex-col"></div>
+                </div>
+            </div>
+            <div class="group4 flex-row" v-else>
+                <div class="group5 flex-col"></div>
+            </div>
+            <div class="main5">
+                <div class="mod_left">
+                    <div class="outer21 flex-col">
+                        <div class="mod21 flex-row">
+                            <img class="layer11 flex-col" :src="item.logo" alt="">
+                            <span class="txt31">{{item.store_name}}</span>
+                        </div>
+                    </div>
+                    <div class="outer31 flex-col"><img
+                            :src="item.thumb"
+                            alt=""></div>
+                </div>
+                <div class="mod11 flex-col">
+                    <span class="txt21">{{item.coupon_title}}</span>
+                    <div>
+                        <div class="group111 flex-col"></div>
+                        <span class="word31">有效期限：{{item.end_time}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="group22 flex-col">
+            <div class="box4 flex-col" @click.prevent="deleteSet()">
+                <span class="word9">刪除選取{{type==1?"票券":"優惠券"}}</span>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/layui/layui.all.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+
+<script>
+    new Vue({
+        el: "#couponDelete",
+        data() {
+            return {
+                storeName: '',
+                select: [],
+                allSelect: false,
+                list: [],
+				type:0,
+                param:{}
+            }
+        },
+
+        created() {
+            var that = this;
+            that.getOptions();
+
+        },
+        mounted() {
+            var that = this;
+        },
+        updated() {
+            var that = this;
+        },
+        methods: {
+            /**
+             * *获取路由参数
+             */
+
+            getOptions() {
+                var that = this;
+                var optionsArr = getAllUrlParams(window.location.href);
+                that.param = JSON.parse(decodeURI(optionsArr.param))
+				that.type = optionsArr.type || 0
+                console.log(that.param)
+                if(this.param.coupon_type==1){
+                    this.getCouponList()
+                }else{
+                    this.couponHistory()
+                }
+            },
+            getCouponList() {
+                let that = this
+                couponList(that.param, (res) => {
+                    that.list = res || []
+                })
+            },
+            couponHistory() {
+                let that = this
+                couponHistory(that.param, (res) => {
+                    this.list = res || []
+                })
+            },
+            changeA(id) {
+                console.log(id)
+                if (!this.select.includes(id)) {
+                    this.select.push(id)
+                } else {
+                    let index = this.select.indexOf(id)
+                    this.select.splice(index, 1)
+                }
+                if (this.select.length == this.list.length) {
+                    this.allSelect = true
+                } else {
+                    this.allSelect = false
+                }
+
+            },
+            allSet() {
+                if (this.allSelect) {
+                    this.allSelect = !this.allSelect
+                    this.select = []
+                }else{
+                    this.allSelect = !this.allSelect
+                    this.select = []
+                    this.list.forEach(item => {
+                        this.select.push(item.id)
+                    });
+                }
+                
+
+            },
+            deleteSet() {
+                let coupon_ids = this.select.join(',')
+                couponDel({coupon_ids:coupon_ids},(res)=>{
+                    window.history.back(-1)
+                })
+                
+            }
+        }
+    })
+</script>
+
+</html>

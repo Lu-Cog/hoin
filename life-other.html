@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>商城-进阶篩選</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./blis/mobileSelect/css/mobileSelect.css">
+  <link rel="stylesheet" href="./components/switch/switch.css" />
+  <link rel="stylesheet" href="./css/select.css?v=1">
+</head>
+
+<body>
+  <div id="lifeOther" v-cloak>
+    <div class="body select_body lifeOther_body">
+      <h3 class="header"><i class="iconfont icon-zuo  i-left" @click="turn()"></i>
+        類別篩選<i class="iconfont icon-itemno_0 i-right" @click="clear()"></i></h3>
+      <ul class="select_ul">
+        <li class="select_li">
+          <h4 class="select-title">評價</h4>
+          <ul class="select_block select_cont">
+            <li v-for="(item,index) in score" :key="item.id" :class="{active : scoreThis == item.id}"
+              class="select_item clamp" @click="scoreClick(item.id)">{{item.name}}</li>
+          </ul>
+        </li>
+      </ul>
+
+      <ul class="select_ul">
+        <li class="select_li">
+          <h4 class="select-title">營業狀態</h4>
+          <div class="select_block select_cont  layui-form">
+            <p class="cart-cont">僅顯示營業中商家</p>
+            <switch-component v-model="switchValue" text="" @change="onSwitchChange($event)">
+            </switch-component>
+          </div>
+        </li>
+      </ul>
+
+      <ul class="select_ul">
+        <li class="select_li">
+          <h4 class="select-title">服務</h4>
+          <ul class="select_block select_cont">
+            <li v-for="(item,index) in service" :key="item.id" :class="{active : serviceThis == item.id}"
+              class="select_item clamp" @click="serviceClick(item.id)">{{item.name}}</li>
+          </ul>
+        </li>
+      </ul>
+
+
+      <ul class="select_ul">
+        <li class="select_li">
+          <h4 class="select-title">價格區間</h4>
+          <ul class="select_block select_cont select_cont2 flex-start">
+            <li class="select_item">
+              <span id="trigger1">{{startPrice}}</span><i class="iconfont icon-bottom"></i>
+            </li>
+            &nbsp;~&nbsp;
+            <li class="select_item">
+              <span id="trigger2">{{endPrice}}</span><i class="iconfont icon-bottom"></i>
+            </li>&nbsp;元
+          </ul>
+        </li>
+      </ul>
+
+      <ul class="select_ul">
+        <li class="select_li">
+          <h4 class="select-title">對象</h4>
+          <ul class="select_block select_cont">
+            <li v-for="(item,index) in target" :key="item.id" :class="{active : targetThis == item.id}"
+              class="select_item clamp" @click="targetClick(item.id)">{{item.name}}</li>
+          </ul>
+        </li>
+      </ul>
+
+      <ul class="select_ul">
+        <li class="select_li">
+          <h4 class="select-title">特色主題</h4>
+          <ul class="select_block select_cont">
+            <li v-for="(item,index) in theme" :key="item.id" :class="{active : themeThis == item.id}"
+              class="select_item clamp" @click="themeClick(item.id)">{{item.name}}</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="body_bottom">
+      <input class="form_botton" type="submit" @click="onSubmit()" value="確認">
+    </div>
+  </div>
+
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./blis/mobileSelect/js/mobileSelect.min.js"></script>
+<script src="./components/switch/switch.js"></script>
+<script src="./js/common.js"></script>
+<script src="./js/router.js"></script>
+
+<script>
+  new Vue({
+    el: "#lifeOther",
+    data() {
+      return {
+        //数组
+        score: [],//评价
+        service: [],//服务
+        target: [],//对象
+        theme: [],//特色主题
+        startPriceArr: [],//开始价格数组
+        endPriceArr: [],//结束价格数组
+        startPrice: '',
+        endPrice: '',
+        // 高亮
+        scoreThis: '',
+        serviceThis: '',
+        targetThis: '',
+        themeThis: '',
+
+        // id
+        scoreId: '',
+        serviceId: '',
+        targetId: '',
+        themeId: '',
+
+        // 开关状态
+        lifeSwitch: 2,//营业1，休息2
+        switchValue: ''
+      }
+    },
+    components: {
+      'switch-component': switchComponent
+    },
+    created() {
+      var that = this;
+      that.getOptions(); //获取路由参数
+      that.getOtherCategory();
+
+      var scoreId = that.scoreId;
+      var serviceId = that.serviceId;
+      var targetId = that.targetId;
+      var themeId = that.themeId;
+      var startPrice = that.startPrice;
+      var endPrice = that.endPrice;
+      var lifeSwitch = that.lifeSwitch;
+
+
+      // 获取id高亮
+      that.scoreClick(scoreId);
+      that.serviceClick(serviceId);
+      that.targetClick(targetId);
+      that.themeClick(themeId);
+    },
+
+    mounted() {
+      var that = this;
+    },
+    methods: {
+      /**
+      * *获取路由参数
+     */
+      getOptions() {
+        var that = this;
+        that.scoreId = APPscoreId;
+        that.serviceId = APPserviceId;
+        that.targetId = APPtargetId;
+        that.themeId = APPthemeId;
+        that.startPrice = Number(APPstartPrice);
+        that.endPrice = Number(APPendPrice);
+        console.log("APPstartPrice", that.startPrice);
+        console.log("APPendPrice", that.endPrice);
+
+        var lifeSwitch = APPswitch;
+        if (lifeSwitch === '2' || lifeSwitch === '') {
+          that.switchValue = false;
+          that.lifeSwitch = '2'
+        } else {
+          that.switchValue = true
+        }
+
+        if (lifeSwitch === '1') {
+          that.switchValue = true
+
+        } else {
+          that.switchValue = false;
+          that.lifeSwitch = '2'
+        }
+      },
+
+      /**
+       * ?类别
+      */
+      getOtherCategory() {
+        var that = this;
+        var params = {}
+        otherCategory(params, function (res) {
+          that.score = res.scoreList;
+          that.service = res.serviceList;
+          that.target = res.targetList;
+          that.theme = res.themeList;
+          that.startPriceArr = res.startPrice;
+          that.endPriceArr = res.endPrice;
+          that.startArr();
+          that.endtArr()
+        });
+
+      },
+
+
+      /**
+       * *高亮
+     */
+      scoreClick(id) {
+        var that = this;
+        that.scoreThis = id;
+        that.scoreId = id;
+      },
+      serviceClick(id) {
+        var that = this;
+        that.serviceThis = id;
+        that.serviceId = id;
+      },
+      targetClick(id) {
+        var that = this;
+        that.targetThis = id;
+        that.targetId = id
+      },
+      themeClick(id) {
+        var that = this;
+        that.themeThis = id;
+        that.themeId = id
+      },
+
+      /**
+       * *重置
+      */
+      clear() {
+        var that = this;
+        that.scoreThis = "";
+        that.serviceThis = "";
+        that.targetThis = "";
+        that.themeThis = "";
+        that.scoreId = "";
+        that.serviceId = "";
+        that.targetId = "";
+        that.themeId = "";
+        that.startPrice = "";
+        that.endPrice = "";
+        that.startPriceArr = [];
+        that.endPriceArr = [];
+        that.lifeSwitch = "";
+        that.switchValue = false
+        msg('已重置，请确认', 1)
+      },
+
+      // 起始价格
+      startArr() {
+        var that = this;
+        var startPriceArr = that.startPriceArr;
+        var mobileSelect1 = new MobileSelect({
+          trigger: "#trigger1",
+          title: "",
+          wheels: [
+            { data: startPriceArr }
+          ],
+          callback: function (indexArr, data) {
+            that.startPrice = Number(data[0]);
+
+          }
+        });
+      },
+
+      // 结束价格
+      endtArr() {
+        var that = this;
+        var endPriceArr = that.endPriceArr;
+        var mobileSelect2 = new MobileSelect({
+          trigger: "#trigger2",
+          title: "",
+          wheels: [
+            { data: endPriceArr }
+          ],
+          callback: function (indexArr, data) {
+            that.endPrice = Number(data[0]);
+          }
+        });
+      },
+
+      /**
+        * ?开关状态
+      */
+      onSwitchChange(event) {
+        var that = this;
+        event ? that.lifeSwitch = '1' : that.lifeSwitch = '2';
+        event ? that.switchValue = true : that.switchValue = false;
+
+
+      },
+
+
+      /**
+       * *提交
+      */
+      onSubmit() {
+        var that = this;
+        var APPscoreId = that.scoreId || 0;
+        var APPserviceId = that.serviceId || 0;
+        var APPtargetId = that.targetId || 0;
+        var APPthemeId = that.themeId || 0;
+        var APPswitch = that.lifeSwitch || 0;
+        var APPstartPrice = that.startPrice || 0;
+        var APPendPrice = that.endPrice || 0;
+
+        if (APPstartPrice > APPendPrice) {
+          msg('請選擇正確的價格區間', 1)
+        } else {
+          localStorage.setItem('scoreId', APPscoreId);
+          localStorage.setItem('serviceId', APPserviceId);
+          localStorage.setItem('targetId', APPtargetId);
+          localStorage.setItem('themeId', APPthemeId);
+          localStorage.setItem('startPrice', APPstartPrice);
+          localStorage.setItem('endPrice', APPendPrice);
+          localStorage.setItem('lifeSwitch', APPswitch);
+          // window.location.href = "life-other.html?APPscoreId=" + APPscoreId + "&APPserviceId=" + APPserviceId + "&APPtargetId=" + APPtargetId + "&APPthemeId=" + APPthemeId + "&APPstartPrice=" + APPstartPrice + "&APPendPrice=" + APPendPrice + "&APPswitch=" + APPswitch;
+          // console.log(13, APPscoreId, APPserviceId, APPtargetId, APPthemeId, APPstartPrice, APPendPrice, APPswitch);
+          var system = localStorage.getItem('system');
+          appTurn13(system, APPscoreId, APPserviceId, APPtargetId, APPthemeId, APPstartPrice, APPendPrice, APPswitch)
+          // window.location.href = "index.html";
+        }
+      },
+
+      turn() {
+        var system = localStorage.getItem('system');
+        appTurn(system)
+      }
+    }
+  })
+
+</script>
+
+</html>

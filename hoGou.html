@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<title>HO購</title>
+		<link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+		<link rel="stylesheet" href="./css/iconfont.css">
+		<link rel="stylesheet" href="./css/base.css">
+		<link rel="stylesheet" href="./blis/swiper/css/swiper.min.css">
+		<link rel="stylesheet" href="./css/common.css">
+		<!-- 本業獨有，單獨引入 -->
+		<link rel="stylesheet" href="./css/hoGou.css">
+	</head>
+
+
+	<body>
+		<div class="body special-index_body" id="special-index_body" v-cloak>
+			<h3 class="header">HO購<div class="head_right">
+					<img src="img/search.png">
+					<img src="img/shopping_cart2.png">
+				</div>
+			</h3>
+			<div class="roll_body">
+				<img src="./img/Group2.png" alt="图片">
+				<img src="./img/Group2.png" alt="图片">
+				<img src="./img/Group2.png" alt="图片">
+			</div>
+			<div class="tabs_body">
+				<div class="content_block">
+					<div class="menu">
+						<div class="menu_item">
+							<img src="./img/store5.png" alt="">
+							<p>按鈕名稱</p>
+						</div>
+						<div class="menu_item">
+							<img src="./img/store5.png" alt="">
+							<p>按鈕名稱</p>
+						</div>
+						<div class="menu_item">
+							<img src="./img/store5.png" alt="">
+							<p>按鈕名稱</p>
+						</div>
+						<div class="menu_item">
+							<img src="./img/store5.png" alt="">
+							<p>按鈕名稱</p>
+						</div>
+						<div class="menu_item">
+							<img src="./img/store5.png" alt="">
+							<p>按鈕名稱</p>
+						</div>
+						<div class="menu_item">
+							<img src="./img/store5.png" alt="">
+							<p>按鈕名稱</p>
+						</div>
+						<div class="menu_item">
+							<img src="./img/store5.png" alt="">
+							<p>按鈕名稱</p>
+						</div>
+						<div class="menu_item">
+							<img src="./img/store5.png" alt="">
+							<p>按鈕名稱</p>
+						</div>
+					</div>
+					<div class="content_item ">
+						<h5 class="content_title flex-bt">熱門消息 </h5>
+						<div class="content_list">
+							<div class="list_item flex-bt">
+								<img class="left_img" src="./img/img2.jpg" alt="图片">
+								<div class="right_block">
+									限時優惠最高40%
+								</div>
+							</div>
+							<div class="list_item flex-bt">
+								<img class="left_img" src="./img/img2.jpg" alt="图片">
+								<div class="right_block">
+									拉霸試手氣
+								</div>
+							</div>
+							<div class="list_item flex-bt">
+								<img class="left_img" src="./img/img2.jpg" alt="图片">
+								<div class="right_block">
+									3月生日禮
+								</div>
+							</div>
+						</div>
+						<h5 class="content_title flex-bt">熱門商品 </h5>
+						<div class="tabList">
+							<div class="tabItem" :class="{active:tabNum==0}" @click="changeTabs(0)">
+								<img class="tabImg" src="img/i-xing.png" >
+								<p>全部</p>
+							</div>
+							<div class="tabItem" :class="{active:tabNum==1}" @click="changeTabs(1)">
+								<img class="tabImg" src="img/i-xing.png" >
+								<p>食品飲品</p>
+							</div>
+							<div class="tabItem" :class="{active:tabNum==2}" @click="changeTabs(2)">
+								<img class="tabImg" src="img/i-xing.png" >
+								<p>日常用品</p>
+							</div>
+							<div class="tabItem" :class="{active:tabNum==3}" @click="changeTabs(3)">
+								<img class="tabImg" src="img/i-xing.png" >
+								<p>電器3C</p>
+							</div>
+							<div class="tabItem" :class="{active:tabNum==4}" @click="changeTabs(4)">
+								<img class="tabImg" src="img/i-xing.png" >
+								<p>運動戶外</p>
+							</div>
+							<div class="tabItem" :class="{active:tabNum==5}" @click="changeTabs(5)">
+								<img class="tabImg" src="img/i-xing.png" >
+								<p>服裝配件</p>
+							</div>
+						</div>
+						<div class="goodType">
+							<p>商品排列方式</p>
+							<img class="grey" src="img/list_grey.png" >
+							<img src="img/Chess_orange.png" >
+						</div>
+						<div class="content_list2">
+							<div class="good_item" @click="goInfo()">
+								<img src="img/img.jpg" >
+								<div class="good_info">
+									<p class="good_title">【精緻心意】酒心巧克力禮盒 6顆裝</p>
+									<p class="good_label"><span>季節限定</span><span>禮盒</span></p>
+									<div class="good_bottom">
+										<p class="price">$325</p>
+										<p class="cate"><img src="img/i-xing.png" >4.5</p>
+									</div>
+								</div>
+							</div>
+							<div class="good_item" @click="goInfo()">
+								<img src="img/img.jpg" >
+								<div class="good_info">
+									<p class="good_title">【精緻心意】酒心巧克力禮盒 6顆裝</p>
+									<p class="good_label"><span>季節限定</span><span>禮盒</span></p>
+									<div class="good_bottom">
+										<p class="price">$325</p>
+										<p class="cate"><img src="img/i-xing.png" >4.5</p>
+									</div>
+								</div>
+							</div>
+							<div class="good_item" @click="goInfo()">
+								<img src="img/img.jpg" >
+								<div class="good_info">
+									<p class="good_title">【精緻心意】酒心巧克力禮盒 6顆裝</p>
+									<p class="good_label"><span>季節限定</span><span>禮盒</span></p>
+									<div class="good_bottom">
+										<p class="price">$325</p>
+										<p class="cate"><img src="img/i-xing.png" >4.5</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<black-top></black-top>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./blis/layer_mobile/layer.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/common.js"></script>
+	<script src="./js/router.js"></script>
+	<script src="./blis/swiper/js/swiper.min.js"></script>
+
+	<script>
+		new Vue({
+			el: "#special-index_body",
+			data() {
+				return {
+					lifeSwiper: [],
+					imgCount: 0, //图片个数
+					currentIndex: 0, //当前图片
+					tabNum:0
+				};
+			},
+			created() {
+				var that = this;
+				that.getOptions();
+			},
+			methods: {
+
+				/**
+				 * *获取路由参数
+				 */
+				getOptions() {
+					var that = this;
+					// var path = window.location.href;
+					// var optionsArr = getAllUrlParams(path);
+					// that.doctorId = optionsArr.doctorId;
+				},
+				// 切换tabs
+				changeTabs(active) {
+					this.tabNum = active
+				},
+				goInfo(){
+					window.location.href = 'goods.html'
+				}
+			}
+		})
+	</script>
+
+
+</html>

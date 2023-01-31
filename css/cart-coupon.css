@@ -1,0 +1,55 @@
+.cart-coupon_body {
+  padding-top: 0.96rem;
+}
+.cart-coupon_body .header {
+  box-shadow: none;
+  top: .3rem !important;
+}
+.cart-coupon_body .select-title {
+  border-bottom: 1px solid #a1a1a1;
+  padding: 0.05rem;
+}
+.cart-coupon_body .state {
+  font-size: 14px;
+  font-family: PingFangTC-Medium, PingFangTC;
+  font-weight: 500;
+  color: #000000;
+  line-height: 20px;
+}
+.cart-coupon_body .gift_block {
+  padding: 0.12rem 0.09rem;
+  background: #FFFFFF;
+  border-radius: 0.08rem;
+  border: 0.01rem solid #979797;
+  margin-top: 0.12rem;
+}
+.cart-coupon_body .gift_block p {
+  justify-content: start;
+  font-size: 0.12rem;
+  color: #505050;
+}
+.cart-coupon_body .gift_block p .badge {
+  width: 0.36rem;
+  height: 0.19rem;
+  background: #FDD835;
+  border-radius: 0;
+  margin-right: 0.06rem;
+}
+.cart-explain_body .select-title {
+  margin-top: 0.2rem;
+  color: #A1A1A1;
+}
+.cart-explain_body .text_block {
+  margin-top: 0.08rem;
+  padding: 0 0.05rem;
+}
+.cart-explain_body .text_block p {
+  font-size: 14px;
+  font-family: PingFangTC-Regular, PingFangTC;
+  font-weight: 400;
+  color: #A1A1A1;
+  line-height: 20px;
+}
+.cart-explain_body .select-img {
+  width: 50%;
+}

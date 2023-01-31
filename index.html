@@ -1,0 +1,385 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>生活</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./blis/swiper/css/swiper.min.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/life.css?v=1">
+</head>
+
+<body>
+  <div class="body life_body" id="life_body" v-cloak>
+    <h3 class="header"><i class="iconfont icon-zuo i-left" @click="turn()"></i>生活</h3>
+    <div class="swiper_body">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <img v-for="(item,index) in lifeSwiper" :key="item.id" :src="item.img" alt="" class="swiper-slide">
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+
+    <div class="form search_select-body">
+      <a href="life-area.html" class="search_select a-block">
+        <!-- <span :class="cityId == '' ? '' : 'selectColor' ">區域</span><i class="iconfont icon-bottom"></i> -->
+        <span class="clamp" :class="select ? 'selectColor' : '' ">{{lifecityName}}</span><i
+          class="iconfont icon-bottom"></i>
+      </a>
+      <a href="life-category.html" class="search_select a-block">
+        <span class="clamp" :class="select2 ? 'selectColor' : '' ">{{categoryName}}</span><i
+          class="iconfont icon-bottom"></i>
+      </a>
+      <a href="life-other.html" class="search_select a-block">
+        <span class="clamp" :class="select3 ? 'selectColor' : '' ">進階篩選</span><i class="iconfont icon-bottom"></i>
+      </a>
+    </div>
+
+    <ul class="life_list">
+      <li id="categoryNull" class="null" v-if="!lifeList">還沒有診所哦</li>
+      <li class="list_item" v-for="(item,index) in lifeList" :data-id="item.id" :key="item.id"
+        @click="urlClick(item.id)" v-else>
+        <div class="list-item_left">
+          <img class="img" :src="item.img" :alt="item.nane" onerror="onerror=null;src='./img/img_null.jpg'">
+        </div>
+        <div class="list-item_right">
+          <div class="top">
+            <p class="top-xing"><img class="i-xing" src="./img/i-xing.png" alt="评分"> {{item.score}}</p>
+            <img class="i-so" :src="item.isCollection?'./img/i-so-s.png':'./img/i-so.png'" alt="收藏">
+          </div>
+          <h5 class="title clamp">{{item.name}}</h5>
+          <div class="row_bt">
+            <p class="address clamp">{{item.lifecityName}} {{item.areaName}}</p>
+            <p class="address-item"><i class="iconfont icon-dizhi"></i>{{item.distance}}</p>
+          </div>
+          <hr class="hr">
+          <p class="row_bt">
+            <span class="business color-green" v-if="item.status===1">營業中</span>
+            <span class="business color-red" v-else>休息中</span>
+            <span>{{item.manageDate}}</span>
+          </p>
+          <p class="biao clamp">使用手機支付，即享8折優惠</p>
+          <p class="badge-box">
+            <span :class="item.serviceFlagName !=''?'badge':''" class="clamp">{{item.serviceFlagName}}</span>
+            <span :class="item.targetFlagName !=''?'badge':''" class="clamp">{{item.targetFlagName}}</span>
+            <span :class="item.themeFlagName !=''?'badge':''" class="clamp">{{item.themeFlagName}}</span>
+          </p>
+        </div>
+      </li>
+    </ul>
+
+    <a class="a-block field-box" href="clinic.html">
+      <span>IN約</span>
+      <img src="./img/i-date.png" alt="诊所">
+      <span>診所</span>
+    </a>
+    <black-top></black-top>
+  </div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+<script src="./blis/swiper/js/swiper.min.js"></script>
+<script src="./js/ifvisible.min.js"></script>
+<script>
+  function mySwiper() {
+    var mySwiper = new Swiper('.swiper-container', {
+      // direction: 'vertical', // 垂直切换选项
+      loop: true, // 循环模式选项
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      clickable: true,
+      // 如果需要分页器
+      pagination: {
+        el: '.swiper-pagination',
+      },
+    })
+    console.log(124);
+
+    //鼠标滑过pagination控制swiper切换
+    for (i = 0; i < mySwiper.pagination.bullets.length; i++) {
+      console.log(123);
+      mySwiper.pagination.bullets[i].onmouseover = function () {
+        this.click();
+      };
+    }
+    //如果你在swiper初始化后才决定使用clickable，可以这样设置
+    mySwiper.params.pagination.clickable = true;
+    //此外还需要重新初始化pagination
+    mySwiper.pagination.destroy()
+    mySwiper.pagination.init()
+    mySwiper.pagination.bullets.eq(0).addClass('swiper-pagination-bullet-active');
+  }
+</script>
+
+<script>
+  new Vue({
+    el: "#life_body",
+    data() {
+      return {
+        // 轮播图
+        // lifeSwiper: [],
+        lifeSwiper: [],
+        imgCount: 0, //图片个数
+        currentIndex: 0, //当前图片
+        intervalID: '', //停止interval的唯一id
+        lifeList: [],
+        badge: true, //标签显示
+        pageIndex: 1,//当前页码
+        countPage: '',//总页数
+        lifecityId: '',//城市ID
+        lifeareaId: '',//区ID
+        lifedistance: '',//距离
+        lifecityName: '區域',//城市name
+        categoryName: '',//类别name
+        // 选择框高亮
+        select: true,
+        select2: true,
+        select3: true,
+        // 类别筛选
+        storeCateId: '',//类别 id_1
+        storeCateId2: '',//类别 id_2
+        storeCateId3: '',//类别 id_3
+        storeCateId4: '',//类别 id_4
+        // 进阶筛选
+        scoreId: '',//评价
+        serviceId: '',//服务
+        targetId: '',//对象
+        themeId: '',//特色主题
+        lifeSwitch: 0,// 营业状态 开1，关0
+        startPrice: '',
+        endPrice: '',
+      }
+    },
+
+
+    mounted() {
+      var that = this;
+    },
+
+
+    created() {
+      var that = this;
+      // localStorage.clear();//清除所有本地存储
+      clearIndex();
+      that.getLifeSwiper();
+
+      that.getOptions();
+      // 区域
+      var lifecityId = that.lifecityId;
+      var lifeareaId = that.lifeareaId;
+      var lifestoreId = that.lifestoreId;
+      var lifedistance = that.lifedistance;
+      // 类别
+      var storeCateId = that.storeCateId;
+      var storeCateId2 = that.storeCateId2;
+      var storeCateId3 = that.storeCateId3;
+      var storeCateId4 = that.storeCateId4;
+      var lifecityName = that.lifecityName;
+      var categoryName = that.categoryName;
+      // 进阶筛选
+      var scoreId = that.scoreId;       //评价
+      var serviceId = that.serviceId;   //服务
+      var targetId = that.targetId;     //对象
+      var themeId = that.themeId;       //特色主题
+      var lifeSwitch = that.lifeSwitch; //营业状态
+      var startPrice = that.startPrice;
+      var endPrice = that.endPrice;
+
+
+      // 区域文字显示
+      if (lifecityName == "" && lifedistance == '') {
+        that.lifecityName = "區域";
+        that.select = false;
+      } else if (lifecityName == "" && lifedistance != '') {
+        that.lifecityName = lifecityName;
+        that.select = true;
+      } else {
+        // that.select = false;
+        console.log(lifecityName, lifedistance);
+        if (lifecityName == '附近' && lifedistance == '') {
+          that.lifecityName = "區域";
+          that.select = false;
+        } else {
+          that.lifecityName = lifecityName;
+        }
+      }
+
+      // 类别文字显示
+      if (categoryName === "undefined" || categoryName === "") {
+        that.categoryName = "類別";
+        that.select2 = false;
+      } else {
+        that.categoryName = categoryName;
+        that.select2 = true;
+      }
+      // 进阶筛选文字高亮
+      if (scoreId != "" || serviceId != "" || targetId != "" || lifeSwitch != "" || startPrice != "" || endPrice != "") {
+        that.select3 = true;
+        console.log("aaa", scoreId, serviceId, targetId, lifeSwitch, startPrice, endPrice);
+      } else {
+        that.select3 = false;
+      }
+
+      that.getLifeList("", lifecityId, lifeareaId, lifestoreId, lifedistance, storeCateId, storeCateId2, storeCateId3, storeCateId4, "", scoreId, lifeSwitch, startPrice, endPrice, "", serviceId, targetId, themeId, 1);
+
+
+      window.onscroll = function () {
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+        //滚动条到底部的条件
+        if (scrollTop + windowHeight == scrollHeight) {
+          //写后台加载数据的函数
+          var lifecityId = that.lifecityId;
+          var lifeareaId = that.lifeareaId;
+          var lifestoreId = that.lifestoreId;
+          var lifedistance = that.lifedistance;
+          let countPage = that.countPage;//总页数
+          let pageIndex = that.pageIndex + 1;//当前页数+1
+
+          if (pageIndex <= countPage) {
+            that.getLifeList("", lifecityId, lifeareaId, lifestoreId, lifedistance, "", "", "", "", "", "", "", "", "", "", "", "", "", pageIndex);
+          } else {
+            console.log("已经到底了");
+            // msg('已经到底了', 2)
+          }
+        }
+      }
+    },
+
+
+    methods: {
+      /**
+       * *获取路由参数
+      */
+      getOptions() {
+        var that = this;
+
+        getAllUrlParams();
+
+        // 区域
+        that.lifecityName = APPlifecityName;
+        that.lifecityId = APPlifecityId;
+        that.lifeareaId = APPlifeareaId;
+        that.lifestoreId = APPlifestoreId;
+        that.lifedistance = APPlifedistance;
+        // 类别
+        that.storeCateId = APPstoreCateId;
+        that.storeCateId2 = APPstoreCateId2;
+        that.storeCateId3 = APPstoreCateId3;
+        that.storeCateId4 = APPstoreCateId4;
+        that.categoryName = APPcategoryName;
+        // 进阶筛选
+        that.scoreId = APPscoreId;
+        that.serviceId = APPserviceId;
+        that.targetId = APPtargetId;
+        that.themeId = APPthemeId;
+        that.lifeSwitch = APPswitch;
+        that.startPrice = APPstartPrice;
+        that.endPrice = APPendPrice;
+      },
+
+      /**
+          * ?获取轮播图
+         */
+      getLifeSwiper() {
+        var that = this;
+        var params = {}
+        lifeSwiper(params, function (res) {
+          that.lifeSwiper = res;
+          // vue加载dome元素，需要加延时
+          setTimeout(function () {
+            mySwiper();
+            console.log('11', that.lifeSwiper);
+          }, 500)
+        });
+      },
+
+
+      /**
+        * ?获取商城列表
+         */
+      getLifeList(keyword, city, area, tradingArea, distance, categoryId1, categoryId2, categoryId3, categoryId4, sort, score, state, startPrice, endPrice, industryFlagId, serviceFlagId, targetFlagId, themeFlagId, pageIndex) {
+        var that = this;
+
+        var params = {
+          "keyword": keyword,
+          "city": city,
+          "area": area,
+          "tradingArea": tradingArea,
+          "distance": distance,
+
+          "categoryId1": categoryId1,
+          "categoryId2": categoryId2,
+          "categoryId3": categoryId3,
+          "categoryId4": categoryId4,
+          "sort": sort,
+          "score": score,
+          "state": state,
+          "startPrice": startPrice,
+          "endPrice": endPrice,
+          "industryFlagId": industryFlagId,
+          "serviceFlagId": serviceFlagId,
+          "targetFlagId": targetFlagId,
+          "themeFlagId": themeFlagId,
+          "pageIndex": pageIndex,
+          "pageSize": 3,
+        }
+
+        lifeList(params, function (res) {
+          let lifeList = res.list;
+          let pageIndex = that.pageIndex = res.pageIndex;//当前分页页码
+          let countPage = that.countPage = res.countPage; //总页数
+
+          // 分页追加数据
+          if (pageIndex > 1) {
+            // 以前的数据
+            let list = that.lifeList;
+            // 新数据长度
+            let lifeListLen = lifeList.length;
+
+            for (var i = 0; i < lifeListLen; i++) {
+              list.push(lifeList[i])
+            }
+            lifeList = list;
+          }
+          that.lifeList = lifeList;
+        });
+      },
+
+
+      /**
+       * ! 跳转-商店详情
+       * */
+      urlClick(id) {
+        window.location.href = "store.html?id=" + id;
+      },
+
+      turn(){
+        var system=localStorage.getItem('system');
+        appTurn(system)
+      }
+      /**
+       * *轮播图
+       */
+    }
+  })
+</script>
+
+</html>

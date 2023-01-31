@@ -1,0 +1,351 @@
+.cart_body {
+  padding    : 0;
+  padding-top: 0.46rem;
+
+  .header {
+    box-shadow: none;
+  }
+
+  .number_box {
+    margin-top   : .12rem;
+    width        : 1.51rem;
+    height       : .31rem;
+    background   : #FFFFFF;
+    border-radius: .02rem;
+    border       : .01rem solid #979797;
+
+    button {
+      flex      : 1;
+      height    : 100%;
+      border    : none;
+      background: none;
+
+      &:first-child {
+        border-right: .01rem solid #979797;
+      }
+
+      &:last-child {
+        border-left: .01rem solid #979797;
+      }
+    }
+
+    input {
+      flex      : 2;
+      height    : 100%;
+      text-align: center;
+    }
+
+    button,
+    input {
+      font-size  : .16rem;
+      font-weight: 600;
+      color      : #505050;
+    }
+  }
+
+  .cart_top {
+    height    : .26rem;
+    background: #F8F8F8;
+
+    .top_item {
+      flex      : 1;
+      text-align: center;
+      font-size : .10rem;
+      color     : #A1A1A1;
+      position  : relative;
+
+      &.active {
+        color: #D38743;
+      }
+
+      &::after {
+        position : absolute;
+        top      : 0;
+        bottom   : 0;
+        right    : 0;
+        content  : '>';
+        font-size: .10rem;
+        color    : #A1A1A1;
+      }
+
+      &:last-child {
+        &::after {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .select_body {
+    margin-bottom: .15rem;
+
+    .my-input {
+      margin      : 2px 0 0;
+      width       : .16rem;
+      height      : .16rem;
+      margin-right: .15rem;
+    }
+
+    .select_top {
+      width        : 100%;
+      height       : 37px;
+      background   : #D8D8D8;
+      padding-left : .19rem;
+      padding-right: .34rem;
+
+      .checkbox_label {
+        margin     : 0;
+        font-size  : .14rem;
+        font-weight: 500;
+        color      : #505050;
+
+      }
+
+      .icon-zuo {
+        transform: rotate(180deg);
+      }
+
+    }
+
+    .select_list {
+      .select_item {
+        position: relative;
+        display      : flex;
+        padding      : 0.16rem 0.31rem 0.19rem 0.19rem;
+        border-bottom: .01rem solid #A1A1A1;
+        .remove {
+          background: red;
+          position: absolute;
+          right: 0;
+          top: 0;
+          height: 1.25rem;
+          transform: translateX(100%);
+          text-align: center;
+          line-height: 1.25rem;
+          color: #fff;
+          width: .7rem;
+        }
+        .goods_img {
+          flex        : 0 0 .5rem;
+          height      : 50px;
+          margin-right: .08rem;
+        }
+
+        .right_block {
+          .name {
+            font-size    : 14px;
+            font-family  : PingFangTC-Regular, PingFangTC;
+            font-weight  : 400;
+            color        : #505050;
+            margin-bottom: .08rem;
+          }
+
+          .price {
+            font-size    : 18px;
+            font-family  : PingFangTC-Medium, PingFangTC;
+            font-weight  : 500;
+            color        : #FF5252;
+            margin-bottom: .08rem;
+          }
+
+        }
+      }
+    }
+
+  
+  }
+
+  .gift_block {
+    margin       : .22rem .3rem;
+    padding      : .12rem .09rem;
+    height       : .75rem;
+    background   : #FFFFFF;
+    border-radius: .08rem;
+    border       : .01rem solid #979797;
+
+    .gift_title {
+      span {
+        font-size  : .16rem;
+        font-weight: 600;
+        color      : #FF5252;
+      }
+
+      a {
+        font-size      : .14rem;
+        font-weight    : 400;
+        color          : #D38743;
+        text-decoration: underline;
+      }
+    }
+
+    p {
+      margin-top     : .04rem;
+      justify-content: start;
+
+      .badge {
+        width        : .36rem;
+        height       : .19rem;
+        background   : #FDD835;
+        border-radius: 0;
+        margin-right : .06rem;
+      }
+
+      font-size: .12rem;
+      color    : #505050;
+    }
+  }
+
+  .coupon_block {
+    .gift_title {
+      display    : flex;
+      align-items: center;
+
+      span {
+        font-size  : .16rem;
+        font-weight: 500;
+        color      : #299242;
+      }
+
+      img {
+        flex-basis  : .24rem;
+        flex-grow   : 0;
+        flex-shrink : 0;
+        height      : .18rem;
+        margin-right: .1rem;
+      }
+    }
+  }
+
+  .main_block {
+    margin: .22rem .3rem;
+
+    .name {
+      font-size     : .14rem;
+      color         : #A1A1A1;
+      border-bottom : .01rem solid #979797;
+      padding-bottom: .08rem;
+      margin-bottom : .08rem;
+    }
+
+    .input {
+      width        : .63rem;
+      height       : .40rem;
+      background   : #FFFFFF;
+      border-radius: .08rem;
+      border       : .01rem solid #A3A3A3;
+      font-size    : .16rem;
+      font-weight  : 500;
+      color        : #505050;
+      text-align   : center;
+    }
+
+    .text_p {
+      font-size  : .14rem;
+      font-weight: 500;
+      color      : #D38743;
+      line-height: .20rem;
+    }
+
+    .flex-bt {
+      p {
+        font-size: .12rem;
+        color    : #505050;
+
+        span {
+          color: #D38743;
+        }
+      }
+
+      a {
+        font-size      : .14rem;
+        color          : #D38743;
+        text-decoration: underline
+      }
+
+      .flex_p {
+        font-size  : .14rem;
+        font-weight: 500;
+        color      : #D38743;
+        line-height: .20rem;
+      }
+    }
+  }
+
+  .all_block {
+    background: #D8D8D8;
+    padding   : .18rem .30rem;
+
+    .flex-bt {
+      margin-bottom: .14rem;
+    }
+
+    .name {
+      font-size: .12rem;
+      color    : #505050;
+    }
+
+    .price {
+      font-size  : .16rem;
+      font-weight: 500;
+      color      : #505050;
+    }
+
+    hr {
+      width           : 100%;
+      height          : .01rem;
+      background-color: #979797;
+    }
+
+    .flex-don {
+      .name {
+        font-size  : .12rem;
+        font-weight: 600;
+        color      : #505050;
+      }
+
+      .price {
+        font-size  : .18rem;
+        font-weight: 500;
+        color      : #FF5252;
+      }
+    }
+
+    p {
+      font-size  : .10rem;
+      color      : #505050;
+      line-height: .14rem;
+      text-align : right;
+    }
+  }
+
+  .dow_blcok {
+    height    : .55rem;
+    background: #FFFFFF;
+    padding   : 0 .2rem;
+
+    .left {
+      .name {
+        font-size  : .10rem;
+        color      : #505050;
+        line-height: .14rem;
+      }
+
+      .price {
+        font-size  : .18rem;
+        font-weight: 500;
+        color      : #FF5252;
+        line-height: .25rem;
+      }
+    }
+
+    .right_btn {
+      width        : 1.64rem;
+      height       : .40rem;
+      background   : #FDD835;
+      border-radius: .20rem;
+      border       : none;
+    }
+  }
+  
+  
+}

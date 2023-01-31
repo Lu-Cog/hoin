@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<title>評價</title>
+		<link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+		<link rel="stylesheet" href="./css/base.css">
+		<link rel="stylesheet" href="./blis/layui/css/layui.css">
+		<link rel="stylesheet" href="./css/common.css">
+		<link rel="stylesheet" type="text/css" href="css/orderScore.css" />
+	</head>
+	<body>
+		<div id="orderScore">
+			<div class="header">
+				<a href="javascript:history.back(-1);"><img class="icon1" referrerpolicy="no-referrer"
+				    src="./img/gbc.png" /></a>
+				
+				<span class="header_title">評價</span>
+			</div>
+			<div class="good_item" v-for="(item,index) in list">
+				<div class="good">
+					<img src="img/img2.jpg">
+					<div class="good_content">
+						<span class="good_title">
+							APRILSKIN 金盞菊撕拉面膜
+						</span>
+						<span class="price">
+							$199
+						</span>
+					</div>
+					<div class="num">
+						數量：1
+					</div>
+				</div>
+				<div :id="'rate'+index"></div>
+				<button class="btn" @click="confirmRate()">確認送出</button>
+			</div>
+		</div>
+	</body>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./blis/layui/layui.all.js"></script>
+	<script src="./blis/layer_mobile/layer.js"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/router.js"></script>
+	<script src="./js/common.js?r=21"></script>
+	<script>
+		new Vue({
+			el: "#orderScore",
+			data() {
+				return {
+					rateindex:'',
+					list:[1,2]
+				}
+			},
+			mounted() {
+				var that = this;
+				that.getRate();
+			},
+			updated() {
+				var that = this;
+				that.getRate()
+			},
+			methods:{
+				/**
+				 * ?评分
+				 */
+				
+				getRate() {
+					var that = this;
+					layui.use(["rate"], function() {
+						var rate = layui.rate;
+				
+						let score = 0;
+						for(let i = 0;i<that.list.length;i++){
+							let str = "#rate"+i
+							rate.render({
+								elem: str,
+								value: score,
+								half: true,
+								choose: function(value) {
+									that.rateindex = i
+									// console.log(value,i);
+									that['changeRate'+i] = value
+								}
+							});
+						}
+					})
+				},
+				
+			}
+		})
+	</script>
+</html>

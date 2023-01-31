@@ -1,0 +1,697 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>商品主页</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./blis/swiper/css/swiper.min.css">
+  <link rel="stylesheet" href="./blis/layui/css/layui.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/goods.css?v=1.1">
+</head>
+
+<body>
+  <div class="body goods_body" id="goods_body" v-cloak :style="maskHeight">
+    <h3 class="i_block flex-bt">
+      <a href="javascript:history.back(-1);">
+        <img class="i-lf" src="./img/i-back.png" alt="返回图标"></a>
+      <div class="flex-row">
+        <div class="i_bg flex-center"><img src="./img/goods-so.png" alt="收藏图标"></div>
+        <div class="i_bg flex-center" @click="toCarts"><img src="./img/goods-cart2.png" alt="购物车图标"></div>
+      </div>
+    </h3>
+    <div class="swiper_body">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <img v-for="(item,index) in arr" :key="item.id" :src="item" alt="" class="swiper-slide">
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+
+    <div class="main">
+      <h3 class="title">{{goodsinfo.goodsname}}</h3>
+      <h4 class="subtitle"></h4>
+      <div class="badge_block">
+        <span class="badge flex-center" v-for="item in goodsinfo.tags">{{item}}</span>
+      </div>
+      <div class="flex-bt">
+        <div class="price">${{goodsinfo.price}}</div>
+        <div class="flex-row">
+          <div class="zan_block"><img src="./img/i-xing.png" alt="搜藏">{{goodsinfo.score}}
+            <span class="score">{{goodsinfo.comment_num}}個評論</span>
+          </div>
+        </div>
+      </div>
+      <div class="title_content" ref="goodCon">
+
+      </div>
+      <div class="main_block">
+        <div class="title_row flex-bt" @click="changeMask(1)">
+          <h4 class="naem">配送與運費</h4><span>了解詳情</span>
+        </div>
+        <div class="flex-row">
+          <span class="badge flex-center">自行取貨</span><span class="text">歡迎來店自取,台北市北投光明路</span>
+        </div>
+      </div>
+      <div class="main_block">
+        <div class="title_row flex-bt" @click="changeMask(2)">
+          <h4 class="naem">適用優惠</h4><span>了解詳情</span>
+        </div>
+        <div class="flex-row">
+          <span class="badge flex-center">折價優惠</span><span class="text">訂單滿$2000享95折</span>
+        </div>
+      </div>
+      <div class="main_block">
+        <div class="title_row flex-bt" @click="changeMask(3)">
+          <h4 class="naem">適用付款</h4><span>了解詳情</span>
+        </div>
+        <div class="flex-row">
+          <span class="badge flex-center">線上支付</span><span class="text">信用卡 / 銀聯卡</span>
+        </div>
+      </div>
+
+      <div class="goods_block flex-bt">
+        <img class="goods_img" :src="store.logo" alt="頭像">
+        <div class="mid_block">
+          <h3 class="name clamp">{{store.shopname}}</h3>
+          <h4 class="adress">{{store.type_desc}}</h4>
+          <div class="flex-bt">
+            <span class="state">上線中</span>
+            <div class="zan_block"><img src="./img/i-xing.png" alt="搜藏">{{store.score}}</div>
+          </div>
+        </div>
+        <button class="btn_block flex-center">
+          <img src="./img/goods-xinxi.png" alt="信息图标">
+          <span>線上客服</span>
+        </button>
+      </div>
+      <div class="tabs_body">
+        <div class="tab">
+          <div class="tab_item" :class="active===0?'active':''" @click="changeTabs(0)">產品總覽</div>
+          <div class="tab_item" :class="active===1?'active':''" @click="changeTabs(1)">預購說明</div>
+          <div class="tab_item" :class="active===2?'active':''" @click="changeTabs(2)">價格表</div>
+        </div>
+        <div class="content_block">
+          <div class="content_item " v-if="active===0">
+            <h5 class="content_title">商品介绍</h5>
+            <span v-html="goodsinfo.content"></span>
+          </div>
+          <div class="content_item " v-if="active===1">
+            <h5 class="content_title">預購說明</h5>
+          </div>
+          <div class="content_item " v-if="active===2">
+            <h5 class="content_title">價格表</h5>
+          </div>
+        </div>
+      </div>
+
+      <div class="dom_block">
+        <div class="button_block flex-bt">
+          <div class="left flex-center" @click="changeMasks(1)">直接購買</div>
+          <div class="right flex-center" @click="changeMasks(2)">
+            <img src="./img/goods-cart.png" alt="購物車圖標">
+            <span>加入購物車</span>
+          </div>
+        </div>
+      </div>
+      <black-top></black-top>
+
+
+      <!-- 弹框 - 配送與運費-->
+      <div class="mask" v-if="maskShow">
+        <div class="mask-dow">
+          <span class="i-x" @click="closeMask()">×</span>
+          <h3 class="title">配送與運費</h3>
+          <ul class="list">
+            <li class="list_item">
+              <p class="flex-row flex-bt">
+                <span class="badge">自行取貨</span><span class="price">$0</span>
+              </p>
+              <p class="flex-row">
+                歡迎來店自取,台北市北投光明路
+              </p>
+            </li>
+            <li class="list_item i-rt" @click='toGoodsItem'>
+              <p class="flex-row flex-bt"><span class="badge">郵局取貨</span><span class="price">$150起</span>
+              </p>
+            </li>
+            <li class="list_item i-rt">
+              <p class="flex-row flex-bt"><span class="badge">超商取貨</span><span class="price">$150起</span>
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 弹框 - 通用优惠-->
+      <div class="mask" v-if="maskShow2">
+        <div class="mask-dow">
+          <span class="i-x" @click="closeMask()">×</span>
+          <h3 class="title">適用優惠</h3>
+          <ul class="list">
+            <li class="list_item i-rt">
+              <p class="flex-row flex-bt">
+                <span class="badge">折價優惠</span>
+              </p>
+              <p class="flex-row">
+                訂單滿$2000享95折
+              </p>
+            </li>
+            <li class="list_item i-rt">
+              <p class="flex-row flex-bt">
+                <span class="badge">首購優惠</span>
+              </p>
+              <p class="flex-row">
+                首次下單享100元折扣金
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 弹框 - 通用优惠-->
+      <div class="mask" v-if="false">
+        <div class="mask-dow">
+          <span class="i-x" @click="closeMask()">×</span>
+          <h3 class="title">適用付款</h3>
+          <ul class="list">
+            <li class="list_item i-rt" @click="toCarts">
+              <p class="flex-row flex-bt">
+                <span class="badge">線上支付</span>
+              </p>
+              <p class="flex-row">
+                信用卡.銀聯卡,需另外加收3%手續費
+              </p>
+            </li>
+            <li class="list_item i-rt">
+              <p class="flex-row flex-bt">
+                <span class="badge">超商支付</span>
+              </p>
+              <p class="flex-row">
+                4大超商IBON操作付款
+              </p>
+            </li>
+            <li class="list_item i-rt">
+              <p class="flex-row flex-bt">
+                <span class="badge">匯款支付</span>
+              </p>
+              <p class="flex-row">
+                訂單完成後,請於7日進行匯款
+              </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
+      <!-- 弹框 - 购物车-->
+      <div class="mask" v-if="maskShow4">
+        <div class="mask-dow">
+          <span class="i-x" @click="closeMask()">×</span>
+
+          <div class="content">
+            <div class="top_block">
+              <img :src="goodsinfo.goods_img_arr[0]" alt="商品图片">
+              <div class="text_blcok">
+                <h3 class="title">{{goodsinfo.goodsname}}</h3>
+                <p class="name clamp">{{colorName}}</p>
+                <p class="price" v-for="(item,key) in goodsinfo.sku_list" v-if="key == goodsId"> ${{item.specPrice}}</p>
+              </div>
+            </div>
+            <ul class="select_ul">
+              <li class="select_li">
+                <h4 class="select-title">{{goodsinfo.spec_arr[0].name}}</h4>
+                <ul class="select_block select_cont">
+                  <li v-for="(item,index) in goodsinfo.spec_arr[0].items" :key="item.id"
+                    :class="{active : colorThis == item.id}" class="select_item clamp"
+                    @click="colorClick(item.id,item.name)">{{item.name}}</li>
+
+                </ul>
+              </li>
+
+              <li class="select_li" v-if="goodsinfo.spec_arr[1]">
+                <h4 class="select-title">{{goodsinfo.spec_arr[1].name}}</h4>
+                <ul class="select_block select_cont">
+                  <li v-for="(item,index) in goodsinfo.spec_arr[1].items" :key="item.id"
+                    :class="{active : specsThis == item.id}" class="select_item clamp"
+                    @click="specsClick(item.id,item.name)">{{item.name}}</li>
+                </ul>
+              </li>
+
+              <li class="select_li">
+                <h4 class="select-title">數量</h4>
+                <div class="number_box flex-bt">
+                  <button v-on:click="subtract()">-</button>
+                  <input type="text" value="0" size="1" v-model="count">
+                  <button v-on:click="add()">+</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <button class="mask-btn flex-center" @click="cartadd(type),closeMask()">{{type==1?'直接購買':'放入購物車'}}</button>
+        </div>
+      </div>
+
+      <!-- 弹框 - 购物车2-->
+      <div class="mask mask-h610" v-if="false">
+        <div class="mask-dow">
+          <span class="i-x" @click="closeMask()">×</span>
+          <h3 class="title">料理職人系列料理包_組合方案</h3>
+          <div class="content">
+            <div class="top_block">
+              <img src="./img/img.jpg" alt="商品图片">
+              <!-- 选择前展示 -->
+              <div class="text_blcok">
+                尚未選擇購買方案
+              </div>
+              <!-- 选择后展示 -->
+              <!-- <div class="text_blcok">
+            <p class="name clamp">M 酒紅M 酒紅M 酒紅M 酒紅M 酒紅M 酒紅M 酒紅M 酒紅M 酒紅</p>
+            <p class="price">$690</p>
+          </div> -->
+            </div>
+            <ul class="select_ul">
+              <li class="select_li">
+                <h4 class="select-title">選擇方案</h4>
+                <ul class="select_list">
+                  <li class="list_item">
+                    <p class="number">2包</p>
+                    <div class="flex-end">
+                      <span class="del-price">原價$875</span>
+                      <span class="price">優惠價$780</span>
+                    </div>
+                    <div class="flex-end">(每包$65)</div>
+                  </li>
+                  <li class="list_item active">
+                    <p class="number">2包</p>
+                    <div class="flex-end">
+                      <span class="del-price">原價$875</span>
+                      <span class="price">優惠價$780</span>
+                    </div>
+                    <div class="flex-end">(每包$65)</div>
+                  </li>
+                  <li class="list_item">
+                    <p class="number">2包</p>
+                    <div class="flex-end">
+                      <span class="del-price">原價$875</span>
+                      <span class="price">優惠價$780</span>
+                    </div>
+                    <div class="flex-end">(每包$65)</div>
+                  </li>
+                  <li class="list_item">
+                    <p class="number">2包</p>
+                    <div class="flex-end">
+                      <span class="del-price">原價$875</span>
+                      <span class="price">優惠價$780</span>
+                    </div>
+                    <div class="flex-end">(每包$65)</div>
+                  </li>
+                </ul>
+              </li>
+              <li class="select_li">
+                <h4 class="select-title">數量</h4>
+                <div class="number_box flex-bt">
+                  <button v-on:click="subtract()">-</button>
+                  <input type="text" value="0" size="1" v-model="count">
+                  <button v-on:click="add()">+</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <!-- 禁用状态：  + ccc -->
+          <button class="mask-btn flex-center ccc" @click="closeMask()">下一步</button>
+        </div>
+      </div>
+
+      <!-- 弹框 - 购物车3   1-6加入购物车-->
+      <div class="mask maskShow6 mask-h610" v-if="false">
+        <div class="mask-dow">
+          <span class="i-x" @click="closeMask()">×</span>
+          <h3 class="title">優雅針織百搭毛衣</h3>
+          <div class="content">
+            <div class="top_block">
+              <img src="./img/img.jpg" alt="商品图片">
+              <div class="text_blcok">
+                <p class="name clamp">M 酒紅M 酒紅M 酒紅M 酒紅M 酒紅M 酒紅M 酒紅M 酒紅M 酒紅</p>
+                <p class="price">$690</p>
+              </div>
+            </div>
+            <ul class="select_ul">
+              <li class="select_li">
+                <h4 class="select-title flex-bt">服務<span style="color: #D38743;">已選擇 9/18</span></h4>
+                <div class="flex-bt goods_bt">
+                  <span class="name">沙茶羊肉</span>
+                  <div class="number_box flex-bt">
+                    <button v-on:click="subtract()">-</button>
+                    <input type="text" value="0" size="1" v-model="count">
+                    <button v-on:click="add()">+</button>
+                  </div>
+                </div>
+                <div class="flex-bt goods_bt">
+                  <span class="name">沙茶羊肉</span>
+                  <div class="number_box flex-bt">
+                    <button v-on:click="subtract()">-</button>
+                    <input type="text" value="0" size="1" v-model="count">
+                    <button v-on:click="add()">+</button>
+                  </div>
+                </div>
+                <div class="flex-bt goods_bt">
+                  <span class="name">沙茶羊肉</span>
+                  <div class="number_box flex-bt">
+                    <button v-on:click="subtract()">-</button>
+                    <input type="text" value="0" size="1" v-model="count">
+                    <button v-on:click="add()">+</button>
+                  </div>
+                </div>
+                <div class="flex-bt goods_bt">
+                  <span class="name">沙茶羊肉</span>
+                  <div class="number_box flex-bt">
+                    <button v-on:click="subtract()">-</button>
+                    <input type="text" value="0" size="1" v-model="count">
+                    <button v-on:click="add()">+</button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div class="btn_block flex-center">
+              <button class="mask-btn flex-center">上一頁</button>
+              <button class="mask-btn flex-center">放入購物車</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layui/layui.all.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+<script src="./blis/swiper/js/swiper.min.js"></script>
+<!-- 轮播图 -->
+<script>
+  function mySwiper() {
+    var mySwiper = new Swiper('.swiper-container', {
+      // direction: 'vertical', // 垂直切换选项
+      loop: true, // 循环模式选项
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      clickable: true,
+      // 如果需要分页器
+      pagination: {
+        el: '.swiper-pagination',
+      },
+    })
+
+    //鼠标滑过pagination控制swiper切换
+    for (i = 0; i < mySwiper.pagination.bullets.length; i++) {
+      // console.log(123);
+      mySwiper.pagination.bullets[i].onmouseover = function () {
+        this.click();
+      };
+    }
+    //如果你在swiper初始化后才决定使用clickable，可以这样设置
+    mySwiper.params.pagination.clickable = true;
+    //此外还需要重新初始化pagination
+    mySwiper.pagination.destroy()
+    mySwiper.pagination.init()
+    mySwiper.pagination.bullets.eq(0).addClass('swiper-pagination-bullet-active');
+  }
+</script>
+<script>
+  new Vue({
+    el: "#goods_body",
+    data() {
+      return {
+        bodyHeight: '',
+        maskHeight: {
+          overflow: 'hidden',
+          height: '',
+        },
+        lifeSwiper: [],
+        imgCount: 0, //图片个数
+        currentIndex: 0, //当前图片
+        intervalID: '', //停止interval的唯一id
+        active: 0,
+        maskShow: false,
+        maskShow2: false,
+        maskShow3: false,
+        maskShow4: false, //购物车弹框
+        maskShow5: false, //购物车弹框2
+        maskShow6: true, //购物车弹框3
+        specsThis: '', //规格高亮
+        specsId: '', //规格id
+        colorThis: '', //规格高亮
+        colorId: '', //规格id
+        goodsId: '',
+        specsName: '',
+        colorName: '',
+        specs: [{
+            id: 1,
+            name: 'S'
+          },
+          {
+            id: 2,
+            name: 'M'
+          },
+          {
+            id: 3,
+            name: 'L'
+          },
+          {
+            id: 4,
+            name: 'XL'
+          },
+        ],
+        color: [{
+            id: 1,
+            name: '酒红'
+          },
+          {
+            id: 2,
+            name: '杏色'
+          },
+          {
+            id: 3,
+            name: '豆沙色'
+          },
+        ],
+        count: 1,
+        goods_id: 0,
+        goodsinfo: {},
+        arr: [],
+        store: {},
+        type: 0
+      }
+    },
+
+    created() {
+      var that = this;
+      // that.getLifeSwiper();
+      that.getOptions();
+      that.getLifeSwiper();
+      that.getGoodsInfo(this.goods_id)
+
+    },
+    mounted() {
+      var that = this;
+    },
+    updated() {
+      var that = this;
+
+    },
+    methods: {
+      /**
+       * *获取路由参数
+       */
+      getOptions() {
+        var that = this;
+        var optionsArr = getAllUrlParams(window.location.href);
+        that.goods_id = optionsArr.id;
+      },
+
+      toGoodsItem() {
+        window.location.href = "goods-item.html"
+      },
+      toCarts() {
+        window.location.href = "cart.html"
+      },
+      // 切换tabs
+      changeTabs(active) {
+        this.active = active
+      },
+      /**
+       * ?获取轮播图
+       */
+      getLifeSwiper() {
+        var that = this;
+        var params = {}
+        lifeSwiper(params, function (res) {
+          that.lifeSwiper = res.list;
+          // console.log(that.lifeSwiper);
+          // vue加载dome元素，需要加延时
+          setTimeout(function () {
+            mySwiper();
+            // console.log('11', that.lifeSwiper);
+          }, 500)
+        });
+      },
+
+      getGoodsInfo(id) {
+        let that = this
+        let params = {
+          "goods_id": id
+        }
+        goodsInfo(params, function (res) {
+          console.log(res)
+          that.goodsinfo = res
+          that.store = that.goodsinfo.store
+          that.arr = res.goods_img_arr
+
+        })
+      },
+      /**
+       * *配送弹框
+       */
+      changeMask(id) {
+        var that = this;
+        let Nid = Number(id);
+        if (Nid === 1) {
+          that.maskShow = true;
+        } else if (Nid === 2) {
+          that.maskShow2 = true;
+        } else if (Nid === 3) {
+          that.maskShow3 = true;
+        } else if (Nid === 4) {
+          that.maskShow4 = true;
+        } else {
+          that.maskShow5 = true;
+        }
+      },
+
+      /**
+       * *关闭遮罩
+       */
+      closeMask() {
+        var that = this;
+        that.maskHeight.height = ''
+        that.maskShow = false;
+        that.maskShow2 = false;
+        that.maskShow3 = false;
+        that.maskShow4 = false;
+        that.maskShow5 = false;
+        that.maskShow6 = false;
+      },
+
+      changeMasks(type) {
+        var that = this;
+        that.type = type
+        console.log(that.goodsinfo)
+        if (that.goodsinfo.spec_arr.length == 0) {
+          that.cartadd(that.type)
+        } else {
+          that.maskShow4 = true;
+        }
+      },
+
+      //购物车-颜色高亮
+      colorClick(id, name) {
+        var that = this;
+        that.colorThis = id;
+        that.colorName = name;
+        that.colorId = id;
+        if (that.specsId == '') {
+          that.goodsId = id
+        } else if (Number(that.specsId) < Number(id)) {
+          that.goodsId = that.specsId + "_" + id
+        } else {
+          that.goodsId = id + "_" + that.specsId
+        }
+      },
+
+
+      //购物车-规格高亮
+      specsClick(id, name) {
+        var that = this;
+        that.specsThis = id;
+        that.specsName = name;
+        that.specsId = id;
+        that.goodsId = Number(that.specsId) > Number(id) ? id + "_" + that.colorId : that.colorId + "_" + id
+      },
+
+
+
+      cartadd(type) {
+        console.log(type)
+        let that = this
+        if (that.goodsinfo.spec_arr.length == 0) {
+          // var sku_id = that.goodsinfo.sku_list
+        } else {
+          var sku_id = that.goodsinfo.sku_list[that.goodsId].id
+          console.log(sku_id)
+          //that.$refs.spec[0].innerHTML
+        }
+        let cart_type
+        if (type==1) {
+          cart_type = 1
+        }else{
+          cart_type = 0
+        }
+        console.log(cart_type)
+        let params = {
+          "goods_id": that.goods_id,
+          "sku_id": sku_id,
+          "num": that.count,
+          "cart_type": cart_type
+        }
+        cartAdd(params, function (res) {
+          console.log(11111,res)
+          if (type == 2) {
+            return layui.use('layer', function () {
+              var layer = layui.layer;
+              layer.msg('添加成功 ');
+            });
+          } else {
+            window.location.href = "delivery.html?cart_ids=" + res.cart_id
+          }
+
+        })
+      },
+      // 计数器
+      add: function (count) {
+        this.count++;
+      },
+      subtract: function (count) {
+        if (this.count <= 0) {
+          this.count = 0;
+          return layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.msg('受不了啦，宝贝不能再减少啦');
+          });
+        } else {
+          this.count -= 1;
+        }
+      },
+    }
+  })
+</script>
+
+</html>

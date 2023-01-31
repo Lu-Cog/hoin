@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>购物车</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./blis/layui/css/layui.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/cart.css?v=1.1">
+</head>
+
+<body>
+  <div class="body cart_body" id="cart_body" v-cloak>
+    <div class="header_top"></div>
+    <h3 class="header"><a href="javascript:history.back(-1);" @click="turn()"><i class="iconfont icon-zuo  i-left"></i></a>
+      購物車</h3>
+    <ul class="cart_top flex-bt">
+      <li class="top_item active">確認購物車</li>
+      <li class="top_item">付款與運送方式</li>
+      <li class="top_item">資料填寫</li>
+    </ul>
+
+    <div v-if="!goodslist">
+      <div class="sorry">抱歉，您還沒有添加商品</div>
+    </div>
+    <div v-else>
+      <div class="select_body" v-for="(item,index) in goodslist">
+        <div class="select_top flex-bt">
+          <label class="checkbox_label  flex-bt">
+            <!-- <input class="my-input" type="checkbox"> -->
+            {{item.store_name}}
+          </label>
+          <i class="iconfont icon-zuo"></i>
+        </div>
+        <div class="select_list">
+          <div style="overflow: hidden;">
+            <div class="select_item" :style='key.cart_id==cartListId?styleM : "" '
+              v-for="(key,value) in item.store_cart_list" @touchstart='touchstart($event,key.cart_id)'
+              @touchmove='touchmove'>
+              <label class="checkbox_label">
+                <input class="my-input" type="checkbox" @input="inputS($event,index,value,0)">
+              </label>
+              <img class="goods_img" :src="key.img" alt="图片">
+              <div class="right_block">
+                <h3 class="name clamp">{{key.goodsname}}</h3>
+                <p>{{key.sku_str}}</p>
+                <p class="price">${{key.price}}</p>
+                <div class="number_box flex-bt">
+                  <button v-on:click="subtract($event,key.num,index,value)">-</button>
+                  <input type="text" value="0" size="1" v-model="key.num" @input="inputS2($event,index,value)">
+                  <button v-on:click="add($event,key.num,index,value)">+</button>
+                </div>
+              </div>
+              <div class="remove" @click="remove(key.cart_id)"> <div>删除</div> </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="gift_block" @click='toCoupon'>
+        <div class="gift_title flex-bt">
+          <span>還差${{(1200-alltotals).toFixed(2)>0?(1200-alltotals).toFixed(2):0}}，可獲得贈品</span><a href="#">了解詳情</a>
+        </div>
+        <p class="flex-center"><span class="badge">贈品</span>消費滿＄1200贈送美人計珍珠粉5包</p>
+      </div>
+
+      <div class="main_block">
+        <h4 class="name">使用折價券</h4>
+        <div class="flex-bt">
+          <p>您有<span>2</span>項折價券可以使用</p><a href="cart-select.html">選擇折價券</a>
+        </div>
+      </div>
+
+      <!-- 购物车2-3 -->
+      <!-- <div class="main_block">
+        <h4 class="name">使用IN幣折抵</h4>
+        <p class="text_p">未符合IN幣折抵</p>
+        <div class="flex-bt">
+          <p>您有<span>2</span>項折價券可以使用</p>
+        </div>
+      </div> -->
+      <!-- 购物车2-3 end-->
+
+      <!-- 购物车2-4 -->
+      <div class="gift_block coupon_block">
+        <div class="gift_title">
+          <img src="./img/coupon.png"
+            alt="优惠券图标"><span>還差${{(1200-alltotals).toFixed(2)>0?(1200-alltotals).toFixed(2):0}}，可獲得贈品</span>
+        </div>
+        <p class="flex-center">消費滿＄1200贈送美人計珍珠粉5包</p>
+      </div>
+      <div class="main_block">
+        <h4 class="name">使用IN幣折抵</h4>
+        <div class="flex-bt">
+          <p class="flex_p">未符合IN幣折抵</p>
+          <input class="input" type="number" value="8">
+        </div>
+        <div class="flex-bt">
+          <p>您有<span>2</span>項折價券可以使用</p>
+        </div>
+      </div>
+      <!-- 购物车2-4 end -->
+
+      <div class="all_block">
+        <div class="flex-bt">
+          <span class="name">商品金額小記</span><span class="price">${{alltotals}}</span>
+        </div>
+        <div class="flex-bt">
+          <span class="name">折價券</span><span class="price">$0</span>
+        </div>
+        <div class="flex-bt">
+          <span class="name">IN幣折抵</span><span class="price">$0</span>
+        </div>
+        <div class="flex-bt">
+          <span class="name">商品金額小記</span><span class="price">${{alltotals}}</span>
+        </div>
+        <hr>
+        <div class="flex-don flex-bt">
+          <span class="name">商品金額小記</span><span class="price">${{alltotals}}</span>
+        </div>
+        <p>(不含運費)</p>
+        <p>皆以TWD付款</p>
+      </div>
+    </div>
+    <div class="dow_blcok flex-bt">
+      <div class="left">
+        <p class="name">商品小記</p>
+        <p class="price">${{alltotals}}</p>
+      </div>
+      <button class="right_btn flex-center" @click="toDelivery">下一步</button>
+    </div>
+  </div>
+
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layui/layui.all.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+
+<script>
+  new Vue({
+    el: "#cart_body",
+    data() {
+      return {
+        goodslist: [], //商品列表
+        pageIndex: 1, //当前页码
+        countPage: '', //总页数
+        startX: '', //开始位置
+        moveX: '', //移动位置
+        styleM: {
+          transform: '',
+          transition: 'transform 0.5s'
+        },
+        cartListId: 0,
+        checked: [],
+        alltotals: 0
+      }
+    },
+
+    created() {
+      var that = this;
+      that.getCartList(this.pageIndex)
+
+    },
+    mounted() {
+      var that = this;
+    },
+    updated() {
+      var that = this;
+      that.alltotal()
+    },
+    computed: {
+
+    },
+    methods: {
+		turn() {
+			var system = localStorage.getItem('system');
+			console.log("system", system);
+			appTurn(system)
+		},
+      /**
+       * *获取路由参数
+       */
+      getOptions() {
+        // var that = this;
+        // var optionsArr = getAllUrlParams(window.location.href);
+      },
+      toCoupon() {
+        window.location.href = 'cart-coupon.html'
+      },
+      alltotal() {
+        let that = this,
+          allTotal = 0
+        that.checked.forEach(v => {
+          allTotal += Number(v.price) * Number(v.num)
+        });
+        that.alltotals = allTotal.toFixed(2)
+      },
+      toDelivery() {
+        let that = this
+        let cart_ids = ""
+        that.checked.forEach(v => {
+          cart_ids += v.cart_id + ","
+        })
+        cart_ids = cart_ids.substring(0, cart_ids.length - 1)
+        console.log(cart_ids)
+        if (cart_ids == '') {
+          return layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.msg('你還沒有選中商品');
+          });
+        } else {
+          window.location.href = "delivery.html?cart_ids=" + cart_ids
+        }
+
+      },
+      inputS2(e, index, value) {
+        let that = this,
+          goods_id = that.goodslist[index].store_cart_list[value].goods_id,
+          sku_id = that.goodslist[index].store_cart_list[value].sku_id
+        let params = {
+          "goods_id": goods_id,
+          "sku_id": sku_id,
+          "num": e.target.value
+        }
+        setTimeout(
+          cartAdd(params, function (res) {
+            console.log(res)
+            that.getCartList(that.pageIndex)
+          }), 2000)
+
+      },
+      // 计数器
+      add: function (e, count, index, value) {
+        let that = this,
+          goods_id = that.goodslist[index].store_cart_list[value].goods_id,
+          sku_id = that.goodslist[index].store_cart_list[value].sku_id
+        let params = {
+          "goods_id": goods_id,
+          "sku_id": sku_id,
+          "num": 1
+        }
+        cartAdd(params, function (res) {
+          // console.log(res)
+          that.getCartList(that.pageIndex)
+        })
+        that.inputS(e.currentTarget.parentElement.parentElement.previousElementSibling.previousElementSibling
+          .firstElementChild.checked, index, value, 1)
+      },
+      subtract: function (e, count, index, value) {
+        let that = this,
+          goods_id = that.goodslist[index].store_cart_list[value].goods_id,
+          sku_id = that.goodslist[index].store_cart_list[value].sku_id
+        let params = {
+          "goods_id": goods_id,
+          "sku_id": sku_id,
+          "num": -1
+        }
+        if (count <= 1) {
+          layui.use('layer', function () {
+            var layer = layui.layer;
+            layer.msg('受不了啦，寶貝不能在減少了');
+          });
+        } else {
+          cartAdd(params, function (res) {
+            console.log(res)
+            that.getCartList(that.pageIndex)
+          })
+          that.inputS(e.currentTarget.parentElement.parentElement.previousElementSibling.previousElementSibling
+            .firstElementChild.checked, index, value, -1)
+        }
+      },
+      getCartList(pageIndex) {
+        let that = this
+        let params = {
+          "pageIndex": pageIndex,
+          "pageSize": 1000
+        }
+        cartList(params, function (res) {
+          console.log(res)
+          let goodslist = res.list
+          let pageIndex = that.pageIndex = res.pageIndex; //当前分页页码
+          let countPage = that.countPage = res.countPage; //总页数
+          that.goodslist = goodslist;
+        })
+      },
+      touchstart(e, id) {
+        this.startX = e.touches[0].clientX
+        this.cartListId = id
+        // console.log(this.startX)
+      },
+      touchmove(e) {
+        // e.preventDefault()
+        this.moveX = e.touches[0].clientX
+
+        if (this.startX - this.moveX >= 100) { // 右滑触发
+          this.styleM.transform = 'translateX(-70px)'
+        }
+        if (this.styleM.transform == 'translateX(-70px)' && this.startX - this.moveX <= -100) {
+          this.styleM.transform = 'translateX(0)'
+        }
+      },
+      remove(id) {
+        let that = this
+        let params = {
+          "cart_ids": id
+        }
+        cartDelete(params, function (res) {
+          // console.log(res)
+          that.getCartList(this.pageIndex)
+        })
+      },
+      inputS(e, ind, val, num) {
+        e = typeof (e) == 'boolean' ? e : e.target.checked
+        let that = this
+        let itemlist = that.goodslist[ind].store_cart_list[val]
+        let index1 = that.checked.findIndex(item => item.cart_id === itemlist.cart_id)
+        if (e) {
+          if (index1 == -1) {
+            that.checked.push(itemlist)
+          } else {
+            that.checked[index1].num = Number(that.checked[index1].num) + num
+          }
+        } else {
+          var index = that.checked.findIndex(item => item === itemlist);
+          that.checked.splice(index, 1)
+        }
+        that.alltotal()
+      }
+    }
+  })
+</script>
+
+</html>

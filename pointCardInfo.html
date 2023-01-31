@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<title>集點卡</title>
+		<link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+		<link rel="stylesheet" href="./blis/layui/css/layui.css">
+		<link rel="stylesheet" href="./css/common.css">
+		<link rel="stylesheet" type="text/css" href="css/storeCouponInfo.css" />
+		<link rel="stylesheet" type="text/css" href="css/pointCardInfo.css" />
+	</head>
+
+	<body>
+		<div class="page flex-col" id="storeCouponInfo">
+			<div class="outer1 flex-col">
+				<div class="box2 flex-row">
+					<a href="javascript:history.back(-1);"><img src="img/1.png" alt=""></a>
+					<span class="info2">集點卡</span>
+					<img class="label1" referrerpolicy="no-referrer" src="img/shera.png" />
+				</div>
+				<div class="box3 flex-col">
+					<img src="img/banner/banner_1.jpg" alt="">
+				</div>
+
+				<div class="main_card">
+					<div class="card_head">
+						<img src="img/Tripplanning.png"><span>北投溫泉春天酒店</span>
+					</div>
+					<p class="card_title">住宿消費滿5次即贈送「幽雅18中西料理餐廳」$1200餐券</p>
+					<div class="tip">
+						<span>集點中</span>
+					</div>
+					<div class="pjList">
+						<div class="pjItem" :class="{'active':index==0}" v-for="(item,index) in list" v-if="index<5">
+							<span class="pjspan" v-if="index==0">{{item}}</span>
+							<span v-else>{{item}}</span>
+						</div>
+					</div>
+					<div class="pjList">
+						<div class="pjItem" :class="{'active':index==0}" v-for="(item,index) in list"
+							v-if="index<10 && index>=5">
+							<span class="pjspan" v-if="index==0">{{item}}</span>
+							<span v-else>{{item}}</span>
+						</div>
+					</div>
+					<div class="tip2">
+						<span>有效期限：2020/12/31(自最後一次使用日起1年)</span>
+					</div>
+					<div class="fpage">
+						<span><</span><span class="numberPage">1/2</span><span>></span>
+					</div>
+				</div>
+				<div class="main_card">
+					<div class="title">獎品說明</div>
+					<div class="title2">
+						「幽雅18中西料理餐廳」$1200餐券
+					</div>
+					<div class="content" :class="{'contentshow':content}">
+						1.每張餐券面額皆為NT$1,200，使用方式如下：
+						週一至週五午餐或晚餐（不限成人或兒童）,得折抵NT$1,200元消費金額;惟如遇主題美食節、特殊節日連續假期(元旦假期、農曆除夕及春節期間、中西情人節、母親節週末假期、父親節、平安夜、聖誕節、跨年夜等特定假日),僅得折抵NT$1,200元消費金額。
+						2.本券適用於餐飲、酒水及服務費,但不適用於外帶、外賣及寄售商品。 3.本券不得於購買之當次餐期使用;如消費額超過本券得抵用金額,超過部分請以現金或信用卡支付。
+						4.使用本券須事先訂位並告知將使用本券,且於消費前請先出示本券。
+					</div>
+					<div class="dit" @click="openContent">
+						. . .
+					</div>
+				</div>
+				<div class="main_type">
+					<div class="title">
+						點數給予方式
+					</div>
+					<pre>1.本集點條件同步適用於線上與實體店，皆可獲的點數。
+2.線上完成集點條件後，點數將由店家主動給予。
+3.到店完成，點數則現場掃描給予。
+4.若有問題請洽店家聯繫！
+					</pre>
+				</div>
+				<div class="main_type">
+					<div class="title">
+						獎品給予方式
+					</div>
+					<pre>依據店家制定方式為主。</pre>
+				</div>
+				<div class="main_type">
+					<div class="title">
+						活動說明
+					</div>
+					<pre>參加北投溫泉春天酒店2018/11/30-2019/12/31舉辦的集點點活動，每次住宿後得到點數，詳細辦法可參考官網活動資訊。
+住宿已次寄，非用天數計算。
+活動如有新增或異動，以官網及粉絲專頁公告為準。</pre>
+				</div>
+				<div v-if="conType==1">
+					<div class="box6 flex-col" v-if="false">
+						<div class="box7 flex-col" @click.prevent="getCoupon"><span class="word3">領取優惠券</span></div>
+					</div>
+					<div class="section6 flex-col" v-else>
+						<div class="main1 flex-row">
+							<span class="word5">優惠券已領取</span>
+							<div class="block3 flex-col" @click.prevent="goMycoupon()">
+								<span class="txt3">我的優惠券</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="bottomFoot" v-else>
+					<img class="bottomImg" src="img/scanner@2x.png" :layer-src="coupon_info.qrcode" @click="openImg()">
+					<!-- <div class="bottomTxt">請向店員出示此畫面並掃描QRcode進行兌換</div> -->
+				</div>
+			</div>
+			<div class="group3 flex-col" v-if="showMask">
+				<div class="main1 flex-col">
+					<div class="block1 flex-col">
+						<span class="word6">集點成功</span>
+						<span class="info12">
+							您已獲得1點
+						</span>
+						<div class="group4 flex-col" @click.prevent="showMask=false">
+							<span class="info3">確認</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="mask" v-if="pjShow">
+				<div class="mask_main">
+					<img @click="pjShow=false" src="./img/gbc.png" class="close" />
+					<div class="mask_title">
+						兌獎方式
+					</div>
+					<div class="mask_type">
+						恭喜您可兌獎，兌換方式為：
+					</div>
+					<div class="mask_type1">
+						<div class="left">
+							<div class="typeName">
+								選擇1 到店領取
+							</div>
+							<div class="typeTip">
+								請於期限內，到店出示本頁，掃描後領獎，謝謝您的配合!
+							</div>
+						</div>
+						<div class="right">
+							到店領取
+						</div>
+					</div>
+					<div class="mask_type1">
+						<div class="left">
+							<div class="typeName">
+								選擇2 寄送領取
+							</div>
+							<div class="typeTip">
+								您也可選擇寄送獎品方式領取，請先至HO聊客服，進行後續獎品寄送事宜確認喔!
+							</div>
+						</div>
+						<div class="right">
+							HO聊客服
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="mask" v-if="pjShow1">
+				<div class="mask_main">
+					<img @click="pjShow1=false" src="./img/gbc.png" class="close" />
+					<div class="mask_title">
+						兌獎方式
+					</div>
+					<div class="mask_type">
+						恭喜您可兌獎，兌換方式為：
+					</div>
+					<div class="mask_type1">
+						<div class="left">
+							<div class="typeName">
+								到店領取
+							</div>
+							<div class="typeTip">
+								請於期限內，到店出示本頁，掃描後領獎，謝謝您的配合!
+							</div>
+						</div>
+					</div>
+					<div class="btnhide">
+						知道了
+					</div>
+				</div>
+			</div>
+			<div class="mask" v-if="pjShow2">
+				<div class="mask_main">
+					<img @click="pjShow2=false" src="./img/gbc.png" class="close" />
+					<div class="mask_title">
+						兌獎方式
+					</div>
+					<div class="mask_type">
+						恭喜您可兌獎，兌換方式為：
+					</div>
+					<div class="mask_type1">
+						<div class="left">
+							<div class="typeName">
+								寄送領取
+							</div>
+							<div class="typeTip">
+								您也可選擇寄送獎品方式領取，請先至HO聊客服，進行後續獎品寄送事宜確認喔!
+							</div>
+						</div>
+					</div>
+					<div class="btnhide">
+						HO聊客服
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./blis/layui/layui.all.js"></script>
+	<script src="./blis/layer_mobile/layer.js"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/router.js"></script>
+	<script src="./js/common.js"></script>
+
+	<script>
+		new Vue({
+			el: "#storeCouponInfo",
+			data() {
+				return {
+					tabType: 1,
+					storeId: 0,
+					storeName: '',
+					showMask: false,
+					conType: 0,
+					coupon_info: {},
+					types: '',
+					list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+					pjShow: false,
+					pjShow1:false,
+					pjShow2:false,
+					zsNum: 1,
+					content: false
+				}
+			},
+
+			created() {
+				var that = this;
+				that.getOptions();
+			},
+			mounted() {
+				var that = this;
+			},
+			updated() {
+				var that = this;
+			},
+			methods: {
+				openContent() {
+					this.content = !this.content
+				},
+				sub() {
+					if (this.zsNum <= 1) return
+					this.zsNum--
+				},
+				add() {
+					// if(this.zsNum)
+					this.zsNum++
+				},
+				openImg() {
+					this.showMask = !this.showMask
+					// this.pjShow = !this.pjShow
+				},
+				couponInfo() {
+					couponInfo({
+						coupon_id: this.storeId
+					}, (res) => {
+						this.coupon_info = res
+					})
+				},
+				/**
+				 * *获取路由参数
+				 */
+				getCoupon() {
+					let data = {
+						coupon_id: this.storeId,
+						coupon_code: this.coupon_code
+					}
+					getCoupon(data, (res) => {
+						this.showMask = true
+
+					})
+				},
+				getOptions() {
+					var that = this;
+					var optionsArr = getAllUrlParams(window.location.href);
+					that.storeId = optionsArr.id;
+					that.conType = optionsArr.type;
+					that.types = optionsArr.types;
+					if (that.types == 1) {
+						that.couponInfo()
+					}
+					that.storeName = decodeURI(optionsArr.name);
+				},
+				changeTab(type) {
+					this.tabType = type
+				},
+				toList() {
+					window.location.href = "info-index.html?id=" + this.storeId + "&name=" + this.storeName;
+
+				},
+				goMycoupon() {
+					window.location.href = "myCoupon.html"
+				}
+			}
+		})
+	</script>
+
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>變更發票資訊</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./blis/layui/css/layui.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/cart.css?v=1.1">
+  <link rel="stylesheet" href="./css/material.css">
+</head>
+
+<body>
+  <div class="body cart_body" id="cart_body" v-cloak>
+    <div class="header_top"></div>
+    <h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-zuo  i-left"></i></a>
+        變更發票資訊</h3>
+    <!-- 電子發票 -->
+    <div class="invoice">
+      <div class="inv_bottom">
+        <div class="inv_item" @click=selectTab(1)>
+          <img :src="active===1?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+          <label>
+            <div class="first">會員載具</div>
+          </label>
+        </div>
+        <div class="inv_item" @click=selectTab(2)>
+          <img :src="active===2?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+          <label>
+            <div class="first">公司用統編</div>
+          </label>
+          <div v-if="active===2">
+            <div class="inv_item_s">
+              <label>統一編號*</label>
+              <input type="text">
+            </div>
+            <div class="inv_item_s">
+              <label>公司抬頭*</label>
+              <input type="text">
+            </div>
+            <div class="inv_item_s">
+              <label>發票地址*</label>
+              <input type="text">
+            </div>
+          </div>
+
+        </div>
+        <div class="inv_item" @click=selectTab(3)>
+          <img :src="active===3?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+          <label>
+            <div class="first">手機載具</div>
+          </label>
+          <div v-if="active===3">
+            <div class="inv_item_s">
+              <label>載具條碼*</label>
+              <input type="text">
+              <div>開頭必須為/，後面7碼為數字或大寫英文</div>
+            </div>
+          </div>
+        </div>
+        <div class="inv_item" @click=selectTab(4)>
+          <img :src="active===4?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+          <label>
+            <div class="first">自然人憑證</div>
+          </label>
+          <div v-if="active===4">
+            <div class="inv_item_s">
+              <label>自然人憑證*</label>
+              <input type="text">
+            </div>
+          </div>
+        </div>
+        <div class="inv_item" @click=selectTab(5)>
+          <img :src="active===5?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+          <label>
+            <div class="first">捐贈碼</div>
+          </label>
+          <div v-if="active===5">
+            <div class="inv_item_s">
+              <label>捐贈碼*</label>
+              <input type="text">
+              <div>捐贈碼查询</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layui/layui.all.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+
+<script>
+  new Vue({
+    el: "#cart_body",
+    data() {
+      return {
+        state: false,
+        active: 1,
+      }
+    },
+
+    created() {
+      var that = this;
+      
+    },
+    mounted() {
+      var that = this;
+    },
+    updated() {
+      var that = this;
+    },
+    methods: {
+      /**
+       * *获取路由参数
+       */
+      getOptions() {
+        // var that = this;
+        // var optionsArr = getAllUrlParams(window.location.href);
+        
+      },
+    
+      selectTab(active) {
+        var that = this
+        that.active = active
+      },
+      
+    }
+  })
+</script>
+
+</html>

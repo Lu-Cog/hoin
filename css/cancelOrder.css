@@ -1,0 +1,243 @@
+html {
+	font-size: 37.5px;
+}
+
+body * {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: PingFangSC-Regular, Roboto, Helvetica Neue, Helvetica, Tahoma,
+		Arial, PingFang SC-Light, Microsoft YaHei;
+}
+
+button {
+	margin: 0;
+	padding: 0;
+	border: 1px solid transparent;
+	outline: none;
+	background-color: transparent;
+}
+
+button:active {
+	opacity: 0.6;
+}
+
+.flex-col {
+	display: flex;
+	flex-direction: column;
+}
+
+.flex-row {
+	display: flex;
+	flex-direction: row;
+}
+
+.page {
+	z-index: 1;
+	position: relative;
+	width: 100%;
+	background-color: rgba(255, 255, 255, 1);
+	padding-bottom: 0;
+}
+
+.outer1 {
+	z-index: auto;
+	width: 100%;
+}
+
+
+.section2 {
+	z-index: auto;
+	width: 100%;
+	height: 0.64rem;
+	justify-content: center;
+	margin: 14px auto 0;
+	position: relative;
+}
+
+.label1 {
+	position: absolute;
+	left: .6rem;
+	z-index: 19;
+	width: 0.534rem;
+	height: 0.534rem;
+	margin-top: 0.054rem;
+}
+
+.word2 {
+	z-index: 22;
+	width: 1.787rem;
+	display: block;
+	overflow-wrap: break-word;
+	color: rgba(211, 135, 67, 1);
+	font-size: 0.453rem;
+	letter-spacing: -0.40799999237060547px;
+	font-family: PingFangTC-Medium;
+	line-height: 0.64rem;
+	text-align: center;
+}
+
+.section3 {
+	z-index: 27;
+	height: 3.014rem;
+	border-radius: 2px;
+	background-color: rgba(255, 237, 157, 1);
+	align-self: center;
+	margin-top: 0.374rem;
+	width: 9.014rem;
+	justify-content: center;
+	align-items: center;
+}
+
+.group1 {
+	z-index: auto;
+	width: 8.614rem;
+	height: 2.534rem;
+}
+
+.word3 {
+	z-index: 29;
+	width:100%;
+	display: block;
+	overflow-wrap: break-word;
+	color: rgba(80, 80, 80, 1);
+	font-size: 0.426rem;
+	letter-spacing: 0.0009066666243597865px;
+	font-family: PingFangTC-Regular;
+	line-height: 0.587rem;
+	text-align: center;
+	align-self: flex-start;
+	
+}
+
+.paragraph1 {
+	z-index: 28;
+	width: 8.614rem;
+	display: block;
+	overflow-wrap: break-word;
+	color: rgba(161, 161, 161, 1);
+	font-size: 0.373rem;
+	letter-spacing: -0.335999995470047px;
+	font-family: PingFangTC-Regular;
+	line-height: 0.534rem;
+	text-align: left;
+	align-self: center;
+	margin-top: 0.347rem;
+}
+
+.info1 {
+	z-index: 40;
+	width: 90%;
+	display: block;
+	overflow-wrap: break-word;
+	color: rgba(211, 135, 67, 1);
+	font-size: 0.426rem;
+	letter-spacing: -0.3840000033378601px;
+	font-family: PingFangTC-Regular;
+	line-height: 0.587rem;
+	text-align: right;
+	align-self: flex-end;
+	margin: .37rem auto 0;
+}
+
+.info2 {
+	z-index: 39;
+	width: 90%;
+	display: block;
+	overflow-wrap: break-word;
+	color: rgba(80, 80, 80, 1);
+	font-size: 0.426rem;
+	letter-spacing: -0.3840000033378601px;
+	font-family: PingFangTC-Regular;
+	line-height: 0.587rem;
+	text-align: left;
+	align-self: flex-start;
+	margin: 16px auto 0;
+}
+
+.section4 {
+	z-index: auto;
+	width: 90%;
+	height: 0.587rem;
+	margin: 16px auto 0;
+	display: flex;
+	align-items: center;
+}
+.bg11{
+	width: 0.55rem;
+	height: 0.55rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: .3rem;
+	border: .03rem solid #999;
+	border-radius: 50%;
+}
+.bd1 {
+	z-index: 34;
+	width: 0.267rem;
+	height: 0.267rem;
+	background-color: rgba(211, 135, 67, 1);
+	border-radius: 50%;
+}
+
+.word4 {
+	z-index: 31;
+	width: 100%;
+	display: block;
+	overflow-wrap: break-word;
+	color: rgba(80, 80, 80, 1);
+	font-size: 0.426rem;
+	letter-spacing: -0.3840000033378601px;
+	font-family: PingFangTC-Regular;
+	line-height: 0.587rem;
+	text-align: left;
+}
+
+.section8 {
+	position: fixed;
+	bottom: 1rem;
+	z-index: auto;
+	width: 100%;
+	height: 1.44rem;
+	justify-content: center;
+}
+
+.group2 {
+	z-index: 25;
+	height: 1.067rem;
+	border-radius: 20px;
+	background-color: rgba(253, 216, 53, 1);
+	width: 8rem;
+	justify-content: center;
+	align-items: center;
+}
+
+.word6 {
+	z-index: 26;
+	display: block;
+	overflow-wrap: break-word;
+	color: rgba(80, 80, 80, 1);
+	font-size: 0.426rem;
+	letter-spacing: 0.053332798182964325px;
+	font-family: PingFangTC-Regular;
+	line-height: 0.587rem;
+	text-align: center;
+}
+
+.info4 {
+	z-index: 23;
+	width: 7.414rem;
+	display: none;
+	overflow-wrap: break-word;
+	color: rgba(80, 80, 80, 1);
+	font-size: 0.373rem;
+	letter-spacing: -0.335999995470047px;
+	font-family: PingFangTC-Regular;
+	line-height: 0.534rem;
+	text-align: left;
+	margin: 8px 38px 0 -316px;
+}

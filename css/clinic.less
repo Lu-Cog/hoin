@@ -1,0 +1,84 @@
+.clinic_body {
+  padding: 0.46rem 0.1rem 0.22rem;
+  .search_body {
+    position: relative;
+    margin: 0.1rem;
+    .search_input {
+      z-index: 1;
+    }
+    .search_select-body {
+      display: flex;
+      border-radius: 0.08rem;
+      position: absolute;
+      bottom: -0.4rem;
+      left: 0;
+      right: 0;
+      margin: auto;
+      box-shadow: 0rem 0.02rem 0.04rem 0rem rgba(0, 0, 0, 0.5);
+      // 鏈接
+      .search_select {
+        width: 50%;
+        height: 0.55rem;
+        box-shadow: none;
+        padding: 0.08rem 0;
+        padding-top: 0.25rem;
+        position: relative;
+
+        &::after {
+          content: " ";
+          position: absolute;
+          right: -0.15rem;
+          /* top: 0; */
+          bottom: 0.1rem;
+          /* margin: auto; */
+          color: #333;
+          background: #333;
+          width: 0.01rem;
+          height: 0.18rem;
+        }
+        &:last-child {
+          &::after {
+            display: none;
+          }
+        }
+      }
+      // 下拉框
+      .select {
+        width: 50%;
+      }
+      .j_select {
+        // width: 50% !important;
+        border-radius: 0.08rem;
+        .current_select {
+          border-radius: 0.08rem;
+
+          border: none !important;
+          box-shadow: none !important;
+          height: 100%;
+          line-height: 40px;
+          .select_icon {
+            top: 0;
+          }
+        }
+      }
+    }
+  }
+  .list_item {
+    padding: 0.15rem;
+  }
+  .clinic_list {
+    margin: auto;
+    margin-top: 0.55rem;
+  }
+}
+
+.clamp {
+  display: -webkit-box !important;
+}
+
+.address-item.clamp {
+  flex-grow: 1;
+  .address-item:nth-child(2) {
+    max-width: 0.5rem;
+  }
+}

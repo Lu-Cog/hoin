@@ -1,0 +1,154 @@
+.apoint-my_body {
+  padding: 0 0.22rem 0.22rem;
+  .laydate-day-mark {
+    line-height: 36px !important;
+  }
+  .apoint-my_date {
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid #ccc;
+    .layui-laydate,
+    .layui-laydate-hint {
+      border: none;
+      box-shadow: none;
+    }
+    .layui-laydate-header {
+      border-bottom: none;
+    }
+    .layui-laydate-content {
+      padding-top: 0;
+    }
+    .layui-laydate-main {
+      width: 340px;
+    }
+    .layui-laydate-content td,
+    .layui-laydate-content th {
+      width: 45px;
+      height: 36px;
+    }
+    .laydate-day-next {
+      display: none !important;
+    }
+    .layui-laydate .layui-this {
+      background-color: #fdd835 !important;
+      color: #333 !important;
+    }
+    .laydate-day-mark::after {
+      background-color: #ff5252;
+    }
+    .laydate-icon {
+      color: #d38743;
+    }
+    .laydate-set-ym {
+      color: #505050;
+    }
+    .laydate-set-ym,
+    .layui-laydate-content table {
+      font-size: 0.17rem;
+    }
+    .layui-laydate-content th {
+      color: #a1a1a1;
+    }
+    .layui-laydate-content td {
+      font-size: 0.14rem;
+    }
+  }
+
+  .appoin_list {
+    padding: 0.2rem 0;
+    .list_item {
+      display: flex;
+      justify-content: space-between;
+      // height: 0.8rem;
+
+      .date {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-size: 0.12rem;
+        width: 0.62rem;
+        // height: 100%;
+        background: #d38743;
+        border-radius: 0.08rem 0rem 0rem 0.08rem;
+        span:nth-child(2) {
+          font-size: 0.24rem;
+          font-weight: 500;
+        }
+      }
+      .open-bg {
+        background: rgba(255, 82, 82, 1);
+      }
+      .cont {
+        color: #505050;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 0.1rem 0;
+        max-width: 1.84rem;
+        p {
+          font-size: 0.16rem;
+        }
+        .address {
+          span {
+            color: #505050;
+            &:nth-child(2) {
+              color: #a1a1a1;
+            }
+          }
+        }
+        .number {
+          span {
+            color: #ff5252;
+            font-weight: 600;
+            margin-left: 0.05rem;
+          }
+        }
+      }
+      .checkbox {
+        width: 0.6rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        p {
+          font-size: 0.1rem;
+          margin-top: 0.05rem;
+          text-align: center;
+        }
+        .layui-form-switch i {
+          width: 0.23rem;
+          height: 0.23rem;
+        }
+        .layui-unselect {
+          height: 0.28rem !important;
+          line-height: 0.28rem !important;
+        }
+      }
+    }
+  }
+}
+
+.layui-unselect {
+  height: 0.31rem !important;
+  line-height: 0.31rem !important;
+  min-width: 0.5rem !important;
+  margin-top: 0 !important;
+  border-radius: 0.2rem !important;
+}
+
+// .layui-form-switch i {
+//   position: absolute;
+//   left: 0.02rem;
+//   bottom: 0;
+//   top: 0;
+//   width: 0.27rem;
+//   height: 0.27rem;
+//   margin: auto;
+// }
+
+// .layui-form-onswitch i {
+//   right: 0.02rem;
+//   left: initial;
+// }

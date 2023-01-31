@@ -1,0 +1,333 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>商城-類別篩選</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/select.css?v=1">
+</head>
+
+<body>
+  <div id="lifeCategory" v-cloak>
+    <div class="body select_body select-category_body">
+      <h3 class="header"><i class="iconfont icon-zuo  i-left" @click="turn()"></i>
+        類別篩選<i class="iconfont icon-itemno_0 i-right" @click="clear()"></i></h3>
+      <h4 class="select-title">主類別</h4>
+      <ul class="select_block select_city">
+        <li class="select_item clamp" :class="{active : active == -1}" @click="selected(-1)">全部</li>
+        <li v-for="(item,index) in storeArr" :key="item.id" :class="{active : active == item.id}"
+          class="select_item clamp" @click="selected(item.id,item.name)">{{item.name}}</li>
+      </ul>
+      <ul class="select_ul" v-if="paly2">
+        <li class="select_li">
+          <h4 class="select-title">次項</h4>
+          <ul class="select_block select_cont select_tow">
+            <li v-for="(item,index) in storeArr2" :key="item.id" :class="{active : active2 == item.id}"
+              class="select_item clamp" @click="selected_2(item.id)">{{item.name}}</li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="select_ul" v-if="paly3">
+        <li class="select_li">
+          <h4 class="select-title">細項</h4>
+          <ul class="select_block select_cont select_tow">
+            <li v-for="(item,index) in storeArr3" :key="item.id" :class="{active : active3 == item.id}"
+              class="select_item clamp" @click="selected_3(item.id)">{{item.name}}</li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="select_ul" v-if="paly4">
+        <li class="select_li">
+          <h4 class="select-title">餐飲類型</h4>
+          <ul class="select_block select_cont">
+            <li v-for="(item,index) in storeArr4" :key="item.id" :class="{active : active4 == item.id}"
+              class="select_item clamp" @click="selected_4(item.id)">{{item.name}}</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="body_bottom">
+      <input class="form_botton" type="submit" @click="onSubmit()" value="確認">
+    </div>
+  </div>
+
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/common.js"></script>
+<script src="./js/router.js"></script>
+<!-- <script src=https://cdn.bootcss.com/eruda/1.5.4/eruda.js></script>
+<script>eruda.init()</script> -->
+<script>
+
+  new Vue({
+    el: "#lifeCategory",
+    data() {
+      return {
+        //数组
+        storeArr: [],//主类别数组
+        storeArr2: [],//次項
+        storeArr3: [],//细项
+        storeArr4: [], // 餐飲類型
+
+        // 高亮
+        active: -1,
+        active2: '',
+        active3: '',
+        active4: '',
+
+        // id
+        storeCateId: '',
+        storeCateId2: '',
+        storeCateId3: '',
+        storeCateId4: '',
+
+        // 名字
+        categoryName: '',//类别name
+
+        paly2: false,
+        paly3: false,
+        paly4: false
+      }
+    },
+
+    created() {
+      var that = this;
+      that.getOptions(); //获取路由参数
+      that.getStoreCategory();
+      var storeCateId = Number(that.storeCateId);
+      var storeCateId2 = Number(that.storeCateId2);
+      var storeCateId3 = Number(that.storeCateId3);
+      var storeCateId4 = Number(that.storeCateId4);
+      var categoryName = that.categoryName;
+      
+      console.log(storeCateId,storeCateId2,storeCateId3,storeCateId4);
+
+      // 获取id高亮
+      if (storeCateId === 0) { 
+      } else {
+        that.selected(storeCateId, categoryName);
+        that.active = storeCateId;
+        that.active2 = storeCateId2;
+        that.active3 = storeCateId3;
+        that.active4 = storeCateId4;
+        if (storeCateId4 != 0) {
+          that.selected_4(storeCateId4);
+        }
+        if (storeCateId2 != 0) {
+          that.selected_2(storeCateId2);
+          if (storeCateId3 != 0) {
+            that.selected_3(storeCateId3);
+          }
+        }
+      }
+    },
+    methods: {
+      /**
+      * *获取路由参数
+     */
+      getOptions() {
+        var that = this;
+        that.storeCateId = APPstoreCateId;
+        that.storeCateId2 = APPstoreCateId2;
+        that.storeCateId3 = APPstoreCateId3;
+        that.storeCateId4 = APPstoreCateId4;
+        that.categoryName = APPcategoryName;
+      },
+
+      /**
+       * ?类别 -主类别
+      */
+      getStoreCategory(parentId) {
+        var that = this;
+        var params = {
+          "parentId": parentId
+        }
+        storeCategory(params, function (res) {
+          that.storeArr = res.cateList;
+        });
+      },
+
+      /**
+       * ?次项
+       * *主项高亮
+      */
+      selected(id, name) {
+        var that = this;
+        // 父级高亮高亮
+        var id = that.active = id;
+        that.storeCateId = id;
+        that.storeCateId2 = '';//清除上一次选中的细项
+        that.active2 = '';
+        that.storeCateId3 = '';//清除上一次选中的细项
+        that.active3 = '';
+        that.paly3 = false;
+        // that.storeCateId4 = '';//清除上一次选中的细项
+        // that.active4 = '';
+        that.categoryName = name;
+        // 控制“全部”高亮
+        if (id == -1) {
+          console.log(111);
+          that.storeCateId = '';
+          that.storeCateId2 = '';
+          that.storeCateId3 = '';
+          // that.storeCateId4 = '';
+          that.storeArr2 = [];
+          // that.storeArr3 = [];
+          // that.storeArr4 = [];
+        } else {
+        };
+
+        var params = {
+          "parentId": id
+        }
+        storeCategory(params, function (res) {
+          that.storeArr2 = res.cateList;
+          that.storeArr4 = res.cateOtherList;
+
+          if (res.cateList != '') {
+            that.paly2 = true
+          } else {
+            that.paly2 = false
+          }
+
+          if (res.cateOtherList != '') {
+            that.paly4 = true
+          } else {
+            that.paly4 = false
+          }
+
+        });
+
+      },
+
+      /**
+       * ?细项
+       * *次項高亮
+      */
+      selected_2(id) {
+        var that = this;
+        that.active2 = id;
+        that.storeCateId2 = id;
+        that.storeCateId3 = '';
+        // that.storeCateId4 = '';
+        that.active3 = '';
+        // that.active4 = '';
+        that.storeArr3 = [];
+        // that.storeArr4 = [];
+        var params = {
+          "parentId": id
+        }
+        storeCategory(params, function (res) {
+          that.storeArr3 = res.cateList;
+          if (res.cateList != '') {
+            that.paly3 = true;
+            console.log(111);
+
+          } else {
+            that.paly3 = false;
+            console.log(222);
+          }
+
+
+        });
+      },
+
+      /**
+       * ?餐飲類型
+       * *次項高亮
+      */
+      selected_3(id) {
+        var that = this;
+        that.active3 = id;
+        that.storeCateId3 = id;
+        // that.storeCateId4 = '';//清除上一次选中的餐飲類型
+        // that.active4 = '';
+        // that.storeArr4 = [];
+      },
+
+
+
+      /**
+       * *餐飲高亮
+     */
+      selected_4(id) {
+        var that = this;
+        that.active4 = id;
+        that.storeCateId4 = id;
+      },
+
+      /**
+       * *重置
+      */
+      clear() {
+        var that = this;
+        that.active = -1;
+        that.active2 = "";
+        that.active3 = "";
+        that.active4 = "";
+        that.getStoreCategory();
+        that.storeArr2 = [];
+        that.storeArr3 = [];
+        that.storeArr4 = [];
+        that.storeCateId = '';
+        that.storeCateId2 = '';
+        that.storeCateId3 = '';
+        that.storeCateId4 = '';
+        that.categoryName = '';
+        that.paly2 = false;
+        that.paly3 = false;
+        that.paly4 = false;
+
+        msg('已重置，请确认', 1)
+      },
+
+
+      /**
+       * *提交
+      */
+      onSubmit() {
+        var that = this;
+        var APPstoreCateId = that.storeCateId || 0;
+        var APPstoreCateId2 = that.storeCateId2 || 0;
+        var APPstoreCateId3 = that.storeCateId3 || 0;
+        var APPstoreCateId4 = that.storeCateId4 || 0;
+        var APPcategoryName = that.categoryName || 0;
+        localStorage.setItem('storeCateId', APPstoreCateId);
+        localStorage.setItem('storeCateId2', APPstoreCateId2);
+        localStorage.setItem('storeCateId3', APPstoreCateId3);
+        localStorage.setItem('storeCateId4', APPstoreCateId4);
+        localStorage.setItem('categoryName', APPcategoryName);
+
+
+        // console.log("分类id", that.storeCateId, that.storeCateId2, that.storeCateId3, that.storeCateId4);
+
+        // window.location.href = "life-category.html?APPstoreCateId=" + APPstoreCateId + "&APPstoreCateId2=" + APPstoreCateId2 + "&APPstoreCateId3=" + APPstoreCateId3 + "&APPstoreCateId4" + APPstoreCateId4 + "&APPcategoryName=" + APPcategoryName;
+        var system = localStorage.getItem('system');
+        appTurn12(system, APPstoreCateId, APPstoreCateId2, APPstoreCateId3, APPstoreCateId4, APPcategoryName);
+        console.log(system, APPstoreCateId, APPstoreCateId2, APPstoreCateId3, APPstoreCateId4, APPcategoryName);
+        // h5
+        // window.location.href = "index.html";
+      },
+
+      turn() {
+        var system = localStorage.getItem('system');
+        appTurn(system)
+      }
+    }
+  })
+
+</script>
+
+</html>

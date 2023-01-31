@@ -1,0 +1,69 @@
+.payment,
+.transport{
+    padding: 0.18rem 0.3rem;
+    padding-bottom: 0;
+}
+.payment .pay_top,
+.transport .tran_top{
+    font-size: 14px;
+    color: #A1A1A1;
+    border-bottom: 1.5px solid #979797;
+    padding: 5px;
+}
+.payment .ment,
+.transport .sport{
+    padding: 24px 16px;
+    padding-bottom: 0;
+}
+.payment .ment .ment_item,
+.transport .sport .sport_item{
+    padding: 8px 0;
+    display: flex;
+    align-items: flex-start;
+}
+.payment .ment .ment_item label .first,
+.transport .sport .sport_item label .first{
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+.payment .ment .ment_item label>div,
+.transport .sport .sport_item label>div{
+    padding-bottom: 5px;
+}
+.payment .ment .ment_item label,
+.transport .sport .sport_item label{
+    width: 260px;
+    padding-left: 16px;
+    color: #A1A1A1;
+    font-size: 13px;
+}
+.payment .ment .ment_item img,
+.transport .sport .sport_item img{
+    width: 18px;
+    height: 18px;
+}
+.transport .sport .sport_item .price{
+    white-space: nowrap;
+}
+.transport .sport .sport_item .span{
+    width: 20px;
+    height: 20px;
+    background-color: #979797;
+    display: inline-block;
+}
+.transport .sport .sport_item .last{
+    border: 1px solid #368C36;
+    border-radius: 5px;
+    color: #368C36;
+    font-size: 13px;
+}
+.transport .sport .sport_item .vip{
+    background-color: #FDD835;
+    padding: 2px;
+    color: black;
+}
+.transport .sport .sport_item a{
+    color: #D38743;
+    font-size: 16px;
+}

@@ -1,0 +1,275 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>IN約</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/clinic.css">
+</head>
+
+<body>
+  <div class="body clinic_body" id="body" @scroll="page($event)" v-cloak>
+
+    <h3 class="header">
+      <a href="inyue.html"><i class="iconfont icon-zuo  i-left" ></i></a>
+      {{pageTitle}}
+      <a href="apoint-my.html"><i class="iconfont icon-riqi1 i-right"></i></a>
+    </h3>
+    <div class="search_body">
+      <div class="search_input">
+        <input type="text" v-model="keyword" placeholder="輸入名稱搜索">
+        <i class="iconfont icon-search" @click="search(keyword)"></i>
+      </div>
+      <div class="form search_select-body">
+        <a href="select-area.html" class="search_select a-block">
+          <span class="clamp" :class="select ? 'selectColor' : '' ">{{cityName}}</span><i
+            class="iconfont icon-bottom"></i>
+        </a>
+        <a v-if="type ==1" href="select-category.html" class="search_select a-block">
+          <span class="clamp" :class="select2 ? 'selectColor' : '' ">{{pidName}}</span><i
+            class="iconfont icon-bottom"></i>
+        </a>
+      </div>
+    </div>
+    <ul class="clinic_list">
+      <li id="categoryNull" style="margin-top:80px;text-align:center"  v-if="clinic.length == 0">暫無資料</li>
+      
+      <li class="list_item" v-for="(item,index) in clinic" :data-id="item.id" :key="item.id" @click="urlClick(item.id)"
+        v-else>
+        <div class="list-item_left">
+          <img class="img" :src="item.img" :alt="item.nane" onerror="onerror=null;src='./img/img_null.jpg'">
+        </div>
+        <div class="list-item_right">
+          <h5 class="title clamp">{{item.name}}</h5>
+          <p class="address clamp">{{item.cityName}} {{item.areaName}}</p>
+          <hr class="hr">
+          <div class="flex-bt">
+            <p class="address-item clamp"><i class="iconfont icon-fangzi1"></i>{{item.address}}</p>
+            <p class="address-item"><i class="iconfont icon-dizhi"></i>{{item.distance}}</p>
+          </div>
+          <p class="address-item"><i class="iconfont icon-ziyuan"></i>{{item.tel}}</p>
+        </div>
+      </li>
+	  
+    </ul>
+    <black-top></black-top>
+  </div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/jquery.cookie.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/common.js"></script>
+<script src="./js/router.js?r=323"></script>
+
+<script>
+
+  var s_type = $.cookie('s_type');	//1诊所，2安检，3养生
+ 
+  if(s_type == "null" || s_type == undefined){
+	location.href = "inyue.html";
+  }
+
+  new Vue({
+    el: "#body",
+    data() {
+      return {
+		pageTitle: "",
+		token: "token",
+		type: 1,
+        clinic: [],//列表
+        moreClinic: [],
+        keyword: '',//关键字
+        pageIndex: 1,//当前页码
+        countPage: '',//总页数
+        categoryPid: '', //门诊ID
+        categoryId: '', //科别ID
+        cityId: '',//城市ID
+        areaId: '',//区ID
+        distance: '',//距离
+        cityName: '區域',//城市name
+        pidName: '類別',//门诊name
+        select: true,
+        select2: true
+      }
+    },
+
+    mounted() {
+      var that = this;
+	  if(s_type == 1){
+		this.pageTitle = "線上掛號";
+		this.type = 1;
+	  }else if(s_type == 2){
+		this.pageTitle = "居家安檢";
+		this.type = 2;
+	  }else{
+		this.pageTitle = "養身美容";
+	  }
+    },
+
+    created() {
+
+      var that = this;
+      clearLife()
+      that.getOptions();
+      var cityId = that.cityId;
+      var areaId = that.areaId;
+      var distance = that.distance;
+      var categoryPid = that.categoryPid;
+      var categoryId = that.categoryId;
+      var cityName = that.cityName;
+      var pidName = that.pidName;
+      that.getClinic("", cityId, areaId, distance, categoryPid, categoryId, 1);
+
+      // 区域文字显示
+      // if (cityName === "undefined" || cityName === "") {
+      //   that.cityName = "區域";
+      //   that.select = false;
+      // } else {
+      //   that.cityName = cityName;
+      //   that.select = true;
+      // }
+
+
+      // 区域文字显示
+      if (cityName == "" && distance == '') {
+        that.cityName = "區域";
+        that.select = false;
+      } else if (cityName == "" && distance != '') {
+        that.cityName = cityName;
+        that.select = true;
+      } else {
+        // that.select = false;
+        console.log(cityName, distance);
+        if (cityName == '附近' && distance == '') {
+          that.cityName = "區域";
+          that.select = false;
+        } else {
+          that.cityName = cityName;
+        }
+      }
+
+
+      // 类别文字显示
+      if (pidName === "undefined" || pidName === "") {
+        that.pidName = "類別";
+        that.select2 = false;
+      } else {
+        that.pidName = pidName;
+        that.select2 = true;
+      }
+      window.onscroll = function () {
+        //变量scrollTop是滚动条滚动时，距离顶部的距离
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        //变量windowHeight是可视区的高度
+        var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        //变量scrollHeight是滚动条的总高度
+        var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+        //滚动条到底部的条件
+        if (scrollTop + windowHeight == scrollHeight) {
+          //写后台加载数据的函数
+          console.log("距顶部" + scrollTop + "可视区高度" + windowHeight + "滚动条总高度" + scrollHeight);
+
+          let countPage = that.countPage;//总页数
+          let pageIndex = that.pageIndex + 1;//当前页数+1
+          if (pageIndex <= countPage) {
+            that.getClinic("", "", "", "", "", "", pageIndex)
+          } else {
+            console.log("已经到底了");
+            // msg('已经到底了', 2)
+          }
+        }
+      }
+    },
+
+    methods: {
+      /**
+        * *获取路由参数
+       */
+      getOptions() {
+        var that = this;
+
+        getAllUrlParams();
+          let tmp = localStorage.getItem('token');
+          if(tmp != "" && tmp != undefined){
+            this.token = tmp;
+          }
+          that.categoryPid = APPcategoryPid;
+          that.categoryId = APPcategoryId;
+          that.cityId = APPcityId;
+          that.cityName = APPcityName;
+          that.pidName = APPpidName;
+          that.areaId = APPareaId
+          that.distance = APPdistance;
+      },
+      turn(){
+        var system=localStorage.getItem('system');
+        appTurn(system)
+      },
+      /**
+       * ?获取诊所列表
+      */
+      getClinic(keyword, city, area, distance, categoryPid, categoryId, pageIndex) {
+        var that = this;
+        var params = {
+          "s_type": s_type,
+          "keyword": keyword,
+          "city": city,
+          "area": area,
+          "distance": distance,
+          "categoryPid": categoryPid,
+          "categoryId": categoryId,
+          "pageIndex": pageIndex,
+          "pageSize": 8
+        }
+        clinicList(params, function (res) {
+          let clinic = res.list;//列表
+          let pageIndex = that.pageIndex = res.pageIndex;//当前分页页码
+          let countPage = that.countPage = res.countPage; //总页数
+
+          // 分页追加数据
+          if (pageIndex > 1) {
+            // 以前的数据
+            let list = that.clinic;
+            // 新数据长度
+            let clinicLen = clinic.length;
+
+            for (var i = 0; i < clinicLen; i++) {
+              list.push(clinic[i])
+            }
+            clinic = list;
+          }
+          that.clinic = clinic;
+        });
+      },
+
+
+      /**
+       * * 关键字搜索
+      */
+      search(keyword) {
+        var that = this;
+        that.getClinic(keyword, "", "", "", "", "", "");
+      },
+
+      /**
+       * ! 跳转-医生列表
+       * */
+      urlClick(id) {
+        window.location.href = "doctor.html?id=" + id;
+      },
+    }
+  })
+</script>
+
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+
+		<title>集點卡</title>
+		<link rel="stylesheet" type="text/css" href="css/myConpon.css" />
+		<link rel="stylesheet" type="text/css" href="css/myPoinCard.css" />
+		<link rel="stylesheet" type="text/css" href="css/common.css"/>
+	</head>
+
+	<body>
+		<div class="page flex-col" id="myCoupon" v-cloak>
+			<div class="bd1 flex-col">
+				<div class="layer1 flex-col">
+					<div class="block2 flex-row">
+						<a href="javascript:;" @click="turn()"><img src="img/1.png" alt=""></a>
+						<span class="word1">集點卡</span>
+						<div></div>
+					</div>
+				</div>
+				<div class="layer3 flex-row">
+					<span class="txt1" :class="{info2: tabType==1}" @click.prevent="changeTab(1)">集點卡總覽</span>
+					<span class="txt1" :class="{info2: tabType==2}" @click.prevent="changeTab(2)">我的集點卡</span>
+				</div>
+				<div class="layer5 flex-col">
+					<input class="section1" type="text" placeholder="輸入店家關鍵字搜尋">
+					<img class="icon1" referrerpolicy="no-referrer" src="img/sech.png" />
+				</div>
+				<div v-if="tabType==1">
+					<div class="layer6 flex-col"></div>
+					<div class="layer7 flex-row">
+						<div class="outer1 mb6 flex-col" v-for="item in couponCategory" :key="item.id"><span
+								class="txt2" :class="{text2: tabType2==item.id}"
+								@click.prevent="changeTab1(item.id)">{{item.name}}</span></div>
+					</div>
+					<div class="bd2 flex-col"></div>
+				</div>
+
+				<div class="layer8 flex-row">
+					<div></div>
+					<div class="box1">
+						<img @click.prevent="showMain3=!showMain3" class="icon12" src="img/muen.png" alt="">
+						<img class="icon2" @click.prevent="goDalete()" referrerpolicy="no-referrer" src="img/ljt.png" />
+						<div class="main3 flex-col" v-if="showMain3">
+							<div class="mod12 flex-col">
+								<span class="info4" :class="{active: order_type==index+1}" v-for="(item,index) in types"
+									@click.prevent="typesFun(index)">{{item}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="allpc" v-if="tabType==1">
+					<p class="alltitle">熱門集點卡</p>
+				</div>
+				<div class="hotpc" v-if="tabType==1">
+					<div class="hotitem">
+						<div class="hotHeader">
+							<img src="img/Tripplanning.png"><span>北投溫泉春天酒店</span>
+						</div>
+						<p class="hotConter">住宿消費滿5次即贈送「幽雅18中西料理餐廳」$1200餐券</p>
+						<div class="ybtn">
+							立即領取
+						</div>
+					</div>
+					<div class="hotitem">
+						<div class="hotHeader">
+							<img src="img/Tripplanning.png"><span>北投溫泉春天酒店</span>
+						</div>
+						<p class="hotConter">住宿消費滿5次即贈送「幽雅18中西料理餐廳」$1200餐券</p>
+						<div class="ybtn">
+							立即領取
+						</div>
+					</div>
+					<div class="hotitem">
+						<div class="hotHeader">
+							<img src="img/Tripplanning.png"><span>北投溫泉春天酒店</span>
+						</div>
+						<p class="hotConter">住宿消費滿5次即贈送「幽雅18中西料理餐廳」$1200餐券</p>
+						<div class="ybtn">
+							立即領取
+						</div>
+					</div>
+				</div>
+				<div class="allpc" v-if="tabType==1">
+					<p class="alltitle">全部集點卡</p>
+					<select name="">
+						<option value="">区域</option>
+					</select>
+				</div>
+				<div class="main5" @click.prevent="toInfo(item.category_id)" v-for="item in coupon_list">
+					<div class="mod_left">
+						<img :src="item.thumb" alt="">
+						<div class="outer21 flex-col">
+							<div class="mod21 flex-row">
+								<img class="layer11 flex-col" :src="item.logo" alt="">
+								<span class="txt31">{{item.store_name}}</span>
+							</div>
+						</div>
+					</div>
+					<div class="mod11 flex-col">
+						<span class="txt21">{{item.coupon_title}}</span>
+						<div v-if="tabType==2">
+							<div class="group11 flex-col"></div>
+							<div class="xtran">
+								<span class="xNum">1/5</span>
+								<span class="word31">有效期限：{{item.end_time}}</span>
+							</div>
+							<div class="ptype">
+								<span>可兌獎：0</span>
+								<span>已領獎：0</span>
+								<span>已過期：0</span>
+							</div>
+						</div>
+						<div v-else class="modFooter">
+							<p class="jdkTime"><span>效期</span>自最後一次使用日起1年</p>
+							<p class="ybtn">立即領取</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</body>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./blis/layui/layui.all.js"></script>
+	<script src="./blis/layer_mobile/layer.js"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/router.js"></script>
+	<script src="./js/common.js"></script>
+
+	<script>
+		new Vue({
+			el: "#myCoupon",
+			data() {
+				return {
+					types: ['領券日期排序', '到期日期排序'],
+					tabType: 1,
+					tabType2: 0,
+					storeId: 0,
+					storeName: '',
+					showMain3: false,
+					showTip: false,
+					showMask: false,
+					isUse: 1,
+					couponCategory: [],
+					order_type: 1,
+					keyword: '',
+					coupon_list: [1, 2],
+					coupon_code: ''
+				}
+			},
+
+			created() {
+				var that = this;
+				that.getOptions();
+				that.getCouponType()
+				that.getCouponList()
+			},
+			mounted() {
+				var that = this;
+			},
+			updated() {
+				var that = this;
+			},
+			methods: {
+				turn() {
+					var system = localStorage.getItem('system');
+					console.log("system", system);
+					appTurn(system)
+				},
+				confirm() {
+					let data = {
+						coupon_code: this.coupon_code
+					}
+					getCoupon(data, (res) => {
+						this.showMask = false
+					})
+				},
+				getCouponList() {
+					let that = this
+					let data = {
+						search: that.keyword,
+						category_id: that.tabType2,
+						coupon_type: that.tabType,
+						order_type: that.order_type
+					}
+					couponList(data, (res) => {
+						that.coupon_list = res
+					})
+				},
+				couponHistory() {
+					let that = this
+					let data = {
+						order_type: that.order_type,
+						coupon_status: that.isUse
+					}
+					couponHistory(data, (res) => {
+						this.coupon_list = res
+					})
+				},
+				/**
+				 * *获取路由参数
+				 */
+				getCouponType() {
+					couponCategory({}, (res) => {
+						this.couponCategory = res
+					})
+				},
+				getOptions() {
+					var that = this;
+					var optionsArr = getAllUrlParams(window.location.href);
+					that.storeId = optionsArr.id;
+					that.storeName = decodeURI(optionsArr.name);
+				},
+				changeTab(type) {
+					this.tabType = type
+					this.showMain3 = false
+
+					if (type == 3) {
+						this.types = ['實體店優惠券', 'Ho購商城優惠券']
+					} else {
+						this.types = ['領券日期排序', '到期日期排序']
+						this.getCouponList()
+					}
+				},
+				changeTab1(type) {
+					this.tabType2 = type
+					this.getCouponList()
+
+				},
+				typesFun(index) {
+					this.order_type = index + 1
+					this.showMain3 = false
+					this.getCouponList()
+				},
+				toInfo(id) {
+					window.location.href = "pointCardInfo.html?id=" + id + "&types=1";
+				},
+				goDalete() {
+					// console.log(JSON.stringify(this.coupon_list))
+					window.location.href = "pointCardDelete.html?list=" + JSON.stringify(this.coupon_list)
+				},
+				getUse(num) {
+					this.isUse = num
+				}
+			}
+		})
+	</script>
+
+</html>

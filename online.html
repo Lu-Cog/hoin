@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>商品資訊總覽 线上店</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/info-index.css?v=1">
+</head>
+
+<body>
+  <div class="body info_body" id="info_body" v-cloak>
+    <h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-zuo  i-left"></i></a>{{storeName}}
+    </h3>
+    <div class="tabs_body">
+      <div class="tab">
+        <div class="tab_item" :class="active===0?'active':''" @click="changeTabs(0)">產品總覽</div>
+        <div class="tab_item" :class="active===1?'active':''" @click="changeTabs(1)">價格表</div>
+        <div class="tab_item" :class="active===2?'active':''" @click="changeTabs(2)">服務介紹</div>
+      </div>
+      <div class="content_block">
+        <div class="content_item all_block" v-if="active===0">
+          <div class="info_list">
+            <div class="list_item">
+              <img class="i-so" src="./img/info_so.png" alt="收藏图标">
+              <div class="item_img bg" style="background-image: url('./img/img3.jpg');">
+
+              </div>
+              <div class="text_blcok">
+                <h3 class="name">雙人湯屋</h3>
+                <span class="badge">均一價</span>
+                <h3 class="price">$400</h3>
+              </div>
+            </div>
+            <div class="list_item">
+              <img class="i-so" src="./img/info_so.png" alt="收藏图标">
+              <div class="item_img bg" style="background-image: url('./img/img3.jpg');">
+
+              </div>
+              <div class="text_blcok">
+                <h3 class="name">雙人湯屋</h3>
+                <span class="badge">均一價</span>
+                <h3 class="price">$400</h3>
+              </div>
+            </div>
+            <div class="list_item">
+              <img class="i-so" src="./img/info_so.png" alt="收藏图标">
+              <div class="item_img bg" style="background-image: url('./img/img3.jpg');">
+
+              </div>
+              <div class="text_blcok">
+                <h3 class="name">雙人湯屋</h3>
+                <span class="badge">均一價</span>
+                <h3 class="price">$400</h3>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="content_item select_block" v-if="active===1">
+          1
+        </div>
+        <div class="content_item service_block" v-if="active===2">
+          2 </div>
+      </div>
+
+
+    </div>
+    <div class="btn_blcok">
+      <button class="flex-center">前往商家介紹</button>
+    </div>
+    <black-top></black-top>
+  </div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+<!-- <script src="./js/ifvisible.min.js"></script> -->
+
+<script>
+  new Vue({
+    el: "#info_body",
+    data() {
+      return {
+        active: 1
+      }
+    },
+
+
+    mounted() {
+      var that = this;
+
+    },
+
+
+    created() {
+      var that = this;
+      that.getOptions();
+
+    },
+
+
+    methods: {
+      /**
+       * *获取路由参数
+      */
+      getOptions() {
+        var that = this;
+        getAllUrlParams();
+
+      },
+
+
+      // 切换tabs
+      changeTabs(active) {
+        this.active = active
+      }
+    }
+  })
+</script>
+
+</html>

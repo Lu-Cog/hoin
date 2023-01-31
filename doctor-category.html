@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>医生-類別篩選</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/select.css?v=1">
+</head>
+
+<body>
+  <div id="cliDocCategory">
+    <div class="body select_body select-category_body" v-cloak>
+      <h3 class="header">
+        <a href="javascript:history.back(-1);"><i class="iconfont icon-zuo  i-left"></i></a>
+        類別篩選
+        <i class="iconfont icon-itemno_0 i-right" @click="clear()"></i></h3>
+      <h4 class="select-title">門診</h4>
+      <ul class="select_block select_tow">
+        <li class="select_item clamp" :class="{active : active == 1}" @click="selected(1)">全部</li>
+        <li v-for="(item,index) in category" :key="item.id" :class="{active : active == item.id}"
+          class="select_item clamp" @click="selected(item.id,item.name)">{{item.name}}</li>
+      </ul>
+      <ul class="select_ul">
+        <li class="select_li">
+          <h4 class="select-title" v-if="play">科別</h4>
+          <ul class="select_block select_cont select_tow">
+            <li v-for="(item,index) in families" :key="item.id" :class="{active : active2 == item.id}"
+              class="select_item clamp" @click="selected_2(item.id,item.name)">{{item.name}}</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="body_bottom">
+      <input class="form_botton" type="submit" @click="onSubmit()" value="確認">
+    </div>
+  </div>
+
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/common.js"></script>
+<script src="./js/router.js"></script>
+
+<script>
+
+  new Vue({
+    el: "#cliDocCategory",
+    data() {
+      return {
+        category: [],//父级类别
+        families: [],//二级类别
+        active: 1, //父级高亮
+        active2: '', //二级高亮
+        play: false,
+        categoryId: '',//门诊ID
+        familiesId: '',//科别ID
+        urlId: '',
+        categoryName: '',//门诊name
+        familiesName: '',//科别name
+      }
+    },
+
+    created() {
+      var that = this;
+      that.getOptions(); //获取路由参数‘
+      that.getCategory();
+      var categoryId = that.categoryId;
+      var categoryName = that.categoryName;
+      var familiesId = that.familiesId;
+      var familiesName = that.familiesName;
+      // 获取id高亮
+      if (categoryId === 'undefined') { } else {
+        that.selected(categoryId, categoryName);
+        that.selected_2(familiesId, familiesName);
+
+        that.play = true;
+        that.active = categoryId;
+        that.active2 = familiesId;
+      }
+    },
+    methods: {
+      /**
+      * *获取路由参数
+     */
+      getOptions() {
+        var that = this;
+        var path = window.location.href;
+        var optionsArr = getAllUrlParams(path);
+        that.urlId = optionsArr.id;
+        that.categoryId = optionsArr.categoryId;
+        that.familiesId = optionsArr.familiesId;
+        that.categoryName = decodeURI(optionsArr.categoryName);//url传中文的转码
+        that.familiesName = decodeURI(optionsArr.familiesName);//url传中文的转码
+        console.log(optionsArr);
+
+      },
+
+      /**
+       * ?取诊所/医生类别  父级类别
+      */
+      getCategory(parentId) {
+        var that = this;
+        var params = {
+          "parentId": parentId
+        }
+        categoryList(params, function (res) {
+          that.category = res;
+        });
+      },
+
+      /**
+       * ?子级类别
+      */
+      selected(id, name) {
+        var that = this;
+        // 父级高亮高亮
+        var id = that.active = id;
+        that.categoryId = id;
+        that.categoryName = name;
+        that.familiesId = '';//清除上一次选中的科别
+        // 控制“全部”高亮
+        if (id == 1) {
+          that.play = false;
+          that.categoryId = '';
+          that.familiesId = '';
+        } else {
+          that.play = true
+        };
+
+        var params = {
+          "parentId": id
+        }
+        categoryList(params, function (res) {
+          that.families = res;
+        });
+
+      },
+
+      /**
+       * *二级高亮
+      */
+      selected_2(id, name) {
+        var that = this;
+        that.active2 = id;
+        that.familiesName = name;
+        that.familiesId = id;
+      },
+
+      /**
+       * *重置
+      */
+      clear() {
+        var that = this;
+        that.active = 1;
+        that.active2 = "";
+        that.getCategory();
+        that.families = [];
+        that.play = false;
+        that.categoryId = '';
+        that.familiesId = '';
+        that.categoryName = '';
+        that.familiesName = '';
+        msg('已重置，请确认', 1)
+      },
+
+
+      /**
+       * *提交
+      */
+      onSubmit() {
+        var that = this;
+        console.log("提交");
+        var categoryId = that.categoryId;
+        var familiesId = that.familiesId;
+        var urlId = that.urlId;
+        var categoryName = that.categoryName;
+        var familiesName;
+
+
+        // 如果没选择科别，清空上一次的科别名称
+        if (familiesId != '') {
+          familiesName = that.familiesName
+          console.log("111", familiesName);
+        } else {
+          familiesName = '';
+          console.log("222", familiesName);
+        }
+
+
+        if (categoryId != '' || familiesId != '') {
+          window.location.href = "doctor.html?id=" + urlId + "&familiesId=" + familiesId + "&categoryId=" + categoryId + "&categoryName=" + categoryName + "&familiesName=" + familiesName;
+        } else if (categoryId == undefined || categoryId == undefined) {
+          window.location.href = "doctor.html?id=" + urlId;
+        } else {
+          window.location.href = "doctor.html?id=" + urlId;
+        }
+      }
+    }
+  })
+
+</script>
+
+</html>

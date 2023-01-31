@@ -1,0 +1,459 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<title>付款与配送_宅配2</title>
+		<link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+		<link rel="stylesheet" href="./css/iconfont.css">
+		<link rel="stylesheet" href="./css/base.css">
+		<link rel="stylesheet" href="./blis/layui/css/layui.css">
+		<link rel="stylesheet" href="./css/common.css">
+		<!-- 本業獨有，單獨引入 -->
+		<link rel="stylesheet" href="./css/cart.css?v=1.1">
+		<link rel="stylesheet" href="./css/material.css">
+	</head>
+
+	<body>
+		<div class="body cart_body" id="cart_body" v-cloak>
+			<div class="header_top"></div>
+			<h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-zuo  i-left"></i></a>
+				運送與付款方式</h3>
+			<ul class="cart_top flex-bt">
+				<li class="top_item">確認購物車</li>
+				<li class="top_item">付款與運送方式</li>
+				<li class="top_item active">資料填寫</li>
+			</ul>
+
+			<!-- 购物车2-4 end -->
+
+			<div class="all_block">
+				<div class="flex-don flex-bt">
+					<span class="name" style="font-size: 17px;color: #505050;">共{{goodsLen}}項商品</span><span
+						class="price" style="font-size: 16px;">${{total_pay}}</span>
+				</div>
+				<p>(含運費)</p>
+				<p>皆以TWD付款</p>
+				<div style="text-align: center;">
+					<i class="iconfont icon-bottom" :style="state==true?'transform:translate(-50%) rotate(180deg)':''"
+						@click="changeState(state)"></i>
+				</div>
+
+			</div>
+			<div v-show="state">
+				<!-- 商品 -->
+				<div class="goods">
+					<div class="goods_item" v-for="(item,index) in goodsList">
+						<div class="left"><img :src="item.img" alt=""></div>
+						<div class="right">
+							<div class="title">{{item.goods_name}}</div>
+							<div class="price_num">
+								<div class="price">${{item.price}}</div>
+								<div class="num">数量：<span>{{item.num}}</span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 总价 -->
+				<div class="all_block">
+					<div class="flex-bt">
+						<span class="name">商品金額小記</span><span class="price">${{totalPrice}}</span>
+					</div>
+					<div class="flex-bt">
+						<span class="name">折價券</span><span class="price">$0</span>
+					</div>
+					<div class="flex-bt">
+						<span class="name">IN幣折抵</span><span class="price">$0</span>
+					</div>
+					<div class="flex-bt">
+						<span class="name">商品金額小記</span><span class="price">${{totalPrice}}</span>
+					</div>
+					<hr>
+					<div class="flex-don flex-bt">
+						<span class="name">共{{goodsLen}}項商品</span><span class="price">${{totalPrice}}</span>
+					</div>
+				</div>
+			</div>
+			<!-- 取货人资讯 -->
+			<div class="man">
+				<div class="man_top"><span>取貨人資訊</span><span><a href="consignee.html">常用聯絡人</a></span></div>
+				<div>
+					<div class="man_item">
+						<label for="">姓名*</label>
+						<input type="text" v-model="name" placeholder="請填寫姓名">
+					</div>
+					<div class="man_item">
+						<label for="">手機號碼*</label>
+						<input type="text" v-model="phone" placeholder="請填寫手機號碼">
+					</div>
+					<div class="man_item" v-if="transport == 3">
+						<label for="">宅配地址*</label>
+						<div>
+							<select name="" id="">
+								<option value="1">縣市</option>
+							</select>
+							<select name="" id="">
+								<option value="1">鄉鎮區</option>
+							</select>
+						</div>
+						<input type="text">
+					</div>
+					<div class="man_item" v-else-if="transport == 4">
+						<select style="width: 100%;" name="" id="">
+							<option value="1">選取自取門市</option>
+						</select>
+					</div>
+					<div class="man_item" v-else>
+						<select style="width: 100%;" name="" id="">
+							<option value="1">選擇取貨門市</option>
+						</select>
+					</div>
+					<div class="man_item">
+						<label for="">Email (選填)</label>
+						<input type="text" v-model="email" placeholder="請填寫郵箱">
+						<div>訂單資訊將用Email通知您，若未填寫將無法收到訂單資訊</div>
+					</div>
+					<div class="man_item">
+						<label for="">備註</label>
+						<input type="text" v-model="remarks" placeholder="備注">
+					</div>
+				</div>
+			</div>
+			<!-- 信用卡咨询 -->
+			<!-- <div class="creditCard" v-show="pay_type == 2">
+      <div class="cred_top">信用卡資訊</div>
+      <div class="proclamations">
+        <div class="content">
+          信用卡只限持卡本人使用。本公司將依您提供的持卡人資訓發卡銀行、收單及持卡人照會是否屬實並保留出貨權利。如有冒用信用卡或個資，將送司法單位處置。
+        </div>
+        <div class="categories">
+          我們接受卡別:
+          <span><img src="./img/visa.png"></span>
+          <span><img src="./img/jcb.png"></span>
+          <span><img src="./img/master_card.png"></span>
+        </div>
+        <div style="clear: both;"></div>
+      </div>
+      <div>
+        <div class="cred_item">
+          <label>信用卡號</label>
+          <input type="text" placeholder="XXXX-XXXX-XXXX-XXXX" v-model="card_number">
+        </div>
+        <div class="cred_item">
+          <label>信用卡有效期限</label>
+          <input type="text" placeholder="MM/YY" v-model="card_end_time">
+        </div>
+        <div class="cred_item">
+          <label>信用卡驗證碼</label>
+          <input type="text" placeholder="信用卡背後3碼" v-model="card_code">
+        </div>
+        <div class="cred_item" @click=selectTab4()>
+          <img :src="active4?'./img/i-select.png':'./img/i-select-no.png'" alt="選擇">
+          <div class="">記住這張卡</div>
+        </div>
+      </div>
+    </div> -->
+			<!-- 電子發票 -->
+			<div class="invoice">
+				<div class="inv_top"><span>電子發票</span><span><a href="#">統一發票使用辦法規定</a></span></div>
+				<div class="inv_bottom">
+					<div class="inv_item" @click=selectTab(1)>
+						<img :src="active===1?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+						<label>
+							<div class="first">會員載具</div>
+						</label>
+					</div>
+					<div class="inv_item" @click=selectTab(2)>
+						<img :src="active===2?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+						<label>
+							<div class="first">公司用統編</div>
+						</label>
+						<div v-if="active===2">
+							<div class="inv_item_s">
+								<label>統一編號*</label>
+								<input type="text">
+							</div>
+							<div class="inv_item_s">
+								<label>公司抬頭*</label>
+								<input type="text">
+							</div>
+							<div class="inv_item_s">
+								<label>發票地址*</label>
+								<input type="text">
+							</div>
+						</div>
+
+					</div>
+					<div class="inv_item" @click=selectTab(3)>
+						<img :src="active===3?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+						<label>
+							<div class="first">手機載具</div>
+						</label>
+						<div v-if="active===3">
+							<div class="inv_item_s">
+								<label>載具條碼*</label>
+								<input type="text">
+								<div>開頭必須為/，後面7碼為數字或大寫英文</div>
+							</div>
+						</div>
+					</div>
+					<div class="inv_item" @click=selectTab(4)>
+						<img :src="active===4?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+						<label>
+							<div class="first">自然人憑證</div>
+						</label>
+						<div v-if="active===4">
+							<div class="inv_item_s">
+								<label>自然人憑證*</label>
+								<input type="text">
+							</div>
+						</div>
+					</div>
+					<div class="inv_item" @click=selectTab(5)>
+						<img :src="active===5?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+						<label>
+							<div class="first">捐贈碼</div>
+						</label>
+						<div v-if="active===5">
+							<div class="inv_item_s">
+								<label>捐贈碼*</label>
+								<input type="text">
+								<div>捐贈碼查询</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 条款 -->
+			<div class="terms">
+				<div class="terms_item" @click=selectTab2()>
+					<img :src="active2?'./img/i-select.png':'./img/i-select-no.png'" alt="選擇">
+					<div class="terms_name">同意會員責任規範及個資聲明與商家會員條款</div>
+				</div>
+				<div class="terms_item" @click=selectTab3()>
+					<img :src="active3?'./img/i-select.png':'./img/i-select-no.png'" alt="選擇">
+					<div class="terms_name">為保障彼此之權益，賣家在收到您的訂單後仍保有决定是否接受订单与出货与否之权利</div>
+				</div>
+				<div class="terms_last">
+					<button @click="toSuccessful()">確認送出</button>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+	<script src="./blis/layui/layui.all.js"></script>
+	<script src="./blis/layer_mobile/layer.js"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/router.js"></script>
+	<script src="./js/common.js"></script>
+
+	<script>
+		new Vue({
+			el: "#cart_body",
+			data() {
+				return {
+					state: false,
+					active: 1,
+					active2: false,
+					active3: false,
+					active4: false,
+					cart_ids: '',
+					pay_type: 0,
+					transport: 0,
+					name: '', //是	string	收货人姓名
+					phone: "", //是	string	收货人手机号
+					store_id: 1, //是	int	取货门市店
+					email: "", //	是	string	邮箱
+					remarks: "", //是	string	备注
+					card_number: "", //是	string	选择卡支付需要字段—信用卡号
+					card_end_time: "", //是	string	选择卡支付需要字段—信用卡有效期
+					card_code: "", //是	string	选择卡支付需要字段—信用卡验证码
+					default_card: "", //是	int	选择卡支付需要字段—1为记住这张卡
+					city_id: "", //是	string	宅配需要字段-市
+					country_id: "", //是	string	宅配需要字段-县乡
+					address_name: "", //是	string	宅配需要字段-收货人名称
+					telephone: "", //是	string	宅配需要字段-收货人电话
+					address: "", //是	string	宅配需要字段-详细地址
+					self_store_id: 1, //是	int	门店自取需要字段-备注
+					totalPrice: 0,
+					goodsList: [],
+					goodsLen: 0,
+					pay_win: '',
+					pay: 0
+				}
+			},
+
+			created() {
+				var that = this;
+				that.getOptions()
+				that.getorderView()
+			},
+			mounted() {
+				var that = this;
+			},
+			updated() {
+				var that = this;
+			},
+			computed: {
+				total_pay() {
+					var that = this
+					return Number(that.totalPrice) + Number(that.pay)
+				}
+			},
+			methods: {
+				/**
+				 * *获取路由参数
+				 */
+				getOptions() {
+					var that = this;
+					var optionsArr = getAllUrlParams(window.location.href);
+					console.log(window.location.href)
+					that.cart_ids = optionsArr.cart_ids
+					that.pay_type = optionsArr.pay_type
+					that.pay = optionsArr.pay || 0
+					that.transport = optionsArr.transport
+				},
+				changeState(state) {
+					var that = this;
+					that.state = !state;
+					console.log(state);
+				},
+				getorderView() {
+					let that = this
+					let params = {
+						"cart_ids": that.cart_ids,
+					}
+					orderView(params, function(res) {
+						that.goodsList = res.goods_list
+						that.goodsLen = that.goodsList.length
+						that.totalPrice = res.total_price
+					})
+				},
+				toSuccessful() {
+					let that = this
+					let default_card = that.active4 ? -1 : 1
+					let params = {
+						"cart_ids": that.cart_ids,
+						"pay_type": that.pay_type,
+						"transport": that.transport,
+						"name": that.name, //是	string	收货人姓名
+						"phone": that.phone, //是	string	收货人手机号
+						"store_id": 1, //是	int	取货门市店
+						"email": that.email, //	是	string	邮箱
+						'remarks': that.remarks, //是	string	备注
+						"card_number": that.card_number, //是	string	选择卡支付需要字段—信用卡号
+						'card_end_time': that.card_end_time, //是	string	选择卡支付需要字段—信用卡有效期
+						'card_code': that.card_code, //是	string	选择卡支付需要字段—信用卡验证码
+						'default_card': default_card, //是	int	选择卡支付需要字段—1为记住这张卡
+						'city_id': that.city_id, //是	string	宅配需要字段-市
+						'country_id': that.country_id, //是	string	宅配需要字段-县乡
+						'address_name': that.address_name, //是	string	宅配需要字段-收货人名称
+						'telephone': that.telephone, //是	string	宅配需要字段-收货人电话
+						'address': that.address, //是	string	宅配需要字段-详细地址
+						'self_store_id': 1, //是	int	门店自取需要字段-备注
+					}
+					if (that.name == '') {
+						return layui.use('layer', function() {
+							var layer = layui.layer;
+							layer.msg('請填寫姓名');
+						});
+					}
+					if (that.phone == '') {
+						return layui.use('layer', function() {
+							var layer = layui.layer;
+							layer.msg('請填寫手機號碼');
+						});
+					}
+					if (that.phone.length < 5) {
+						return layui.use('layer', function() {
+							var layer = layui.layer;
+							layer.msg('請填寫正確的手機號碼');
+						});
+					}
+					if (that.email != '') {
+						if (!/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/i.test(that.email)) {
+							return layui.use('layer', function() {
+								var layer = layui.layer;
+								layer.msg('請填寫正確的Email');
+							});
+						}
+					}
+
+
+					// if (that.pay_type == 2) {
+					//   if (!that.card_number) {
+					//     return layui.use('layer', function () {
+					//       var layer = layui.layer;
+					//       layer.msg('請填寫信用卡卡號');
+					//     });
+					//   }
+					//   if (!/^\d{16}$/.test(that.card_number)) {
+					//     return layui.use('layer', function () {
+					//       var layer = layui.layer;
+					//       layer.msg('請填寫正確的信用卡卡號');
+					//     });
+					//   }
+					//   if (!that.card_end_time) {
+					//     return layui.use('layer', function () {
+					//       var layer = layui.layer;
+					//       layer.msg('請填寫信用卡有效期');
+					//     });
+					//   }
+					//   if (!that.card_code) {
+					//     return layui.use('layer', function () {
+					//       var layer = layui.layer;
+					//       layer.msg('請填寫信用卡驗證碼');
+					//     });
+					//   }
+					// }
+
+					if (that.active2 == false || that.active3 == false) {
+						return layui.use('layer', function() {
+							var layer = layui.layer;
+							layer.msg('請仔細閲讀并勾選全部條款');
+						});
+					}
+
+
+					orderSubmit(params, function(res) {
+						if (that.pay_type == 2 || that.pay_type == 5) {
+							neWebPay({
+								'order_no': res.order_no
+							}, function(res) {
+								window.location.href = res.pay_url
+							})
+						} else {
+							window.location.href = "successful.html?order_id=" + res.order_id;
+						}
+					})
+
+
+				},
+				selectTab(active) {
+					var that = this
+					that.active = active
+				},
+				selectTab2() {
+					var that = this
+					that.active2 = !that.active2
+				},
+				selectTab3() {
+					var that = this
+					that.active3 = !that.active3
+				},
+				selectTab4() {
+					var that = this
+					that.active4 = !that.active4
+				}
+			}
+		})
+	</script>
+
+</html>

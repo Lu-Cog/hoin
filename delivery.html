@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<title>运送与付款方式</title>
+		<link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+		<link rel="stylesheet" href="./css/iconfont.css">
+		<link rel="stylesheet" href="./css/base.css">
+		<link rel="stylesheet" href="./blis/layui/css/layui.css">
+		<link rel="stylesheet" href="./css/common.css">
+		<!-- 本業獨有，單獨引入 -->
+		<link rel="stylesheet" href="./css/cart.css?v=1.1">
+		<link rel="stylesheet" href="./css/delivery.css">
+	</head>
+
+	<body>
+		<div class="body cart_body" id="cart_body" v-cloak>
+			<div class="header_top"></div>
+			<h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-zuo  i-left"></i></a>
+				運送與付款方式</h3>
+			<ul class="cart_top flex-bt">
+				<li class="top_item">確認購物車</li>
+				<li class="top_item active">付款與運送方式</li>
+				<li class="top_item">資料填寫</li>
+			</ul>
+			<!-- 付款方式 -->
+			<div class="payment">
+				<div class="pay_top">付款方式</div>
+				<div class="ment">
+					<div class="ment_item" @click=selectTab(1)>
+						<img :src="active===1?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+						<label for="fukuan">
+							<div class="first">超商取貨付款</div>
+						</label>
+					</div>
+					<div class="ment_item" @click=selectTab(2)>
+						<img :src="active===2?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+						<label>
+							<div class="first">信用卡一次付清</div>
+							<div>另外加收4%刷卡與平台手續費</div>
+						</label>
+					</div>
+					
+
+					<div class="ment_item" @click=selectTab(3)>
+						<img :src="active===3?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+						<label>
+							<div class="first">ATM付款</div>
+							<div>帳號將於訂單送出後提供</div>
+						</label>
+					</div>
+					<div class="ment_item" @click=selectTab(4)>
+						<img :src="active===4?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+						<label>
+							<div class="first">貨到付款</div>
+						</label>
+					</div>
+					<div class="ment_item" @click=selectTab(5)>
+						<img :src="active===5?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+						<label>
+							<div class="first">街口支付</div>
+							<div>可用街口儲值帳戶、銀行帳戶或台新街口聯名</div>
+						</label>
+					</div>
+				</div>
+			</div>
+			<!-- 运送方式 -->
+			<div class="transport">
+				<div class="tran_top">运送方式</div>
+				<div class="sport">
+					<div class="sport_item" @click=select2Tab(1)>
+						<img :src="active2===1?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+						<label>
+							<div class="first"><img class="span" src="img/family mart.png"
+									alt=""><span>全家取貨付款</span><span class="last">最低運費</span></div>
+							<div>全家取貨付款（未滿$2000 運費$70)</div>
+						</label>
+						<div class="price color-red">$70</div>
+					</div>
+					<div class="sport_item" @click=select2Tab(2)>
+						<img :src="active2===2?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+						<label>
+							<div class="first"><img class="span" src="img/7-11_grey.png" alt=""><span>7-11取貨付款</span>
+							</div>
+							<div>7-11取貨付款（未滿$2000 運費$85)</div>
+							<div><span class="vip">会员限定</span><span>抽Chanel經典雙C零錢包</span></div>
+						</label>
+						<div class="price">$85</div>
+					</div>
+					<div class="sport_item" @click=select2Tab(3)>
+						<img :src="active2===3?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+						<label>
+							<div class="first">宅配</div>
+							<div>宅配（未滿$1200 運費$120)</div>
+						</label>
+						<div class="price color-red">$120</div>
+					</div>
+					<div class="sport_item" @click=select2Tab(4)>
+						<img :src="active2===4?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+						<label>
+							<div class="first">商店門市自取</div>
+							<div>付款後門市自取</div>
+							<div><a href="pick-upShop.html">門市列表</a></div>
+						</label>
+						<div class="price">免運</div>
+					</div>
+				</div>
+			</div>
+			<!-- 购物车2-4 end -->
+
+			<div class="all_block">
+				<div class="flex-bt">
+					<span class="name">商品折扣後小記</span><span class="price">${{totalPrice}}</span>
+				</div>
+				<div class="flex-bt">
+					<span class="name">運費</span><span class="price">${{pay}}</span>
+				</div>
+				<hr>
+				<div class="flex-don flex-bt">
+					<span class="name">共{{goodsLen}}項商品</span><span class="price">${{totalPrice}}</span>
+				</div>
+				<p>(含運費)</p>
+				<p>皆以TWD付款</p>
+			</div>
+
+			<div class="dow_blcok flex-bt">
+				<div class="left">
+					<p class="name">運送地區：台灣</p>
+					<p class="price">${{totalPrice}}</p>
+				</div>
+				<button class="right_btn flex-center" @click="toIndexPay">下一步</button>
+			</div>
+		</div>
+
+	</body>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+	<script src="./blis/layui/layui.all.js"></script>
+	<script src="./blis/layer_mobile/layer.js"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/router.js"></script>
+	<script src="./js/common.js"></script>
+
+	<script>
+		new Vue({
+			el: "#cart_body",
+			data() {
+				return {
+					active: 1,
+					active2: 4,
+					pay_price: [70, 85, 120, 0],
+					pay: 0,
+					cart_ids: '',
+					goodsLen: 0,
+					totalPrice: 0
+				}
+			},
+
+			created() {
+				var that = this;
+				that.getOptions()
+				that.getorderView()
+			},
+			mounted() {
+				var that = this;
+			},
+			updated() {
+				var that = this;
+			},
+			methods: {
+				/**
+				 * *获取路由参数
+				 */
+				getOptions() {
+					var that = this;
+					var optionsArr = getAllUrlParams(window.location.href);
+					that.cart_ids = optionsArr.cart_ids
+				},
+
+
+				selectTab(active) {
+					var that = this;
+					that.active = active;
+
+				},
+				select2Tab(active2) {
+					var that = this;
+					that.pay = that.pay_price[active2 - 1]
+					that.active2 = active2;
+
+				},
+				toIndexPay() {
+					window.location.href = "material.html?cart_ids=" + this.cart_ids + "&pay_type=" + this.active +
+						"&transport=" + this.active2
+				},
+				getorderView() {
+					let that = this
+					let params = {
+						"cart_ids": that.cart_ids,
+					}
+					orderView(params, function(res) {
+						that.goodsLen = res.goods_list.length
+						that.totalPrice = res.total_price
+					})
+				},
+			}
+		})
+	</script>
+
+</html>

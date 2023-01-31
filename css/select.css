@@ -1,0 +1,84 @@
+.select_body {
+	padding-bottom: 1rem;
+  margin-bottom: 0.7rem;
+}
+.select_body .select-title {
+  font-size: 0.14rem;
+  color: #a1a1a1;
+  border-bottom: 1px solid #a1a1a1;
+  padding: 0.4rem 0.12rem 0.08rem;
+}
+.select_body .select_li .select-title {
+  padding: 0.4rem 0.12rem 0.08rem;
+}
+.select_body .select_block {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.select_body .select_block:after {
+  content: "";
+  width: 30%;
+  border: 1px solid transparent;
+}
+.select_body .select_block .select_item {
+  width: 30%;
+  height: 0.3rem;
+  line-height: 0.3rem;
+  font-size: 0.16rem;
+  border-radius: 0.18rem;
+  border: 0.01rem solid #979797;
+  margin-top: 0.15rem;
+  text-align: center;
+}
+.select_body .select_block .active {
+  background: #fdd835;
+}
+.body_bottom {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding-bottom: 0.3rem;
+  background: #ffffff;
+}
+.lifeOther_body .select_cont.layui-form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.15rem;
+  padding: 0 0.11rem;
+}
+.lifeOther_body .select_cont.layui-form:after {
+  display: none;
+}
+.lifeOther_body .select_item {
+  width: 1rem;
+  display: flex;
+  justify-content: space-around;
+}
+.lifeOther_body .select_cont2 {
+  align-items: center;
+  margin-top: 0.15rem;
+}
+.lifeOther_body .select_cont2 span {
+  display: inline-block;
+  width: 0.8rem;
+  text-align: left;
+  padding-left: 0.2rem;
+}
+.lifeOther_body .select_cont2 .select_item {
+  margin: 0;
+  width: 1.2rem;
+}
+.select-category_body .select_tow:after {
+  display: none;
+}
+.select-category_body .select_tow .select_item {
+  width: 48%;
+}
+.flex-start {
+  justify-content: start !important;
+}
+.form_botton{
+	display: block !important;
+}

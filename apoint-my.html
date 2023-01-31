@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+		<title>我的預約</title>
+		<link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="./blis/layui/css/layui.css" />
+		<link rel="stylesheet" href="./blis/layer_mobile/need/layer.css" />
+		<link rel="stylesheet" href="./css/iconfont.css" />
+		<link rel="stylesheet" href="./css/base.css" />
+		<link rel="stylesheet" href="./css/common.css?v=3" />
+		<!-- 本業獨有，單獨引入 -->
+		<link rel="stylesheet" href="./css/apoint-my.css?v=5" />
+		<link rel="stylesheet" href="./components/switch/switch.css" />
+		<style>
+			.headerH {
+				padding-top: .4rem !important;
+			}
+			.topH{
+				top: 24px !important;
+			}
+			.apoint-my_body .appoin_list .list_item .cont .number span {
+				width: 100px;
+				display: inline-block;
+			}
+		</style>
+	</head>
+
+
+	<body>
+		<div class="body apoint-my_body" id="apoint-my_body" v-cloak>
+			<h3 class="header" :class="{'headerH':headerH==1}">
+				<a href="clinic.html"><i class="iconfont icon-zuo i-left" :class="{'topH':headerH==1}"></i></a>我的預約
+			</h3>
+			<div class="apoint-my_date layui-inline" id="my_date"></div>
+			<ul class="appoin_list">
+				<li class="list_item" v-for="(item,index) in userList" :key="item.id">
+					<div class="date  dateColor" :class="item.notice==='2'?'':'open-bg'">
+						<span>{{item.month}}</span><span>{{item.day}}</span><span>{{item.week}}</span>
+					</div>
+					<div class="cont" @click="urlClick(item.id,item.type)">
+						<p class="time">{{item.timeName}}</p>
+						<p class="address clamp">
+							<span v-if="item.type == 1">{{item.categoryName1}}&nbsp;{{item.categoryName2}}
+								&nbsp;&nbsp;</span>
+							<span class="two">{{item.clinicName}}</span>
+						</p>
+						<p class="number clamp">預約號碼<span>{{item.id}}</span></p>
+					</div>
+					<div class="checkbox layui-form">
+						<switch-component v-model="!item.notice==='2'" text="" @change="onSwitchChange($event,item)">
+						</switch-component>
+						<p class="noticeState">{{item.notice==='2'?'關閉通知':'開放通知'}}</p>
+					</div>
+				</li>
+			</ul>
+
+			<black-top></black-top>
+		</div>
+	</body>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./js/jquery.cookie.js"></script>
+	<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+	<script src="./blis/layer_mobile/layer.js"></script>
+	<script src="./blis/layui/layui.all.js"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/common.js"></script>
+	<script src="./js/router.js?r=323"></script>
+	<script src="./components/switch/switch.js"></script>
+	<script src='./components/calendar/Calendar.umd.min.js'></script>
+
+	<script>
+		// var s_type = $.cookie('s_type'); //1诊所，2安检，3养生
+
+		// if (s_type == "null" || s_type == undefined) {
+		// 	location.href = "inyue.html";
+		// }
+
+		new Vue({
+			el: "#apoint-my_body",
+			data() {
+				return {
+					headerH: '',
+					pageIndex: 1, //当前页码
+					countPage: '', //总页数
+					userList: [], //预约列表
+					selectedDate: null,
+					dateTime: {}, //预约日期
+				};
+			},
+			components: {
+				'switch-component': switchComponent,
+			},
+			mounted() {
+				var that = this;
+				that.getOptions();
+				that.getUserReserveList();
+			},
+
+			methods: {
+				/**
+				 * *获取路由参数
+				 */
+				getOptions() {
+					var that = this;
+					var optionsArr = getAllUrlParams(window.location.href);
+					that.doctorReserveId = optionsArr.doctorReserveId;
+					that.headerH = optionsArr.headerH || 0
+				},
+				/**
+				 * *日历
+				 */
+				createCalendar() {
+					var that = this;
+					layui.use(["laydate", "form"], function() {
+						var laydate = layui.laydate,
+							form = layui.form;
+						// 日历
+						laydate.render({
+							elem: "#my_date", //指定元素
+							show: true, //直接显示
+							// lang: 'en',
+							showBottom: false,
+							position: "static",
+							change: function(value, date, endDate) {
+								//日期切換後回調
+								console.log(date); //得到日期生成的值，如：2017-08-18
+							},
+							// 标注重要日子
+							mark: that.dateTime,
+						});
+					});
+				},
+				/**
+				 * ?获取医生详情-预约列表
+				 */
+				getUserReserveList(pageIndex) {
+					var that = this;
+					var params = {
+						pageIndex: pageIndex,
+						pageSize: 4,
+					};
+					userReserveList(params, function(res) {
+						let userList = that.userList = res.list;
+						userList.forEach(e => {
+							that.dateTime[e.time] = e.day
+						});
+						that.createCalendar();
+					});
+				},
+
+				urlClick(id, type) {
+					var that = this;
+					console.log("id", id);
+					if (type == 1) {
+						window.location.href = "apoint-item.html?id=" + id;
+					} else {
+						window.location.href = "apoint-item2.html?id=" + id;
+					}
+				},
+
+				/**
+				 * ?开关状态
+				 */
+				onSwitchChange(event, item) {
+					console.log(event, item);
+					event ? item.notice = '1' : item.notice = '2';
+				},
+			},
+		});
+	</script>
+
+</html>

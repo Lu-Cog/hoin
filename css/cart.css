@@ -1,0 +1,348 @@
+.cart_body {
+  padding: 0;
+  padding: 1.02rem 0 .55rem;
+}
+
+.cart_body .header {
+  box-shadow: none;
+  top: .3rem !important;
+}
+
+.cart_body .number_box {
+  margin-top: 0.12rem;
+  width: 1.51rem;
+  height: 0.31rem;
+  background: #FFFFFF;
+  border-radius: 0.02rem;
+  border: 0.01rem solid #979797;
+}
+
+.cart_body .number_box button {
+  flex: 1;
+  height: 100%;
+  border: none;
+  background: none;
+}
+
+.cart_body .number_box button:first-child {
+  border-right: 0.01rem solid #979797;
+}
+
+.cart_body .number_box button:last-child {
+  border-left: 0.01rem solid #979797;
+}
+
+.cart_body .number_box input {
+  flex: 2;
+  height: 100%;
+  text-align: center;
+}
+
+.cart_body .number_box button,
+.cart_body .number_box input {
+  font-size: 0.16rem;
+  font-weight: 600;
+  color: #505050;
+}
+
+.cart_body .cart_top {
+  height: 0.26rem;
+  background: #F8F8F8;
+  position: fixed;
+  top: .76rem;
+  width: 100%;
+  z-index: 100;
+}
+
+.cart_body .cart_top .top_item {
+  flex: 1;
+  text-align: center;
+  font-size: 0.1rem;
+  color: #A1A1A1;
+  position: relative;
+}
+
+.cart_body .cart_top .top_item.active {
+  color: #D38743;
+}
+
+.cart_body .cart_top .top_item::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  content: '>';
+  font-size: 0.1rem;
+  color: #A1A1A1;
+}
+
+.cart_body .sorry {
+  width: 100%;
+  text-align: center;
+  height: 2rem;
+  line-height: 2rem;
+  color: #A1A1A1;
+}
+
+.cart_body .cart_top .top_item:last-child::after {
+  display: none;
+}
+
+.cart_body .select_body {
+  margin-bottom: 0.15rem;
+}
+
+.cart_body .select_body .my-input {
+  margin: 2px 0 0;
+  width: 0.16rem;
+  height: 0.16rem;
+  margin-right: 0.15rem;
+}
+
+.cart_body .select_body .select_top {
+  width: 100%;
+  height: 37px;
+  background: #D8D8D8;
+  padding-left: 0.19rem;
+  padding-right: 0.34rem;
+}
+
+.cart_body .select_body .select_top .checkbox_label {
+  margin: 0;
+  font-size: 0.14rem;
+  font-weight: 500;
+  color: #505050;
+}
+
+.cart_body .select_body .select_top .icon-zuo {
+  transform: rotate(180deg);
+}
+
+.cart_body .select_body .select_list .select_item {
+  position: relative;
+  display: flex;
+  padding: 0.16rem 0.31rem 0.19rem 0.19rem;
+  border-bottom: 0.01rem solid #A1A1A1;
+}
+
+.cart_body .select_body .select_list .select_item .remove {
+  background: red;
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  transform: translateX(100%);
+  text-align: center;
+  color: #fff;
+  width: .7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cart_body .select_body .select_list .select_item .goods_img {
+  flex: 0 0 0.5rem;
+  height: 50px;
+  margin-right: 0.08rem;
+}
+
+.cart_body .select_body .select_list .select_item .right_block .name {
+  font-size: 14px;
+  font-family: PingFangTC-Regular, PingFangTC;
+  font-weight: 400;
+  color: #505050;
+  margin-bottom: 0.08rem;
+}
+
+.cart_body .select_body .select_list .select_item .right_block .price {
+  font-size: 18px;
+  font-family: PingFangTC-Medium, PingFangTC;
+  font-weight: 500;
+  color: #FF5252;
+  margin-bottom: 0.08rem;
+}
+
+.cart_body .gift_block {
+  margin: 0.22rem 0.3rem;
+  padding: 0.12rem 0.09rem;
+  height: 0.75rem;
+  background: #FFFFFF;
+  border-radius: 0.08rem;
+  border: 0.01rem solid #979797;
+}
+
+.cart_body .gift_block .gift_title span {
+  font-size: 0.16rem;
+  font-weight: 600;
+  color: #FF5252;
+}
+
+.cart_body .gift_block .gift_title a {
+  font-size: 0.14rem;
+  font-weight: 400;
+  color: #D38743;
+  text-decoration: underline;
+}
+
+.cart_body .gift_block p {
+  margin-top: 0.04rem;
+  justify-content: start;
+  font-size: 0.12rem;
+  color: #505050;
+}
+
+.cart_body .gift_block p .badge {
+  width: 0.36rem;
+  height: 0.19rem;
+  background: #FDD835;
+  border-radius: 0;
+  margin-right: 0.06rem;
+}
+
+.cart_body .coupon_block .gift_title {
+  display: flex;
+  align-items: center;
+}
+
+.cart_body .coupon_block .gift_title span {
+  font-size: 0.16rem;
+  font-weight: 500;
+  color: #299242;
+}
+
+.cart_body .coupon_block .gift_title img {
+  flex-basis: 0.24rem;
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: 0.18rem;
+  margin-right: 0.1rem;
+}
+
+.cart_body .main_block {
+  margin: 0.22rem 0.3rem;
+}
+
+.cart_body .main_block .name {
+  font-size: 0.14rem;
+  color: #A1A1A1;
+  border-bottom: 0.01rem solid #979797;
+  padding-bottom: 0.08rem;
+  margin-bottom: 0.08rem;
+}
+
+.cart_body .main_block .input {
+  width: 0.63rem;
+  height: 0.4rem;
+  background: #FFFFFF;
+  border-radius: 0.08rem;
+  border: 0.01rem solid #A3A3A3;
+  font-size: 0.16rem;
+  font-weight: 500;
+  color: #505050;
+  text-align: center;
+}
+
+.cart_body .main_block .text_p {
+  font-size: 0.14rem;
+  font-weight: 500;
+  color: #D38743;
+  line-height: 0.2rem;
+}
+
+.cart_body .main_block .flex-bt p {
+  font-size: 0.12rem;
+  color: #505050;
+}
+
+.cart_body .main_block .flex-bt p span {
+  color: #D38743;
+}
+
+.cart_body .main_block .flex-bt a {
+  font-size: 0.14rem;
+  color: #D38743;
+  text-decoration: underline;
+}
+
+.cart_body .main_block .flex-bt .flex_p {
+  font-size: 0.14rem;
+  font-weight: 500;
+  color: #D38743;
+  line-height: 0.2rem;
+}
+
+.cart_body .all_block {
+  background: #D8D8D8;
+  padding: 0.18rem 0.3rem;
+}
+
+.cart_body .all_block .flex-bt {
+  margin-bottom: 0.14rem;
+}
+
+.cart_body .all_block .name {
+  font-size: 0.12rem;
+  color: #505050;
+}
+
+.cart_body .all_block .price {
+  font-size: 0.16rem;
+  font-weight: 500;
+  color: #505050;
+}
+
+.cart_body .all_block hr {
+  width: 100%;
+  height: 0.01rem;
+  background-color: #979797;
+}
+
+.cart_body .all_block .flex-don .name {
+  font-size: 0.12rem;
+  font-weight: 600;
+  color: #505050;
+}
+
+.cart_body .all_block .flex-don .price {
+  font-size: 0.18rem;
+  font-weight: 500;
+  color: #FF5252;
+}
+
+.cart_body .all_block p {
+  font-size: 0.1rem;
+  color: #505050;
+  line-height: 0.14rem;
+  text-align: right;
+}
+
+.cart_body .dow_blcok {
+  height: 0.55rem;
+  background: #FFFFFF;
+  padding: 0 0.2rem;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  box-shadow: 0rem -0.01rem 0.04rem 0 rgba(0, 0, 0, .5);
+}
+
+.cart_body .dow_blcok .left .name {
+  font-size: 0.1rem;
+  color: #505050;
+  line-height: 0.14rem;
+}
+
+.cart_body .dow_blcok .left .price {
+  font-size: 0.18rem;
+  font-weight: 500;
+  color: #FF5252;
+  line-height: 0.25rem;
+}
+
+.cart_body .dow_blcok .right_btn {
+  width: 1.64rem;
+  height: 0.4rem;
+  background: #FDD835;
+  border-radius: 0.2rem;
+  border: none;
+}

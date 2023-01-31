@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>意見回顧</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./blis/layui/css/layui.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/store-opinion.css">
+</head>
+
+<body>
+  <div class="body store-opinion_body" id="store-opinion_body" v-cloak>
+    <div class="header_top"></div>
+    <h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-del  i-left"></i></a>{{storeName}}
+    </h3>
+
+    <div class="main">
+      <h3 class="block_title">意見回饋</h3>
+      <p class="feedback">
+        若有發現店家資訊有需修改的建議，歡迎反饋給我們，提出的建議修改內容也希望能附上相關驗證照片，我們將依據您的建議反映給店家並回覆結果。（資訊往返需要一些作業時間，感謝您的建議與耐心等待謝謝！）</p>
+      <ul class="main_tabs">
+        <li class="tabs_item" @click="selectTab(1)">
+          <h3 class="flex-start"><img :src="active===1?'./img/i-select.png':'./img/i-select-no.png'" alt="選擇">營業基本資訊更正建議
+          </h3>
+          <p>店家名稱、營業時間、地點等</p>
+        </li>
+        <hr>
+        <li class="tabs_item" @click="selectTab(2)">
+          <h3 class="flex-start"><img :src="active===2?'./img/i-select.png':'./img/i-select-no.png'"
+              alt="選擇">店家營業狀態資訊更正建議</h3>
+          <p class="tabs_p">已歇業、維修中、重複資訊等</p>
+          <div class="item_content" v-if="active===2">
+            <p>更正說明</p>
+            <textarea v-model="textarea" name="更正說明" placeholder="現在正在維修中"></textarea>
+            <div class="upload_block flex-start">
+              <div class="block_btn flex-center" id="upload-img">
+                <i class="iconfont icon-paizhao"></i>
+                <span>新增照片</span>
+              </div>
+              <img class="layui-upload-img" id="upload_1">
+              <p id="demoText"></p>
+            </div>
+          </div>
+        </li>
+        <hr>
+        <li class="tabs_item" @click="selectTab(3)">
+          <h3 class="flex-start"><img :src="active===3?'./img/i-select.png':'./img/i-select-no.png'"
+              alt="選擇">店家提供資訊未更新或與現狀不符等</h3>
+          <p>店家提供資訊未更新或與現狀不符等</p>
+        </li>
+      </ul>
+    </div>
+
+    <button class="btn_yes flex-center" @click="submit()">確認送出</button>
+    <black-top></black-top>
+  </div>
+
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layui/layui.all.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+
+
+<script>
+  new Vue({
+    el: "#store-opinion_body",
+    data() {
+      return {
+        storeId: "",
+        storeName: "",
+        active: 2,
+        textarea: ""
+      }
+    },
+
+
+
+    created() {
+      var that = this;
+      that.getOptions();
+    },
+
+    mounted() {
+      var that = this;
+      that.upload()
+
+    },
+
+
+    methods: {
+      /**
+       * *获取路由参数
+      */
+      getOptions() {
+        var that = this;
+        var optionsArr = getAllUrlParams(window.location.href);
+        that.storeId = optionsArr.id;
+        that.storeName = decodeURI(optionsArr.name);//url传中文的转码
+      },
+
+      /**
+       * ?获取商家详情
+      */
+      // getStoreInfo() {
+      //   var that = this;
+      //   var storeId = that.storeId;
+
+      //   var params = {
+      //     "id": storeId,
+      //   }
+      //   storeInfo(params, function (res) {
+      //     that.storeInfo = res;
+      //     var isCollection = res.isCollection;
+      //     that.collText = isCollection ? '追蹤中' : '追蹤'
+      //   });
+      // },
+      /**
+         * *選項卡
+        */
+      selectTab(active) {
+        var that = this;
+        that.active = active;
+        if (active === 2) {
+
+        }
+      },
+
+      // 圖片上傳
+      upload() {
+        layui.use('upload', function () {
+          var upload = layui.upload;
+          console.log(222);
+          var uploadInst = upload.render({
+            elem: '#upload-img' //绑定元素
+            , url: 'https://httpbin.org/post' //上传接口
+            , before: function (obj) {
+              //预读本地文件示例，不支持ie8
+              obj.preview(function (index, file, result) {
+                $('#upload_1').attr('src', result); //图片链接（base64）
+              });
+            }
+            , done: function (res, index, upload) {
+              console.log(res, index, upload);
+            }
+            , error: function (index, upload) {
+              console.log(index, upload);
+              // 上傳失敗
+              //演示失败状态，并实现重传
+              var demoText = $('#demoText');
+              demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+              demoText.find('.demo-reload').on('click', function () {
+                uploadInst.upload();
+              });
+            }
+          });
+        });
+
+      },
+
+      // 提交表單
+      submit() {
+        var that = this;
+        console.log(that.active, that.textarea);
+      },
+
+      /**
+        * ! 跳转-详情
+        * */
+      urlClick(id) {
+        // window.location.href = "doctor-item.html?id=" + id;
+      },
+
+    }
+  })
+
+</script>
+
+</html>

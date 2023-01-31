@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>IN約</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+
+  <link rel="stylesheet" href="./css/doctor-item.css?v=1">
+</head>
+
+<body>
+  <div class="body doctor-item_body" id="doctor-item_body" v-cloak :style="maskHeight">
+    <h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-zuo  i-left"></i></a>
+      {{doctorItem.name}} {{doctorItem.position}}</h3>
+    <div class="doctor-item_top list-item_a a-block" href="">
+      <div class="list-item_left">
+        <img class="img" :src="doctorItem.img" :alt="doctorItem.name" onerror="onerror=null;src='./img/img_null.jpg'">
+      </div>
+      <div class="list-item_right">
+	  
+        <h5 class="title clamp">{{doctorItem.name}} {{doctorItem.position}}</h5>
+		
+		<p v-if="title3 != ''"  class="dep">{{title3}}</p>
+        <p v-else class="dep">{{doctorItem.categoryName1}} {{doctorItem.categoryName2}}</p>
+        <p class="code">{{title2}}{{doctorItem.number}}</p>
+      </div>
+    </div>
+    <div class="intro">
+      <p>經 歷: </p>
+      <p v-html="doctorItem.intro"></p>
+	  <p v-if="doctorItem.describe">學 歷: </p>
+      <p v-html="doctorItem.describe"></p>
+    </div>
+    <ul class="appoin_list">
+      <li class="list_item" v-for="(item,index) in apointList" :apointid="item.id" :key="item.id" :status="item.status"
+        @click="statusClick(item.status,item.id)">
+        <div class="list-item_date">
+          <p class="date">{{item.timeName}}</p>
+          <p class="week">{{item.week}} {{item.dayStr}}</p>
+        </div>
+        <div class="list-item_botton bg-a1a1" v-if="item.status===3">
+          預約<br>已滿
+        </div>
+        <div class="list-item_botton" v-else>
+          預約<br><span>{{item.appointmentStr}}</span>
+        </div>
+      </li>
+    </ul>
+    <black-top></black-top>
+    <div class="mask" v-if="maskShow">
+      <div class="mask-dow">
+        <span class="i-x" @click="closeMask()">×</span>
+        <form class="layer_class" bindsubmit='formSubmit'>
+          <div class="top">
+            {{apointInfo.timeName}}<br><span>{{apointInfo.week}}</span>
+          </div>
+          <ul class="main">
+            <li class="mian_item" v-for="(item,index) in apointInfoList" v-if="item.surplusNum != '0'"
+              :key="item.timeName" :class="active == index ? 'thisitem' : '' " :timeName="item.timeName"
+              @click='getApoint(index,item.timeName)'>
+              {{item.timeName}}<br>剩餘{{item.surplusNum}}名
+            </li>
+            <li class="mian_item full-item" v-else>
+              08:30-12:30<br>已額滿
+            </li>
+          </ul>
+          <button type="button" @click="urlClick()" class="layer_button">確認</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/jquery.cookie.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/common.js"></script>
+<script src="./js/router.js?r=323"></script>
+
+<script>
+  var s_type = $.cookie('s_type');	//1诊所，2安检，3养生
+  
+  if(s_type == "null"){
+	location.href = "inyue.html";
+  }
+  
+  new Vue({
+    el: "#doctor-item_body",
+    data() {
+      return {
+		pageTitle: "",
+		title2: "",
+		title3: "",
+        bodyHeight: '',
+        maskHeight: {
+          overflow: 'hidden',
+          height: '',
+        },
+        doctorItem: [],//医生信息
+        apointList: [],//预约列表
+        apointInfo: [],//预约详细展示信息
+        apointInfoList: [],//预约详情列表
+        urlId: '',//医生id
+        full: false,
+        maskShow: false,//弹框遮罩显示
+        active: -1,
+        status: '',//预约状态
+        statusId: '',//预约状态ID
+        timeName: '',//预约阶段时间
+        pidName: '',//门诊name
+        categoryName: '',//科室name
+      }
+    },
+
+    mounted() {
+      var that = this;
+	  
+	  if(s_type == 1){
+		this.pageTitle = "線上掛號";
+		this.title2 = "醫師代號：";
+	  }else if(s_type == 2){
+		this.pageTitle = "居家安檢";
+		this.title2 = "資歷：";
+		this.title3 = "學歷: 淡江大學";
+	  }else{
+		this.pageTitle = "養身美容";
+	  }
+	  
+      that.getOptions();
+      var id = that.urlId;
+      that.getDoctorItem(id, "", "");
+    },
+
+    created() {
+      var that = this;
+
+    },
+
+
+    methods: {
+      /**
+        * *获取路由参数
+       */
+      getOptions() {
+        var that = this;
+        var optionsArr = getAllUrlParams(window.location.href);
+        that.urlId = optionsArr.id;
+      },
+      /**
+       * ?获取医生详情-预约列表
+      */
+      getDoctorItem(id, categoryPid, categoryId) {
+        var that = this;
+        // var path = window.location.href.split("?id=") //分割url
+        // var id = path[1]; //获取参数
+        that.urlId = id;
+        var params = {
+          "id": id,
+          "categoryPid": categoryPid,
+          "categoryId": categoryId
+        }
+        doctorItem(params, function (res) {
+          that.doctorItem = res;
+          that.apointList = res.appointmentList;
+          that.pidName = res.categoryName1;
+          that.categoryName = res.categoryName2;
+		  if(s_type == 2){
+			that.doctorItem.position = "";
+		  }
+        });
+      },
+
+
+
+      /**
+       * ? 可预约预约状态信息展示
+      */
+      getApointInfo(apointid) {
+        var that = this;
+        var params = {
+          "id": apointid,
+        }
+        apointInfo(params, function (res) {
+          that.apointInfo = res;
+          that.apointInfoList = res.lists;
+          console.log("详情", that.apointInfo);
+          console.log("详情列表", that.apointInfoList);
+        });
+      },
+      /**
+       * *预约状态
+      */
+      statusClick(status, apointid) {
+        var that = this;
+        // const aaa = apointid;
+        // 把apointid存到本地
+        // localStorage.setItem('apointid', aaa)
+        console.log("预约状态", status);
+        console.log("预约id", apointid);
+        that.statusId = apointid;
+        if (status === 3) {
+          msg('名額已滿', 1)
+        } else {
+          that.getApointInfo(apointid);
+          that.maskShow = true;
+          that.status = status;
+          that.maskHeight.height = document.documentElement.clientHeight + 'px';
+          console.log(document.body.scrollHeight);
+
+        }
+      },
+
+      /**
+       * *底部弹框高亮
+      */
+      getApoint: function (index, timeName) {
+        var that = this;
+        that.timeName = timeName;//预约阶段时间
+        that.active = index;    //将被点击的元素的索引赋值给变量
+      },
+
+      // 关闭遮罩
+      closeMask() {
+        var that = this;
+        that.maskShow = false;
+        that.maskHeight.height = ''
+      },
+
+
+      /**
+       * ! 跳转-医生详情
+       * */
+      urlClick() {
+        var that = this;
+        let timeName = that.timeName;
+        let doctorId = that.urlId;
+        let clinicStatusId = that.statusId;
+        let pidName = that.pidName;
+        let categoryName = that.categoryName;
+        if (timeName == '') {
+          console.log("没选择时间");
+          msg('请选择预约时间', 1)
+        } else {
+          window.location.href = "apoint.html?doctorId=" + doctorId + "&clinicStatusId=" + clinicStatusId + "&timeName=" + timeName + "&pidName=" + pidName + "&categoryName=" + categoryName;
+        }
+      }
+    }
+  })
+</script>
+
+
+
+
+
+</html>

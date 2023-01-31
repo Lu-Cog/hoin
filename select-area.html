@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>区域篩選</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/select.css?v=1">
+</head>
+
+<body>
+  <div id="cliDocCategory" v-cloak>
+    <div class="body select_body select-category_body">
+      <h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-zuo  i-left"></i></a>
+        區域篩選<i class="iconfont icon-itemno_0 i-right" @click="clear()"></i></h3>
+      <h4 class="select-title">縣市</h4>
+      <ul class="select_block select_city">
+        <li v-for="(item,index) in areaArr" :key="item.id" :class="{active : active == item.id}"
+          class="select_item clamp" @click="selected(item.id,item.name)">{{item.name}}</li>
+      </ul>
+      <ul class="select_ul">
+        <li class="select_li">
+          <h4 class="select-title">{{sonName}}</h4>
+          <ul class="select_block select_cont" style="padding-bottom:100px;">
+            <li v-for="(item,index) in areaArr2" :key="item.id" :class="{active : active2 == item.id}"
+              class="select_item clamp" @click="selected_2(item.id)">{{item.name}}</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="body_bottom">
+      <input class="form_botton" type="submit" @click="onSubmit()" value="確認">
+    </div>
+  </div>
+
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/common.js"></script>
+<script src="./js/router.js?r=323"></script>
+
+<script>
+
+  new Vue({
+    el: "#cliDocCategory",
+    data() {
+      return {
+        areaArr: [],//父级类别-城市
+        areaArr2: [],//二级类别-区
+        active: 1, //父级高亮-城市
+        active2: '', //二级高亮-区
+        // play: false,
+        cityId: '',//城市ID
+        areaId: '',//区ID
+        sonName: '距離',
+        distance: '',//距离
+        cityName: '',//城市name
+      }
+    },
+
+    created() {
+      var that = this;
+      that.getOptions(); //获取路由参数‘
+      that.getArea();
+      var cityId = that.cityId;
+      var areaId = that.areaId;
+      var cityName = that.cityName;
+      var distance = that.distance;
+
+      // 获取id高亮
+      if (cityId === '') { } else {
+        that.selected(cityId, cityName)
+        that.active = cityId;
+        that.active2 = areaId;
+      }
+      if (distance != '') {
+        that.selected(11111, '附近');
+        that.selected_2(distance);
+        that.active = 11111;
+        console.log(22);
+      }
+    },
+    methods: {
+      /**
+      * *获取路由参数
+     */
+      getOptions() {
+        var that = this;
+        that.cityId = APPcityId;
+        that.areaId = APPareaId;
+        that.cityName = APPcityName;
+        that.distance = APPdistance;
+      },
+
+      /**
+       * ?取诊所/医生类别  父级类别
+      */
+      getArea(parentId) {
+        var that = this;
+        var params = {
+          "parentId": parentId
+        }
+        getArea(params, function (res) {
+          that.areaArr = res;
+        });
+      },
+
+      /**
+       * ?子级类别
+      */
+      selected(id, name) {
+        var that = this;
+        // 父级高亮高亮
+        var id = that.active = id;
+        var cityId = that.cityId = id;
+        var areaId = that.areaId = '';//清除上一次选中的科别
+        that.cityName = name;
+        if (cityId === 11111) {
+          that.sonName = '距離'
+        } else {
+          that.sonName = '鄉鎮區';
+          that.distance = '';
+          that.active2 = '';
+        }
+
+        var params = {
+          "parentId": id
+        }
+        getArea(params, function (res) {
+          that.areaArr2 = res;
+        });
+
+      },
+
+      /**
+       * *二级高亮
+      */
+      selected_2(id) {
+        var that = this;
+        var cityId = that.cityId;
+
+        if (cityId === 11111) {
+          that.distance = id
+        }
+        that.active2 = id;
+        that.areaId = id;
+      },
+
+      /**
+       * *重置
+      */
+      clear() {
+        var that = this;
+        that.active = 1;
+        that.active2 = "";
+        that.getArea();
+        that.families = [];
+        that.cityId = '';
+        that.areaId = '';
+        that.distance = '';
+        that.cityName = '';
+        that.sonName = '距離';
+        msg('已重置，请确认', 1)
+      },
+
+
+      /**
+       * *提交
+      */
+      onSubmit() {
+        var that = this;
+        var cityId = that.cityId;
+        APPareaId = that.areaId;
+        APPdistance = that.distance;
+        APPcityName = that.cityName;
+        if (cityId === 11111) {
+          APPcityId = '';
+          APPareaId = '';
+        } else {
+          APPcityId = that.cityId;//城市
+        }
+
+
+        localStorage.setItem('distance', APPdistance);
+        localStorage.setItem('cityId', APPcityId);
+        localStorage.setItem('cityName', APPcityName);
+        localStorage.setItem('areaId', APPareaId);
+
+
+        window.location.href = "clinic.html";
+      }
+    }
+  })
+
+</script>
+
+</html>

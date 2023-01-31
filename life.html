@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>醫師列表</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/j-select.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/life.css">
+</head>
+
+<body>
+
+  <div class="body life_body" id="life_body">
+    <h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-zuo i-left"></i></a> 生活</h3>
+
+    <div class="swiper_body">
+      <img v-for="(item,index) in lifeSwiper" :src="item.img" alt="" class="img indexZ">
+
+      <img src="./img/banner/banner_1.jpg" alt="" class="img indexZ">
+      <img src="./img/banner/banner_2.jpg" alt="" class="img">
+      <img src="./img/banner/banner_3.jpg" alt="" class="img">
+      <img src="./img/banner/banner_4.jpg" alt="" class="img">
+      <img src="./img/banner/banner_5.jpg" alt="" class="img">
+
+      <div class="imgIndexs">
+        <div class="imgIndex" v-for="(item,index) in imgCount" @mouseover="indexBtn(index)"
+          :class="{indexBGC:currentIndex == index}">
+        </div>
+      </div>
+    </div>
+
+    <div class="form search_select-body">
+      <a href="life-area.html" class="search_select a-block">
+        <!-- <span :class="cityId == '' ? '' : 'selectColor' ">區域</span><i class="iconfont icon-bottom"></i> -->
+        <span class="clamp" :class="select ? 'selectColor' : '' ">{{cityName}}</span><i
+          class="iconfont icon-bottom"></i>
+      </a>
+      <a href="life-category.html" class="search_select a-block">
+        <span class="clamp" :class="select2 ? 'selectColor' : '' ">{{categoryName}}</span><i
+          class="iconfont icon-bottom"></i>
+      </a>
+      <a href="life-other.html" class="search_select a-block">
+        <span class="clamp">進階篩選</span><i class="iconfont icon-bottom"></i>
+      </a>
+    </div>
+
+    <ul class="life_list">
+      <li id="categoryNull" class="null" v-if="!lifeList">還沒有診所哦</li>
+      <li class="list_item" v-for="(item,index) in lifeList" :data-id="item.id" :key="item.id"
+        @click="urlClick(item.id)" v-else>
+        <div class="list-item_left">
+          <img class="img" :src="item.img" :alt="item.nane" onerror="onerror=null;src='./img/img_null.jpg'">
+        </div>
+        <div class="list-item_right">
+          <div class="top">
+            <p class="top-xing"><img class="i-xing" src="./img/i-xing.png" alt="评分"> {{item.score}}</p>
+            <img class="i-so" src="./img/i-so-s.png" alt="收藏">
+          </div>
+          <h5 class="title clamp">{{item.name}}</h5>
+          <div class="row_bt">
+            <p class="address clamp">{{item.cityName}} {{item.areaName}}</p>
+            <p class="address-item"><i class="iconfont icon-dizhi"></i>{{item.distance}}</p>
+          </div>
+          <hr class="hr">
+          <p class="row_bt">
+            <span class="business color-green" v-if="item.status===1">營業中</span>
+            <span class="business color-red" v-else>休息中</span>
+            <span>{{item.manageDate}}</span>
+          </p>
+          <p class="biao clamp">使用手機支付，即享8折優惠</p>
+          <p class="badge-box">
+            <span class="badge">{{item.serviceFlagName}}</span>
+            <span class="badge">{{item.targetFlagName}}</span>
+            <span class="badge">{{item.themeFlagName}}</span>
+          </p>
+        </div>
+      </li>
+    </ul>
+
+    <a class="a-block field-box" href="index.html">
+      <span>IN約</span>
+      <img src="./img/i-date.png" alt="诊所">
+      <span>診所</span>
+    </a>
+    <black-top></black-top>
+  </div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+
+
+<script>
+  new Vue({
+    el: "#life_body",
+    data() {
+      return {
+        // 轮播图
+        lifeSwiper: [],
+        imgCount: 0, //图片个数
+        currentIndex: 0, //当前图片
+        intervalID: '', //停止interval的唯一id
+        lifeList: [],
+        badge: true, //标签显示
+        pageIndex: 1,//当前页码
+        countPage: '',//总页数
+        lifecityId: '',//城市ID
+        lifeareaId: '',//区ID
+        lifedistance: '',//距离
+        cityName: '區域',//城市name
+        categoryName: '',//类别name
+        select: true,
+        select2: true,
+        // 类别筛选
+        storeCateId: '',//类别 id_1
+        storeCateId2: '',//类别 id_2
+        storeCateId3: '',//类别 id_3
+        storeCateId4: '',//类别 id_4
+      }
+    },
+
+    mounted() {
+      var that = this;
+
+    },
+
+
+    created() {
+      var that = this;
+      // localStorage.clear();//清除所有本地存储
+      clearIndex();
+      that.getOptions();
+      // 区域
+      var lifecityId = that.lifecityId;
+      var lifeareaId = that.lifeareaId;
+      var lifestoreId = that.lifestoreId;
+      var lifedistance = that.lifedistance;
+      // 类别
+      var storeCateId = that.storeCateId;
+      var storeCateId2 = that.storeCateId2;
+      var storeCateId3 = that.storeCateId3;
+      var storeCateId4 = that.storeCateId4;
+      var cityName = that.cityName;
+      var categoryName = that.categoryName;
+
+      // 区域文字显示
+      if (cityName === "undefined") {
+        that.cityName = "區域";
+        that.select = false;
+      } else {
+        that.cityName = cityName;
+        that.select = true;
+      }
+
+      // 类别文字显示
+      if (categoryName === "undefined" || categoryName === "") {
+        that.categoryName = "類別";
+        console.log(111);
+        that.select2 = false;
+      } else {
+        that.categoryName = categoryName;
+        that.select2 = true;
+      }
+      that.getLifeList("", lifecityId, lifeareaId, lifestoreId, lifedistance, storeCateId, storeCateId2, storeCateId3, storeCateId4, "", "", "", "", "", "", "", "", "", 1);
+
+      // 轮播图
+      that.imgCount = document.getElementsByTagName("img").length;
+      setTimeout(() => {
+        // 开始播放
+        that.startTime();
+      }, 10)
+
+      window.onscroll = function () {
+        //变量scrollTop是滚动条滚动时，距离顶部的距离
+        var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        //变量windowHeight是可视区的高度
+        var windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        //变量scrollHeight是滚动条的总高度
+        var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+        //滚动条到底部的条件
+        if (scrollTop + windowHeight == scrollHeight) {
+          //写后台加载数据的函数
+          console.log("距顶部" + scrollTop + "可视区高度" + windowHeight + "滚动条总高度" + scrollHeight);
+          var lifecityId = that.lifecityId;
+          var lifeareaId = that.lifeareaId;
+          var lifestoreId = that.lifestoreId;
+          var lifedistance = that.lifedistance;
+          let countPage = that.countPage;//总页数
+          let pageIndex = that.pageIndex + 1;//当前页数+1
+
+          if (pageIndex <= countPage) {
+            that.getLifeList("", lifecityId, lifeareaId, lifestoreId, lifedistance, "", "", "", "", "", "", "", "", "", "", "", "", "", pageIndex);
+          } else {
+            // msg('已经到底了', 2)
+            console.log("已经到底了");
+
+          }
+        }
+      }
+    },
+
+
+    methods: {
+      /**
+       * *获取路由参数
+      */
+      getOptions() {
+        var that = this;
+        // 区域
+        that.lifecityId = APPlifecityId;
+        that.lifeareaId = APPlifeareaId;
+        that.lifestoreId = APPlifestoreId;
+        that.lifedistance = APPlifedistance;
+        // 类别
+        that.storeCateId = APPstoreCateId;
+        that.storeCateId2 = APPstoreCateId2;
+        that.storeCateId3 = APPstoreCateId3;
+        that.storeCateId4 = APPstoreCateId4;
+        that.categoryName = APPcategoryName;
+
+        console.log("商城页", APPstoreCateId, APPstoreCateId2, APPstoreCateId3, APPstoreCateId4);
+        // console.log("分类id", that.storeCateId, that.storeCateId2, that.storeCateId3, that.storeCateId4);
+
+        var optionsArr = getAllUrlParams(window.location.href);
+        that.cityName = decodeURI(optionsArr.cityName);
+      },
+
+      /**
+          * ?获取轮播图
+         */
+      getLifeSwiper() {
+        var that = this;
+        var params = {}
+        lifeSwiper(params, function (res) {
+          // that.lifeSwiper = res.list;
+        });
+      },
+
+
+      /**
+        * ?获取商城列表
+         */
+      getLifeList(keyword, city, area, tradingArea, distance, categoryId1, categoryId2, categoryId3, categoryId4, sort, score, state, startPrice, endPrice, industryFlagId, serviceFlagId, targetFlagId, themeFlagId, pageIndex) {
+        var that = this;
+        var lon = APPlon;
+        var lat = APPlat;
+        console.log("lon,lat", lon, lat);
+        var params = {
+          "keyword": keyword,
+          "city": city,
+          "area": area,
+          "tradingArea": tradingArea,
+          "distance": distance,
+          "lon": lon,
+          "lat": lat,
+          "categoryId1": categoryId1,
+          "categoryId2": categoryId2,
+          "categoryId3": categoryId3,
+          "categoryId4": categoryId4,
+          "sort": sort,
+          "score": score,
+          "state": state,
+          "startPrice": startPrice,
+          "endPrice": endPrice,
+          "industryFlagId": industryFlagId,
+          "serviceFlagId": serviceFlagId,
+          "targetFlagId": targetFlagId,
+          "themeFlagId": themeFlagId,
+          "pageIndex": pageIndex,
+          "pageSize": 3,
+        }
+        lifeList(params, function (res) {
+          let lifeList = res.list;
+          let pageIndex = that.pageIndex = res.pageIndex;//当前分页页码
+          let countPage = that.countPage = res.countPage; //总页数
+
+          // 分页追加数据
+          if (pageIndex > 1) {
+            // 以前的数据
+            let list = that.lifeList;
+            // 新数据长度
+            let lifeListLen = lifeList.length;
+
+            for (var i = 0; i < lifeListLen; i++) {
+              list.push(lifeList[i])
+            }
+            lifeList = list;
+          }
+          that.lifeList = lifeList;
+        });
+      },
+
+
+      /**
+       * ! 跳转-商店详情
+       * */
+      urlClick(id) {
+        window.location.href = "store.html?id=" + id;
+      },
+
+
+      /**
+       * *轮播图
+       */
+      // 点击圆圈
+      indexBtn(index) {
+        var that = this;
+        that.currentIndex = index
+        that.selectImg(index);
+      },
+
+      // 选中对应的图片设置层级类
+      selectImg(index) {
+        var that = this;
+        let imgList = document.getElementsByClassName("img");
+        that.clearClass(imgList);
+        imgList[index].className = "img indexZ"
+      },
+
+      // 层级复位
+      clearClass(array) {
+        for (let i = 0; i < array.length; i++) {
+          array[i].className = "img"
+        }
+      },
+
+      //  开始循环播放图片
+      startTime() {
+        var that = this;
+        that.intervalID = window.setInterval(() => {
+          that.currentIndex++;
+          if (that.currentIndex > 4) {
+            that.currentIndex = 0
+          }
+          that.selectImg(that.currentIndex)
+        }, 3000)
+      },
+
+      // 鼠标移到图片上时停止图片播放
+      stopTime() {
+        var that = this;
+        window.clearInterval(that.intervalID)
+      }
+    }
+  })
+</script>
+
+</html>

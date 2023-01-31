@@ -1,0 +1,186 @@
+.thinks{
+    width: 100%;
+    text-align: center;
+    padding: 6px 0 20px;
+    background: #D8D8D8;
+}
+.cart_body {
+    padding:.76rem 0  !important;
+}
+.thinks .code,
+.thinks .itemized{
+    font-size: .1rem;
+    color: #505050;
+    padding: .05rem 0;
+}
+.thinks .thinks_s{
+    font-size: 16px;
+    color: #505050;
+    font-weight: 600;
+}
+.information .infor_top,
+.invoicing .inv_top{
+    font-size: 14px;
+    color: #A1A1A1;
+    border-bottom: 1.5px solid #979797;
+    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .17rem;
+}
+.invoicing .inv_top a{
+    color: #D38743;
+}
+.information,
+.invoicing{
+    padding: 0.18rem 0.3rem;
+    padding-bottom: 0;
+}
+.information .infor_item{
+    padding: 0 5px;
+    margin-bottom: 8px;
+}
+.information .infor_item .left{
+    color: #A1A1A1;
+    font-size: 16px;
+    width: .85rem;
+    display: inline-block;
+}
+.information .infor_item .right{
+    color: #505050;
+    font-size: 16px;
+}
+.information .hint{
+    padding: 10px 5px;
+    color: #A1A1A1;
+    font-size: 14px;
+}
+.information .hint p:first-child{
+   color: #FF5252;
+}
+.information .atm {
+    background-color: #FFED9D;
+    padding: 11px 7px;
+}
+.information .atm p:first-child{
+    color: #505050;
+    font-size: 16px;
+    text-align: center;
+    line-height: 22px;
+}
+.information .atm p:last-child{
+    color: #A1A1A1;
+    font-size: 14px;
+    line-height: 20px;
+}
+.invoicing .first{
+    font-size: 16px;
+    color: #505050;
+    padding:  0  0 5px 5px;
+}
+.invoicing .last{
+    font-size: 14px;
+    color: #A1A1A1;
+    padding-left: 5px;
+}
+.invoicing .retu{
+    width: 100%;
+    background: #FFFFFF;
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.5);
+    border-radius: 7px;
+    text-align: center;
+    padding: 13px 18px;
+    margin-top: 32px;
+    margin-bottom: 100px;
+}
+.invoicing .retu span{
+    display: inline-block;
+    /* width: 20%; */
+}
+.invoicing .retu .ret_top{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* line-height: 25px; */
+    border-bottom: 1px solid #A1A1A1;
+    padding-bottom: 13px;
+    margin-bottom: 13px;
+}
+.invoicing .retu .ret_bottom{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.invoicing .retu img{
+    width: 25px;
+    height: 25px;
+    margin-right: .13rem;
+}
+.bottom{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #FFED9D;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 9px 54px;
+    font-size: 10px;
+    color: #A1A1A1;
+    margin-top: 8px;
+}
+.bottom>div>div{
+    width: 32px;
+    height: 32px;
+}
+.bottom>div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.bottom img{
+    width: 100%;
+}
+.goods{
+    padding: 0.18rem 0.3rem;
+}
+.goods .goods_item{
+    display: flex;
+    margin-bottom: 17px;
+}
+.goods .goods_item .left{
+    width: 50px;
+    height: 50px;
+    margin-right: 8px;
+}
+.goods .goods_item .left img{
+    width: 50px;
+    height: 50px;
+}
+.goods .goods_item .right{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.goods .goods_item .right .title{
+    color: #505050;
+    font-size: 14px;
+}
+.goods .goods_item .right .price_num{
+    display: flex;
+    justify-content: space-between;
+}
+.goods .goods_item .right .price{
+    font-size: 18px;
+    color: #FF5252;
+}
+.goods .goods_item .right .num{
+    font-size: 10px;
+    color: #A1A1A1;
+}
+.thinks .icon-bottom{
+    position: absolute;
+    transform: translate(-50%);
+}

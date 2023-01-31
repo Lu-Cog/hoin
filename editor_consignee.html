@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title> 編輯取貨人</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./blis/layui/css/layui.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/cart.css?v=1.1">
+  <link rel="stylesheet" href="./css/editor_consignee.css">
+</head>
+
+<body>
+  <div class="body cart_body" id="cart_body" v-cloak>
+    <div class="header_top"></div>
+    <h3 class="header">
+        <a href="javascript:history.back(-1);"><i class="iconfont icon-zuo  i-left"></i></a>
+        {{name[type]}}
+    </h3> 
+     <!--取货人  -->
+    <div class="editor">
+        <div class="edi_item">
+            <label for="">姓名*</label>
+            <input type="text" placeholder="請輸入姓名">
+        </div>
+        <div class="edi_item">
+            <label for="">手機號碼*</label>
+            <input type="text" placeholder="請輸入手機號碼">
+        </div>
+        <div class="edi_item">
+            <label for="">宅配地址*</label>
+            <div>
+                <select name="shen">
+                    <option value="0">縣市</option>
+                </select>
+                <select name="qu">
+                    <option value="1">鄉鎮區</option>
+                </select>
+            </div>
+            <input type="text" placeholder="請輸入詳細地址">
+        </div>
+    </div>
+
+    <div class="bottom">
+        <button>確認</button>
+    </div>
+  </div>
+
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layui/layui.all.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+
+<script>
+  new Vue({
+    el: "#cart_body",
+    data() {
+      return {
+        count: 0,
+        type:0,
+        name:['新增取貨人','編輯取貨人','更改收件資訊']
+      }
+    },
+
+    created() {
+      var that = this;
+      that.getOptions()
+    },
+    mounted() {
+      var that = this;
+    },
+    updated() {
+      var that = this;
+    },
+    methods: {
+      /**
+       * *获取路由参数
+       */
+      getOptions() {
+        var that = this;
+        var optionsArr = getAllUrlParams(window.location.href);
+        that.type = optionsArr.type
+        console.log(that.type)
+      },
+
+    }
+  })
+</script>
+
+</html>

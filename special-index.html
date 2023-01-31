@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<title>特輯</title>
+		<link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+		<link rel="stylesheet" href="./css/iconfont.css">
+		<link rel="stylesheet" href="./css/base.css">
+		<link rel="stylesheet" href="./blis/swiper/css/swiper.min.css">
+		<link rel="stylesheet" href="./css/common.css?v=1">
+		<!-- 本業獨有，單獨引入 -->
+		<link rel="stylesheet" href="./css/special-index.css">
+	</head>
+
+
+	<body>
+		<div class="body special-index_body" id="special-index_body" v-cloak>
+			<h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-zuo i-left"></i></a>特輯
+			</h3>
+			<div class="roll_body">
+				<img src="./img/Group.jpg" alt="图片">
+				<img src="./img/Group.jpg" alt="图片">
+				<img src="./img/Group.jpg" alt="图片">
+			</div>
+			<div class="tabs_body">
+				<div class="tab">
+					<div class="tab_item" :class="active===0?'active':''" @click="changeTabs(0)">節慶活動</div>
+					<div class="tab_item" :class="active===1?'active':''" @click="changeTabs(1)">行程遊記</div>
+				</div>
+				<div class="content_block">
+					<div class="input_block">
+						<input type="text" placeholder="搜尋活動或訊息">
+						<i class="iconfont icon-search"></i>
+					</div>
+					<div class="content_item " v-if="active===0">
+						<h5 class="content_title flex-bt">最新活動 <span class="badge">更多活動</span></h5>
+						<div class="content_list">
+							<div class="list_item flex-bt">
+								<img class="left_img" src="./img/img2.jpg" alt="图片">
+								<div class="right_block">
+									<h4 class="title clamp">
+										北投微旅小確幸
+									</h4>
+									<p class="cont clamp2">
+										搭乘台灣好行「北投竹子湖線」，感受北投微旅小確幸！搭乘台灣好行「北投竹子湖線」，感受北投微旅小確幸！搭乘台灣好行「北投竹子湖線」，感受北投微旅小確幸！ </p>
+									<p class="time">2020/2/18-2020/3/30 </p>
+								</div>
+							</div>
+							<div class="list_item flex-bt">
+								<img class="left_img" src="./img/img2.jpg" alt="图片">
+								<div class="right_block">
+									<h4 class="title clamp">
+										北投微旅小確幸
+									</h4>
+									<p class="cont clamp2">搭乘台灣好行「北投竹子湖線」，感受北投微旅小確幸！ </p>
+									<p class="time">2020/2/18-2020/3/30 </p>
+								</div>
+							</div>
+						</div>
+						<h5 class="content_title flex-bt">最新NEWS <span class="badge">更多NEWS</span></h5>
+						<div class="content_list content_list2">
+							<div class="list_item flex-bt">
+								<img class="left_img" src="./img/img2.jpg" alt="图片">
+								<div class="right_block">
+									<h4 class="title clamp2">
+										一年一度花浴衣節已經火熱開跑啦！
+									</h4>
+									<p class="time">2020/2/18-2020/3/30 </p>
+								</div>
+							</div>
+							<div class="list_item flex-bt">
+								<img class="left_img" src="./img/img2.jpg" alt="图片">
+								<div class="right_block">
+									<h4 class="title clamp2">
+										北投微旅小確幸
+									</h4>
+									<p class="time">2020/2/18-2020/3/30 </p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="content_item " v-if="active===1">
+						<div class="tabChild">
+							<div class="tabC_item">
+								<img src="img/sharetrip.png" >
+								<div class="tabCRight">
+									<p>分享行程</p>
+									<p>積分回饋</p>
+								</div>
+							</div>
+							<div class="tabC_item">
+								<img src="img/Tripplanning.png" >
+								<div class="tabCRight">
+									<p>規劃行程</p>
+									<p>遊玩好幫手</p>
+								</div>
+							</div>
+						</div>
+						<h5 class="content_title flex-bt">精選推薦<span class="badge">更多文章</span></h5>
+						<div class="article_item">
+							<div class="artcle_top">
+								<p><span>一日遊</span><span>溫泉</span><span>台北</span></p>
+								<img src="img/goods-so.png" >
+							</div>
+							<div class="artcle_title">
+								<span>影音</span>來北投怎麼玩．北投行程景點 美食推薦
+							</div>
+							<div class="artcle_img">
+								<img src="img/banner/banner_1.jpg" >
+								<img src="img/banner/banner_2.jpg" >
+							</div>
+							<div class="artcle_user">
+								<img src="./img/coplogo.png" >
+								<div class="user_info">
+									<p>HOIN</p>
+									<p>2020/2/18</p>
+								</div>
+							</div>
+							<div class="artcle_content">
+								來北投，最適合以悠閒散步的方式走訪。常常會在不經意中，發現旅途中的驚喜哦！天......
+							</div>
+							<div class="artcle_zan">
+								77 個人都說讚
+							</div>
+							<div class="artcle_bottom">
+								<img src="img/heart.png" >
+								<img src="img/share.png" >
+							</div>
+						</div>
+						<div class="article_item">
+							<div class="artcle_top">
+								<p><span>一日遊</span><span>溫泉</span><span>台北</span></p>
+								<img src="img/goods-so.png" >
+							</div>
+							<div class="artcle_title">
+								<span>影音</span>來北投怎麼玩．北投行程景點 美食推薦
+							</div>
+							<div class="artcle_img">
+								<img src="img/banner/banner_1.jpg" >
+								<img src="img/banner/banner_2.jpg" >
+							</div>
+							<div class="artcle_user">
+								<img src="./img/coplogo.png" >
+								<div class="user_info">
+									<p>HOIN</p>
+									<p>2020/2/18</p>
+								</div>
+							</div>
+							<div class="artcle_content">
+								來北投，最適合以悠閒散步的方式走訪。常常會在不經意中，發現旅途中的驚喜哦！天......
+							</div>
+							<div class="artcle_zan">
+								77 個人都說讚
+							</div>
+							<div class="artcle_bottom">
+								<img src="img/heart.png" >
+								<img src="img/share.png" >
+							</div>
+						</div>
+					</div>
+					<black-top></black-top>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./blis/layer_mobile/layer.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/common.js"></script>
+	<script src="./js/router.js"></script>
+	<script src="./blis/swiper/js/swiper.min.js"></script>
+
+	<script>
+		new Vue({
+			el: "#special-index_body",
+			data() {
+				return {
+					lifeSwiper: [],
+					imgCount: 0, //图片个数
+					currentIndex: 0, //当前图片
+					active: 0,
+				};
+			},
+			created() {
+				var that = this;
+				that.getOptions();
+			},
+			methods: {
+
+				/**
+				 * *获取路由参数
+				 */
+				getOptions() {
+					var that = this;
+					// var path = window.location.href;
+					// var optionsArr = getAllUrlParams(path);
+					// that.doctorId = optionsArr.doctorId;
+				},
+				// 切换tabs
+				changeTabs(active) {
+					this.active = active
+				},
+
+			}
+		})
+	</script>
+
+
+</html>

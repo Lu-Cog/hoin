@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>商品主页-邮局取货</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/common.css?v=1">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/goods-item.css">
+</head>
+
+
+<body>
+  <div class="body goods-item_body" id="goods-item_body" v-cloak>
+    <div class="header_top"></div>
+    <h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-del i-left"></i></a>郵局取貨</h3>
+    <h3 class="title">郵局取貨說明</h3>
+    <p class="content">
+      含以下３種型式可選擇，外島郵資不適用，會<br>
+      依郵局公布的資費表另外計算<br>
+      使用取貨付款功能之買家請特別注意：<br>
+      若是在我東西寄出後(運費已產生的狀況下)棄<br>
+      標的話本人將會採取法律途徑尋求解決
+    </p>
+    <h4 class="title-sm">1.郵寄存局候領</h4>
+    <p class="content">70元</p>
+    <h4 class="title-sm">2.郵寄包裹</h4>
+    <p class="content">80元</p>
+    <h4 class="title-sm">3.郵寄快捷貨到付款</h4>
+    <p class="content">依規格計算</p>
+    <p class="content">速度極快，大部分地區可寄出當天收到<br>
+      試算說明:<br>
+      郵局快捷貨到付款運費如下表單所示，並另加<br>
+      上10元提款手續費(EX:800g&代收1000元內→<br>
+      運費為125+10=135元)</p>
+    <img class="content-img" src="./img/li.jpg" alt="例图">
+    <black-top></black-top>
+  </div>
+
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/common.js"></script>
+<script src="./js/router.js"></script>
+<script>
+  new Vue({
+    el: "#goods-item_body",
+    data() {
+      return {
+
+      };
+    },
+    mounted() {
+      var that = this;
+      that.getOptions();
+    },
+    methods: {
+
+      /**
+       * *获取路由参数
+      */
+      getOptions() {
+        var that = this;
+        // var path = window.location.href;
+        // var optionsArr = getAllUrlParams(path);
+        // that.doctorId = optionsArr.doctorId;
+      },
+    }
+  })
+</script>
+
+
+</html>

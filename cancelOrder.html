@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<link rel="stylesheet" type="text/css" href="./css/cancelOrder.css" />
+	</head>
+	<body>
+		<div class="page flex-col" id="cancelOrder">
+			<div class="outer1 flex-col">
+				<div class="section2 flex-row">
+					<a href="javascript:history.back(-1);">
+						<img class="label1" referrerpolicy="no-referrer" src="img/gbc.png" />
+					</a>
+					<span class="word2">取消訂單</span>
+				</div>
+				<div class="section3 flex-col">
+					<div class="group1 flex-col">
+						<span class="word3">取消訂單注意事項</span>
+						<span class="paragraph1">
+							*&nbsp;取消訂單僅限於商品出貨前(待收貨前)狀態。
+							<br />
+							*&nbsp;取消訂單後，將不歸還已使用之折價券。
+							<br />
+							*&nbsp;請選擇取消原因。您的訂單將在提交取後立即取消!
+						</span>
+					</div>
+				</div>
+				<span class="info1">退款說明</span>
+				<span class="info2">請選擇取消原因：</span>
+				<div class="section4 flex-row" @click="changeTab(1)">
+					<div class="bg11">
+						<div :class="{'bd1':tabType==1}"></div>
+					</div>
+					<span class="word4">修改現有訂單(顏色、品項、尺寸等)</span>
+				</div>
+				<div class="section4 flex-row" @click="changeTab(2)">
+					<div class="bg11">
+						<div :class="{'bd1':tabType==2}"></div>
+					</div>
+					<span class="word4">配送方式更改</span>
+				</div>
+				<div class="section4 flex-row" @click="changeTab(3)">
+					<div class="bg11">
+						<div :class="{'bd1':tabType==3}"></div>
+					</div>
+					<span class="word4">店家未回應我的詢問</span>
+				</div>
+				<div class="section4 flex-row" @click="changeTab(4)">
+					<div class="bg11">
+						<div :class="{'bd1':tabType==4}"></div>
+					</div>
+					<span class="word4">其他/改變主意</span>
+				</div>
+
+				<div class="section8 flex-row">
+					<div class="group2 flex-col">
+						<span class="word6">確認取消訂單</span>
+					</div>
+					<span class="info4">
+						為保障彼此之權益，賣家在收到您的訂單後仍保有決定是否接受訂單與出貨與否之權利
+					</span>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./blis/layui/layui.all.js"></script>
+	<script src="./blis/layer_mobile/layer.js"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/router.js"></script>
+	<script src="./js/common.js"></script>
+
+	<script>
+		new Vue({
+			el: "#cancelOrder",
+			data() {
+				return {
+					tabType: 0,
+				}
+			},
+
+			created() {
+				var that = this;
+				that.getOptions();
+
+			},
+			mounted() {
+				var that = this;
+			},
+			updated() {
+				var that = this;
+			},
+			methods: {
+				/**
+				 * *获取路由参数
+				 */
+				getOptions() {
+					var that = this;
+					var optionsArr = getAllUrlParams(window.location.href);
+					that.storeId = optionsArr.id;
+					that.storeName = decodeURI(optionsArr.name);
+				},
+				changeTab(type) {
+					this.tabType = type
+				},
+			}
+		})
+	</script>
+
+</html>

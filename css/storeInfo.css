@@ -1,0 +1,295 @@
+
+.body {
+  padding: 0.46rem 0rem 0.22rem;
+}
+.header {
+    box-shadow: none;
+    top: .3rem !important;
+}
+.tab {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0.5rem .2rem .2rem;
+  border: none;
+}
+.tab .tab_item {
+  font-size: 0.18rem;
+  margin-right: 0.2rem;
+  position: relative;
+  padding-bottom: 0.05rem;
+}
+.tab .tab_item::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #FDD835;
+  transition: all 0.4s;
+}
+.tab .active::before {
+  width: 100%;
+}
+.storeInfo .storeImg {
+  width: 100%;
+  height: 2rem;
+}
+.storeInfo .swiper_body img {
+    width: 100%;
+    height: 2.81rem;
+    object-fit: cover;
+    object-position: center;
+}
+.storeInfo .pad {
+  padding: 0.2rem 0.2rem .6rem;
+}
+.storeInfo .pad .store_name {
+  color: #000;
+  font-size: 0.18rem;
+  margin-bottom: 0.1rem;
+}
+.storeInfo .pad .store_content {
+  color: #666;
+  font-size: 0.14rem;
+  line-height: 0.24rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+.storeInfo .pad .more {
+  text-align: center;
+  font-size: 0.3rem;
+}
+.storeInfo .pad .store_title {
+  color: #666;
+  font-size: 0.14rem;
+  line-height: 0.24rem;
+  padding-top: 0.1rem;
+  padding-bottom: 0.06rem;
+  position: relative;
+}
+.storeInfo .pad .store_title p {
+  padding-left: 0.1rem;
+}
+.storeInfo .pad .store_title::before {
+  content: '';
+  width: 100%;
+  height: 0.01rem;
+  position: absolute;
+  bottom: 0;
+  background-color: #999;
+}
+.storeInfo .pad .business {
+  display: flex;
+  margin-top: 0.14rem;
+}
+.storeInfo .pad .business .bus_left {
+  width: 30%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.storeInfo .pad .business .bus_left p {
+  font-size: 0.14rem;
+  line-height: 0.26rem;
+  height: 0.26rem;
+  background-color: #FDD835;
+  text-align: center;
+  width: 80%;
+  border-radius: 0.1rem;
+}
+.storeInfo .pad .business .bus_right {
+  flex: 1;
+}
+.storeInfo .pad .business .bus_right .bus_right_item {
+  margin-bottom: 0.1rem;
+}
+.storeInfo .pad .business .bus_right .bus_title {
+  font-size: 0.18rem;
+  line-height: 0.26rem;
+  height: 0.26rem;
+  margin-bottom: 0.06rem;
+}
+.storeInfo .pad .business .bus_right .bus_info {
+  font-size: 0.14rem;
+  color: #999;
+}
+.storeInfo .pad .business .bus_right .bus_info span {
+  display: inline-block;
+  /* min-width: 20%; */
+  margin-right: .2rem;
+  text-align: center;
+}
+.storeInfo .pad .consume {
+  display: flex;
+  margin-top: 0.14rem;
+}
+.storeInfo .pad .consume .con_left {
+  width: 30%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.storeInfo .pad .consume .con_left p {
+  padding: 0.01rem 0.06rem;
+  font-size: 0.14rem;
+  line-height: 0.26rem;
+  border: 1px solid #999;
+  text-align: center;
+  min-width: 80%;
+  border-radius: 0.5rem;
+}
+.storeInfo .pad .consume .con_right {
+  flex: 1;
+}
+.storeInfo .pad .consume .con_right p {
+  font-size: 0.18rem;
+  line-height: 0.26rem;
+  height: 0.26rem;
+}
+.storeInfo .pad .service {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0.14rem;
+}
+.storeInfo .pad .service p {
+  padding: 0.01rem 0.06rem;
+  margin-left: 3%;
+  font-size: 0.18rem;
+  line-height: 0.26rem;
+  border: 1px solid #999;
+  text-align: center;
+  min-width: 24%;
+  border-radius: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+.storeInfo .pad .travel {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 0.14rem;
+  padding-left: 3%;
+}
+.storeInfo .pad .travel p {
+  font-size: 0.18rem;
+  line-height: 0.26rem;
+  height: 0.26rem;
+  width: 30%;
+}
+.storeInfo .pad .room {
+  margin-top: 0.14rem;
+  margin-bottom: 0.5rem;
+}
+.storeInfo .pad .room .bus_right {
+  flex: 1;
+}
+.storeInfo .pad .room .bus_right .bus_right_item {
+  margin-bottom: 0.1rem;
+}
+.storeInfo .pad .room .bus_right .bus_title {
+  font-size: 0.18rem;
+  line-height: 0.26rem;
+  height: 0.26rem;
+  margin-bottom: 0.06rem;
+}
+.storeInfo .pad .room .bus_right .bus_info {
+  font-size: 0.14rem;
+  color: #999;
+}
+.storeInfo .pad .room .bus_right .bus_info span {
+  display: inline-block;
+  min-width: 18%;
+  text-align: center;
+}
+.storeTraffic {
+  padding: 0 0.2rem;
+}
+.storeTraffic .common {
+  padding: 0.2rem 0 0.1rem;
+  border-bottom: 1px #999 solid;
+}
+.storeTraffic .common .comTitle {
+  color: #000;
+  font-size: 0.18rem;
+  margin-bottom: 0.1rem;
+}
+.storeTraffic .common .common_item {
+  margin-bottom: 0.1rem;
+}
+.storeTraffic .common .common_item .comStitle {
+  color: #d38743;
+  margin: 0.06rem 0;
+}
+.storeTraffic .common .common_item .comCont img {
+  width: 100%;
+  height: 1.5rem;
+}
+.storeTraffic .common .common_item .comCont p {
+  color: #999;
+  line-height: 0.2rem;
+}
+.storeTraffic .common:last-child {
+  margin-bottom: 0.8rem;
+}
+.storeAbout {
+  padding: 0 0.2rem;
+}
+.storeAbout .aboutItem {
+  padding: 0.16rem 0;
+  border-bottom: 1px solid #999;
+}
+.storeAbout .aboutItem .aboutTitle {
+  color: #000;
+  font-size: 0.18rem;
+  margin-bottom: 0.1rem;
+}
+.storeAbout .aboutItem img {
+  width: 100%;
+  height: 1.5rem;
+  margin: 0.06rem 0 0.1rem;
+}
+.storeAbout .aboutItem .colorTitle {
+  color: #d38743;
+  margin: 0.06rem 0;
+}
+.storeAbout .aboutItem .aboutContent {
+  color: #999;
+  line-height: 0.2rem;
+  white-space: 2em;
+}
+.storeAbout .aboutItem .more {
+  margin-top: 0.1rem;
+  text-align: center;
+  display: inline-block;
+  border: 2px solid #FDD835;
+  border-radius: 50rem;
+  width: 40%;
+  line-height: 0.3rem;
+}
+.storeAbout .aboutItem .pmore {
+  font-size: 0.3rem;
+  text-align: center;
+}
+.storeAbout .aboutItem:last-child {
+  margin-bottom: 1rem;
+}
+.btn_blcok {
+  padding-top: 0.03rem;
+  padding-bottom: 0.4rem;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  /* background: #fff; */
+}
+.btn_blcok button {
+  width: 3rem;
+  margin: auto;
+  height: 0.4rem;
+  background: #FDD835;
+  border-radius: 2rem;
+  font-size: 0.16rem;
+  color: #505050;
+  border: none;
+}

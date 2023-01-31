@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+
+    <title>我的优惠券</title>
+    <link rel="stylesheet" type="text/css" href="css/myConpon.css" />
+	<link rel="stylesheet" type="text/css" href="css/common.css"/>
+    <link rel="stylesheet" href="./css/loading.css">
+</head>
+
+<body>
+    <div class="loader">
+        <div>H</div>
+        <div>O</div>
+        <div>I</div>
+        <div>N</div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="page flex-col" id="myCoupon" v-cloak>
+        <div class="bd1 flex-col">
+            <!-- <div class="layer1 flex-col">
+                <div class="block2 flex-row">
+                    <a href="javascript:history.back(-1);"><img src="img/1.png" alt=""></a>
+                    <span class="word1">優惠券</span>
+                    <div></div>
+                </div>
+            </div> -->
+            
+            <div class="no" v-if="coupon_list.length<=0">
+                暫無優惠券
+            </div>
+            <div class="main5" v-else @click.prevent="toInfo(item.category_id)" v-for="item in coupon_list">
+                <div class="mod_left">
+                    <div class="outer31 flex-col"><img :src="item.thumb" alt=""></div>
+                </div>
+                <div class="mod11 flex-col">
+                    <div class="outer21 flex-col">
+                        <div class="mod21 flex-row">
+                            <img class="layer11 flex-col" :src="item.logo" alt="">
+                            <span class="txt31">{{item.store_name}}</span>
+                        </div>
+                    </div>
+                    <span class="txt21">{{item.coupon_title}}</span>
+                    <div>
+                        <div class="group11 flex-col"></div>
+                        <span class="word31">有效期限：{{item.end_time}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/layui/layui.all.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/layui/2.7.6/layui.js" integrity="sha512-mIKH3M2bRlIyhG4tBEbJ8dn8t8JFlNJU2NXlJePgpQ72CK4jAYsZyCGFcASRGtPBbcAQhz67KTkA1Jw6Kizk9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+
+<script>
+    new Vue({
+        el: "#myCoupon",
+        data() {
+            return {
+                storeId: 0,
+                tabType: 1,
+                coupon_list: [],
+            }
+        },
+
+        created() {
+            var that = this;
+            that.getOptions();
+        },
+        mounted() {
+            var that = this;
+        },
+        updated() {
+            var that = this;
+        },
+        methods: {
+			
+            getCouponList() {
+                let that = this
+                var index = layer.load();
+                let data = {
+                    coupon_type: that.tabType,
+                    store_id : that.storeId
+                }
+                couponList(data, (res) => {
+                    that.coupon_list = res || []
+                    layer.close(index);
+                    if(that.coupon_list.length<1){
+                        layui.use('layer', function () {
+                            var layer = layui.layer;
+                            layer.msg('請先領取優惠券');
+                        });
+                    }
+                    // else if(that.coupon_list.length==1){
+                    //     this.toInfo(that.coupon_list[0].category_id)
+                    // }
+                })
+            },
+            
+            /**
+             * *获取路由参数
+             */
+            
+            getOptions() {
+                var that = this;
+                var optionsArr = getAllUrlParams(window.location.href);
+                that.storeId = optionsArr.store_id;
+                that.getCouponList()
+            },
+            
+            
+            toInfo(id) {
+                window.location.href = "storeCouponInfo.html?id=" + id+"&types=1";
+            },
+        }
+    })
+</script>
+
+</html>

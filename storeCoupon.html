@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
+    <title>店家優惠券</title>
+    <link rel="stylesheet" type="text/css" href="css/storeCoupon.css?v=1" />
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="stylesheet" href="./css/loading.css">
+</head>
+
+<body>
+    <div class="loader">
+        <div>H</div>
+        <div>O</div>
+        <div>I</div>
+        <div>N</div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <div class="page flex-col" id="storeCoupon" v-cloak style="user-select: none;" >
+        <div class="outer1 flex-col">
+            <div class="main2 flex-row">
+                <a v-if="storeId" href="javascript:history.back(-1);"><img class="box1" src="img/1.png" alt=""></a>
+                <img v-else @click="turn()" class="box1" src="img/1.png" alt="">
+
+                <div class="layer5 flex-col">
+                    <input class="section1" type="text" placeholder="輸入店家關鍵字搜尋" v-model="keyword">
+                    <img class="icon1" referrerpolicy="no-referrer" src="img/sech.png" @click="search()"/>
+                </div>
+                <span></span>
+            </div>
+            <div class="main3 flex-row">
+                <span class="info1" :class="{txt1: tabType==1}" @click.prevent="changeTab(1)">Coupon券</span>
+                <span class="info1" :class="{txt1: tabType==3}" @click.prevent="changeTab(3)">浴衣遊北投</span>
+            </div>
+            <div class="no" v-if="storeClist.length<=0">
+                暫無優惠券
+            </div>
+            <div class="main5" v-else v-for="(item,index) in storeClist" @click.prevent="toInfo(item.id,item.note)">
+                <div class="mod_left">
+                    <div class="outer3 flex-col"><img src="./img/logo.jpg" :lay-src="item.thumb" alt=""></div>
+                </div>
+                <div class="mod1 flex-col">
+                    <div class="outer2 flex-col">
+                        <div class="mod2 flex-row">
+                            <img src="./img/logo.jpg" :lay-src="item.logo" class="layer1 flex-col">
+                            <span class="txt3">{{item.store_name}}</span>
+                        </div>
+                    </div>
+                    
+                    <div v-if="tabType==1"><span class="txt2">{{item.coupon_title}}</span></div>
+                    <div v-if="tabType==3" @click.stop="tel(item.phone)"><span class="txt2">電話：{{item.phone}}</span></div>
+                    <div v-if="tabType==3"><span class="txt2">地址：{{item.address}}</span></div>
+
+                    <div>
+                        <div class="group1 flex-col"></div>
+                        <span class="word3">有效期限：{{item.end_time}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box5 flex-col" v-if="showMask">
+            <div class="mod211 flex-col">
+                <div class="box6 flex-row">
+                    <span class="info5">優惠内容</span>
+                    <img @click.prevent="showMask=false" class="icon21" referrerpolicy="no-referrer"
+                        src="img/cha.png" />
+                </div>
+                <span class="info6" v-html="content">
+                </span>
+                <div class="box7 flex-col" @click="showMask = false"><span class="word121">我知道了</span></div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./js/vue.js"></script>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/layui/layui.all.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/layui/2.7.6/layui.js" integrity="sha512-mIKH3M2bRlIyhG4tBEbJ8dn8t8JFlNJU2NXlJePgpQ72CK4jAYsZyCGFcASRGtPBbcAQhz67KTkA1Jw6Kizk9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+
+<script>
+    new Vue({
+        el: "#storeCoupon",
+        data() {
+            return {
+                tabType: 1,
+                storeId: 0,
+                keyword:'',
+                storeClist: [],
+                showMask:false,
+                content:'',
+            }
+        },
+
+        created() {
+            var that = this;
+            that.getOptions();
+
+        },
+        mounted() {
+            var that = this;
+        },
+        updated() {
+            var that = this;
+        },
+        methods: {
+            /**
+             * *获取路由参数
+             */
+             turn() {
+                var system = localStorage.getItem('system');
+                console.log("system", system);
+                appTurn(system)
+            },
+            getOptions() {
+                var that = this;
+                var optionsArr = getAllUrlParams(window.location.href);
+                that.storeId = optionsArr.id;
+                if (that.storeId) {
+                    this.getStoreClist()
+                }else{
+				    this.getHomeClist()
+                }
+            },
+            changeTab(type) {
+                this.tabType = type
+                if (this.storeId) {
+                    this.getStoreClist()
+                }else{
+				    this.getHomeClist()
+                }
+            },
+            toInfo(id,content) {
+                if(this.tabType==3){
+                    this.showMask = true
+                    this.content = content
+                }else{
+                    window.location.href = "storeCouponInfo.html?id=" + id + "&type=1&types=1";
+                }
+            },
+            tel(phone){
+                var system = localStorage.getItem('system');
+                var u = navigator.userAgent;
+                var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+                if (isAndroid) {
+                    appTurn(system, 39, {},phone)
+
+                }else{
+                    appTurn(system, 9, {},phone)
+
+                }
+            },
+            getStoreClist() {
+                $('body,html').animate({scrollTop: 0},100);
+                var index = layer.load();
+                this.storeClist = []
+                let data = {
+                    store_id: this.storeId,
+                    search:this.keyword,
+                    coupon_type: this.tabType
+                }
+                storeCouponList(data, (res) => {
+                    this.storeClist = res || []
+                    $('body,html').animate({scrollTop: 1},100);
+                    layer.close(index); 
+                })
+            },
+            getHomeClist(){
+                $('body,html').animate({scrollTop: 0},100);
+                var index = layer.load();
+                this.storeClist = []
+                let data = {
+                    coupon_type: this.tabType,
+                    search:this.keyword,
+
+                }
+                homeCouponList(data, (res) => {
+                    this.storeClist = res || []
+                    $('body,html').animate({scrollTop: 1},100);
+                    layer.close(index); 
+                })
+            },
+            search(){
+                if (this.storeId) {
+                    this.getStoreClist()
+                }else{
+				    this.getHomeClist()
+                }
+            }
+        }
+    })
+    layui.use('flow', function(){
+        var flow = layui.flow;
+        //当你执行这样一个方法时，即对页面中的全部带有 lay-src 的 img 元素开启了懒加载（当然你也可以指定相关 img）
+        flow.lazyimg(); 
+    });
+</script>
+
+</html>

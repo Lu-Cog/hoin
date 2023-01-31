@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>評分記錄</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./blis/layui/css/layui.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/store-score.css">
+</head>
+
+<body>
+  <div class="body store-score_body" id="store-score_body" v-cloak>
+    <div class="header_top"></div>
+    <h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-del  i-left"></i></a>{{storeName}}
+    </h3>
+
+    <div class="main">
+      <h3 class="block_title">{{sum}}個評論</h3>
+      <ul class="main_list">
+        <li class="main_item" v-for="(item,index) in rateList" :key="index">
+          <img class="left_img" :src="item.avatar" alt="頭像">
+          <div class="right_text">
+            <h4 class="name">{{item.username}}</h4>
+            <p class="time">{{item.add_time}}</p>
+            <div :id="'rate'+index" class="rate"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <black-top></black-top>
+  </div>
+
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layui/layui.all.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+
+
+<script>
+  new Vue({
+    el: "#store-score_body",
+    data() {
+      return {
+        storeId: "",
+        storeName: "",
+        rateList: [],
+        sum:""
+      }
+    },
+
+
+
+    created() {
+      var that = this;
+      that.getOptions();
+
+    },
+
+    mounted() {
+      var that = this;
+      that.getRate()
+      that.getSupplyScoreList()
+    },
+
+    updated() {
+      var that = this;
+      that.getRate()
+    },
+
+    methods: {
+      /**
+       * *获取路由参数
+       */
+      getOptions() {
+        var that = this;
+        var optionsArr = getAllUrlParams(window.location.href);
+        that.storeId = optionsArr.id;
+        that.storeName = decodeURI(optionsArr.name); //url传中文的转码
+      },
+
+      /**
+       * ?评分
+       */
+      getRate() {
+        var that = this;
+        layui.use(["rate"], function () {
+          var rate = layui.rate;
+          $.each(that.rateList, function (index, item) {
+            //渲染-只读
+            rate.render({
+              elem: "#rate" + index, //绑定元素
+              value: item.score,
+              half: true,
+              readonly: true
+            });
+          });
+        })
+      },
+
+      /**
+       * ?获取商家评论列表
+       */
+      getSupplyScoreList() {
+        var that = this;
+        var params = {
+          "supplyId": that.storeId,
+        }
+        supplyScoreList(params, function (res) {
+          that.rateList=res.scoreList;
+          that.sum=res.sum
+        });
+      },
+
+      /**
+       * ! 跳转-详情
+       * */
+      urlClick(id) {
+        // window.location.href = "doctor-item.html?id=" + id;
+      },
+
+    }
+  })
+</script>
+
+</html>

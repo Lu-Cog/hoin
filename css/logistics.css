@@ -1,0 +1,457 @@
+body * {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: PingFangSC-Regular, Roboto, Helvetica Neue, Helvetica, Tahoma,
+        Arial, PingFang SC-Light, Microsoft YaHei;
+}
+
+button {
+    margin: 0;
+    padding: 0;
+    border: 1px solid transparent;
+    outline: none;
+    background-color: transparent;
+}
+
+button:active {
+    opacity: 0.6;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+html {
+    font-size: 37.5px;
+}
+
+.page {
+    z-index: 1;
+    position: relative;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 1);
+    padding-top: 0.347rem;
+}
+
+.box1 {
+    z-index: auto;
+    width: 90%;
+	margin: 0 auto;
+}
+
+.wrap1 {
+    z-index: auto;
+    width: 9.067rem;
+    height: 0.48rem;
+    justify-content: space-between;
+}
+
+.word1 {
+    z-index: 17;
+    width: 1.44rem;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(0, 0, 0, 1);
+    font-size: 0.4rem;
+    letter-spacing: -0.30000001192092896px;
+    font-family: Helvetica;
+    line-height: 0.48rem;
+    text-align: center;
+}
+
+.pic1 {
+    z-index: 3;
+    width: 1.814rem;
+    height: 0.32rem;
+    margin-top: 0.08rem;
+}
+
+.wrap2 {
+    z-index: auto;
+    width: 100%;
+    height: 0.64rem;
+    margin-top: 0.574rem;
+	justify-content: center;
+	position: relative;
+}
+.wrap2 a{
+	position: absolute;
+	left: 0;
+}
+.icon1 {
+    z-index: 18;
+    width: 0.534rem;
+    height: 0.534rem;
+    margin-top: 0.054rem;
+}
+
+.txt1 {
+    z-index: 21;
+    width: 1.787rem;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(211, 135, 67, 1);
+    font-size: 0.453rem;
+    letter-spacing: -0.40799999237060547px;
+    font-family: PingFangTC-Medium;
+    line-height: 0.64rem;
+    text-align: center;
+}
+
+.info1 {
+    z-index: 23;
+    width: 100%;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(161, 161, 161, 1);
+    font-size: 0.373rem;
+    letter-spacing: -0.335999995470047px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.534rem;
+    text-align: left;
+    align-self: flex-start;
+    margin: 19px 0 0;
+}
+
+.wrap3 {
+    z-index: 22;
+    width: 100%;
+    height: 0.027rem;
+    background: url(../img/xian.png) 0px -1px;
+    align-self: flex-start;
+    margin: 7px 0 0;
+}
+
+.wrap4 {
+    z-index: auto;
+    width: 100%;
+    padding: 16px 8px 0;
+}
+
+.info2 {
+    z-index: 24;
+	width: 2.2rem;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(161, 161, 161, 1);
+    font-size: 0.426rem;
+    letter-spacing: -0.3840000033378601px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.587rem;
+    text-align: left;
+}
+
+.word2 {
+	flex: 1;
+    z-index: 26;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(80, 80, 80, 1);
+    font-size: 0.426rem;
+    letter-spacing: -0.3840000033378601px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.587rem;
+    text-align: left;
+}
+
+.wrap5 {
+    z-index: auto;
+    width: 100%;
+    height: 0.587rem;
+    justify-content: space-between;
+    margin: 8px 0 0 8px;
+}
+
+.word3 {
+    z-index: 25;
+    width: 1.68rem;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(161, 161, 161, 1);
+    font-size: 0.426rem;
+    letter-spacing: -0.3840000033378601px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.587rem;
+    text-align: left;
+}
+
+.info3 {
+    z-index: 27;
+    width: 3.12rem;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(80, 80, 80, 1);
+    font-size: 0.426rem;
+    letter-spacing: -0.3840000033378601px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.587rem;
+    text-align: left;
+}
+
+.wrap6 {
+    z-index: auto;
+    width: 100%;
+    padding: 8px 8px 0;
+}
+
+.word4 {
+    z-index: 28;
+    width: 2.107rem;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(161, 161, 161, 1);
+    font-size: 0.426rem;
+    letter-spacing: -0.3840000033378601px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.587rem;
+    text-align: left;
+}
+
+.word5 {
+    z-index: 29;
+	flex: 1;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(211, 135, 67, 1);
+    font-size: 0.426rem;
+    letter-spacing: -0.3840000033378601px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.587rem;
+    text-align: left;
+    margin-left: 0.134rem;
+}
+
+.label1 {
+    z-index: 46;
+    width: 0.374rem;
+    height: 0.454rem;
+    margin: 3px 0 0;
+}
+
+.wrap7 {
+    z-index: auto;
+	width: 100%;
+    margin: 32px 0 0;
+	position: relative;
+	padding-left: 1rem;
+	overflow: hidden;
+}
+
+.layer1 {
+	position: absolute;
+    z-index: 38;
+	height: 100%;
+    width: 0.027rem;
+    background: url(../img/xuxian.png) 100%;
+    margin-top: 0.32rem;
+}
+
+.layer2 {
+    z-index: auto;
+	position: relative;
+	padding: .4rem 0 0 .8rem;
+}
+
+.info4 {
+    z-index: 35;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(80, 80, 80, 1);
+    font-size: 0.426rem;
+    letter-spacing: -0.3840000033378601px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.587rem;
+    text-align: left;
+    align-self: flex-start;
+}
+
+.txt2 {
+    z-index: 30;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(80, 80, 80, 1);
+    font-size: 0.32rem;
+    letter-spacing: -0.2879999876022339px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.454rem;
+    text-align: left;
+    align-self: flex-start;
+}
+
+.info5 {
+    z-index: 36;
+    width: 5.014rem;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(161, 161, 161, 1);
+    font-size: 0.426rem;
+    letter-spacing: -0.3840000033378601px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.587rem;
+    text-align: left;
+    align-self: center;
+    margin-top: 0.427rem;
+}
+
+.info6 {
+    z-index: 31;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(161, 161, 161, 1);
+    font-size: 0.32rem;
+    letter-spacing: -0.2879999876022339px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.454rem;
+    text-align: left;
+    align-self: flex-start;
+}
+
+.txt3 {
+    z-index: 39;
+    width: 3.334rem;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(161, 161, 161, 1);
+    font-size: 0.426rem;
+    letter-spacing: -0.3840000033378601px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.587rem;
+    text-align: left;
+    align-self: flex-start;
+    margin-top: 0.427rem;
+}
+
+.word6 {
+    z-index: 33;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(161, 161, 161, 1);
+    font-size: 0.32rem;
+    letter-spacing: -0.2879999876022339px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.454rem;
+    text-align: left;
+    align-self: flex-start;
+}
+
+.word7 {
+    z-index: 37;
+    width: 2.107rem;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(161, 161, 161, 1);
+    font-size: 0.426rem;
+    letter-spacing: -0.3840000033378601px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.587rem;
+    text-align: left;
+    align-self: flex-start;
+    margin-top: 0.64rem;
+}
+
+.word8 {
+    z-index: 32;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(161, 161, 161, 1);
+    font-size: 0.32rem;
+    letter-spacing: -0.2879999876022339px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.454rem;
+    text-align: left;
+    align-self: flex-start;
+}
+
+.word9 {
+    z-index: 40;
+    width: 1.254rem;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(161, 161, 161, 1);
+    font-size: 0.426rem;
+    letter-spacing: -0.3840000033378601px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.587rem;
+    text-align: left;
+    align-self: flex-start;
+    margin-top: 0.427rem;
+}
+
+.word10 {
+    z-index: 34;
+    display: block;
+    overflow-wrap: break-word;
+    color: rgba(161, 161, 161, 1);
+    font-size: 0.32rem;
+    letter-spacing: -0.2879999876022339px;
+    font-family: PingFangTC-Regular;
+    line-height: 0.454rem;
+    text-align: left;
+    align-self: flex-start;
+}
+
+.box2 {
+    z-index: 41;
+    position: absolute;
+    left: 0;
+	transform: translateX(-50%);
+	top: 50%;
+    width: 0.294rem;
+    height: 0.294rem;
+    background-color: rgba(211, 135, 67, 1);
+    border-radius: 50%;
+}
+
+.box3 {
+    z-index: 42;
+    position: absolute;
+    left: 1.28rem;
+    top: 8.187rem;
+    width: 0.294rem;
+    height: 0.294rem;
+    background-color: rgba(161, 161, 161, 1);
+    border-radius: 50%;
+}
+
+.box4 {
+    z-index: 44;
+    position: absolute;
+    left: 1.28rem;
+    top: 9.654rem;
+    width: 0.294rem;
+    height: 0.294rem;
+    background-color: rgba(161, 161, 161, 1);
+    border-radius: 50%;
+}
+
+.box5 {
+    z-index: 43;
+    position: absolute;
+    left: 1.28rem;
+    top: 11.334rem;
+    width: 0.294rem;
+    height: 0.294rem;
+    background-color: rgba(161, 161, 161, 1);
+    border-radius: 50%;
+}
+
+.box6 {
+    z-index: 45;
+    position: absolute;
+    left: 1.28rem;
+    top: 12.8rem;
+    width: 0.294rem;
+    height: 0.294rem;
+    background-color: rgba(161, 161, 161, 1);
+    border-radius: 50%;
+}

@@ -1,0 +1,130 @@
+.apoint-my_body {
+  padding: 0 0.22rem 0.22rem;
+}
+.apoint-my_body .laydate-day-mark {
+  line-height: 36px !important;
+}
+.apoint-my_body .apoint-my_date {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid #ccc;
+}
+.apoint-my_body .apoint-my_date .layui-laydate,
+.apoint-my_body .apoint-my_date .layui-laydate-hint {
+  border: none;
+  box-shadow: none;
+}
+.apoint-my_body .apoint-my_date .layui-laydate-header {
+  border-bottom: none;
+}
+.apoint-my_body .apoint-my_date .layui-laydate-content {
+  padding-top: 0;
+}
+.apoint-my_body .apoint-my_date .layui-laydate-main {
+  width: 340px;
+}
+.apoint-my_body .apoint-my_date .layui-laydate-content td,
+.apoint-my_body .apoint-my_date .layui-laydate-content th {
+  width: 45px;
+  height: 36px;
+}
+.apoint-my_body .apoint-my_date .laydate-day-next {
+  display: none !important;
+}
+.apoint-my_body .apoint-my_date .layui-laydate .layui-this {
+  background-color: #fdd835 !important;
+  color: #333 !important;
+}
+.apoint-my_body .apoint-my_date .laydate-day-mark::after {
+  background-color: #ff5252;
+}
+.apoint-my_body .apoint-my_date .laydate-icon {
+  color: #d38743;
+}
+.apoint-my_body .apoint-my_date .laydate-set-ym {
+  color: #505050;
+}
+.apoint-my_body .apoint-my_date .laydate-set-ym,
+.apoint-my_body .apoint-my_date .layui-laydate-content table {
+  font-size: 0.17rem;
+}
+.apoint-my_body .apoint-my_date .layui-laydate-content th {
+  color: #a1a1a1;
+}
+.apoint-my_body .apoint-my_date .layui-laydate-content td {
+  font-size: 0.14rem;
+}
+.apoint-my_body .appoin_list {
+  padding: 0.2rem 0;
+}
+.apoint-my_body .appoin_list .list_item {
+  display: flex;
+  justify-content: space-between;
+}
+.apoint-my_body .appoin_list .list_item .date {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 0.12rem;
+  width: 0.62rem;
+  background: #d38743;
+  border-radius: 0.08rem 0rem 0rem 0.08rem;
+}
+.apoint-my_body .appoin_list .list_item .date span:nth-child(2) {
+  font-size: 0.24rem;
+  font-weight: 500;
+}
+.apoint-my_body .appoin_list .list_item .open-bg {
+  background: #ff5252;
+}
+.apoint-my_body .appoin_list .list_item .cont {
+  color: #505050;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.1rem 0;
+  max-width: 1.84rem;
+}
+.apoint-my_body .appoin_list .list_item .cont p {
+  font-size: 0.16rem;
+}
+.apoint-my_body .appoin_list .list_item .cont .address span {
+  color: #505050;
+}
+.apoint-my_body .appoin_list .list_item .cont .address span:nth-child(2) {
+  color: #a1a1a1;
+}
+.apoint-my_body .appoin_list .list_item .cont .number span {
+  color: #ff5252;
+  font-weight: 600;
+  margin-left: 0.05rem;
+}
+.apoint-my_body .appoin_list .list_item .checkbox {
+  width: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.apoint-my_body .appoin_list .list_item .checkbox p {
+  font-size: 0.1rem;
+  margin-top: 0.05rem;
+  text-align: center;
+}
+.apoint-my_body .appoin_list .list_item .checkbox .layui-form-switch i {
+  width: 0.23rem;
+  height: 0.23rem;
+}
+.apoint-my_body .appoin_list .list_item .checkbox .layui-unselect {
+  height: 0.28rem !important;
+  line-height: 0.28rem !important;
+}
+.layui-unselect {
+  height: 0.31rem !important;
+  line-height: 0.31rem !important;
+  min-width: 0.5rem !important;
+  margin-top: 0 !important;
+  border-radius: 0.2rem !important;
+}

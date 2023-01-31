@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>常用取货人</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./blis/layui/css/layui.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/cart.css?v=1.1">
+  <link rel="stylesheet" href="./css/consignee.css">
+</head>
+
+<body>
+  <div class="body cart_body" id="cart_body" v-cloak>
+    <div class="header_top"></div>
+    <h3 class="header">
+        <a href="javascript:history.back(-1);"><i class="iconfont icon-zuo  i-left"></i> <span>常用取貨人</span> </a>
+        <a href="editor_consignee.html?type=0">新增取貨人</a>
+    </h3> 
+     <!--取货人  -->
+    <div class="consignee">
+        <div class="con_item" @click="checked(0)">
+          <img :src="active===0?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+            <div class="main">
+                <div class="name">
+                    <div class="left">江丽</div>
+                    <a class="right"  href="editor_consignee.html?type=1">
+                      <img src="./img/bj.png" alt="">
+                    </a>
+                </div>
+                <div class="phone">0911222333 </div>
+                <div class="address">110台北市信義區松壽路22號12樓</div>
+            </div>
+        </div>
+        <div class="con_item" @click="checked(1)">
+          <img :src="active===1?'./img/xuanzeanniu.png':'./img/xuanze.png'" alt="選擇">
+            <div class="main">
+                <div class="name">
+                    <div class="left">江丽</div>
+                    <a class="right"  href="editor_consignee.html?type=1">
+                      <img src="./img/bj.png" alt="">
+                    </a>
+                </div>
+                <div class="phone">0911222333 </div>
+                <div class="address">110台北市信義區松壽路22號12樓</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <button>確認送出</button>
+    </div>
+  </div>
+
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layui/layui.all.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+
+<script>
+  new Vue({
+    el: "#cart_body",
+    data() {
+      return {
+        count: 0,
+        active: 0
+      }
+    },
+
+    created() {
+      var that = this;
+    },
+    mounted() {
+      var that = this;
+    },
+    updated() {
+      var that = this;
+    },
+    methods: {
+      /**
+       * *获取路由参数
+       */
+      getOptions() {
+        // var that = this;
+        // var optionsArr = getAllUrlParams(window.location.href);
+      },
+      checked(num){
+        let that =this
+        that.active = num
+      }
+    }
+  })
+</script>
+
+</html>

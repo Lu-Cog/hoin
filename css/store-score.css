@@ -1,0 +1,62 @@
+.store-score_body .block_title {
+  font-size: 0.18rem;
+  font-weight: 500;
+  color: #505050;
+  line-height: 0.25rem;
+  margin-bottom: 0.18rem;
+  position: relative;
+}
+.store-score_body{
+  padding: 0.76rem 0.22rem 0.22rem;
+}
+.store-score_body .header{
+  top: 0.3rem !important;
+}
+.store-score_body .block_title::after {
+  position: absolute;
+  content: "";
+  bottom: -0.03rem;
+  left: 0;
+  width: 0.52rem;
+  height: 0.04rem;
+  background: #fdd835;
+}
+.store-score_body .main {
+  margin-top: 0.3rem;
+}
+.store-score_body .main .main_list .main_item {
+  display: flex;
+  margin-bottom: 0.16rem;
+}
+.store-score_body .main .main_list .main_item .left_img {
+  flex-basis: 0.4rem;
+  flex-grow: 0;
+  flex-shrink: 0;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 50%;
+  height: 0.4rem;
+  border: 0.01rem solid #dfdfdf;
+}
+.store-score_body .main .main_list .main_item .right_text {
+  margin-left: 0.08rem;
+}
+.store-score_body .main .main_list .main_item .right_text .name {
+  font-size: 0.14rem;
+  font-weight: 500;
+  color: #505050;
+  line-height: 0.2rem;
+}
+.store-score_body .main .main_list .main_item .right_text .time {
+  font-size: 0.12rem;
+  color: #505050;
+  line-height: 0.17rem;
+}
+.store-score_body .main .main_list .main_item .right_text .layui-rate {
+  padding: 0 0;
+}
+.store-score_body .main .main_list .main_item .right_text .layui-rate li i.layui-icon {
+  font-size: 0.15rem;
+  color: #fdd835;
+  margin-right: 0.01rem;
+}

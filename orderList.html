@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+	<title>我的訂單</title>
+	<link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+	<link rel="stylesheet" href="./css/iconfont.css">
+	<link rel="stylesheet" href="./css/base.css">
+	<link rel="stylesheet" href="./blis/layui/css/layui.css">
+	<link rel="stylesheet" href="./css/common.css">
+	<link rel="stylesheet" type="text/css" href="css/orderList.css" />
+</head>
+
+<body>
+	<div class="body cart_body" id="cart_body" v-cloak>
+		<div class="header_top"></div>
+		<h3 class="header">
+			<a href="javascript:;" @click="turn()"><i class="iconfont icon-zuo  i-left"></i></a>
+			我的訂單
+			<a href="searchOrder.html"><img src="img/search.png"></a>
+		</h3>
+		<ul class="tabs">
+			<li :class="{active:tabType==1}" @click="changeTab(1)">待確認</li>
+			<li :class="{active:tabType==2}" @click="changeTab(2)">待出貨</li>
+			<li :class="{active:tabType==3}" @click="changeTab(3)">待收貨</li>
+			<li :class="{active:tabType==4}" @click="changeTab(4)">已結單</li>
+			<li :class="{active:tabType==5}" @click="changeTab(5)">已取消</li>
+		</ul>
+		<div style="margin: 100px auto; text-align: center;color: #999;" v-if="orderList.length<=0">
+			暫無訂單
+		</div>
+		<div class="order_item" @click="gotoInfo(item.order_sub_no)" v-for="(item,index) in orderList" v-else>
+			<div class="store_info">
+				<div class="store_left">
+					<img src="img/coplogo.png" alt="">
+					<span>{{item.store_name}}</span>
+				</div>
+				<p v-if="item.status==1">待付款</p>
+				<p v-if="item.status==2">待配送</p>
+				<p v-if="item.status==3">待收貨</p>
+				<p v-if="item.status==4">已結單</p>
+				<p v-if="item.status==5">已退款</p>
+			</div>
+			<div class="order_info">
+				<p><span>訂單編號</span>{{item.order_sub_no}} <img src="img/fuzhi.png" ></p>
+				<p><span>訂購日期</span>2021/01/18</p>
+				<p><span>付款/取貨</span>ATM付款 / 宅配</p>
+				<p><span>商品數量</span>共 {{item.goods_list.length}}項</p>
+				<p class="price"><span>訂單金額</span>${{item.pay_price}}（含運費）</p>
+			</div>
+			<div class="good_list">
+				<div class="good_item" v-for="(item1,index1) in item.goods_list">
+					<img :src="item1.img" >
+					<div class="good_right">
+						<p class="good_title">
+							{{item1.name}}
+						</p>
+						<p class="good_attr">
+							<span class="good_price">${{item1.pay_price}}</span>
+							<span>數量：{{item1.number}}</span>
+						</p>
+					</div>
+				</div>
+				<a href="">查看訂單詳情</a>
+			</div>
+			<a href="logistics.html" class="payment" v-if="false">
+				<p>面交資訊<span>(取貨確認)</span></p>
+				<p>></p>
+			</a>
+			<div class="footer" v-if="tabType==4">
+				<div class="evaluate" v-if="false">
+					已評價
+				</div>
+				<div class="goevaluate" @click.stop="openMask" v-else>
+					去評價
+				</div>
+				<div class="payagren">
+					再買一次
+				</div>
+			</div>
+		</div>
+		
+		<div class="mask" v-if="mask">
+			<div class="mask_main">
+				<img @click="mask=false" src="./img/gbc.png" class="close" />
+				<div class="mask_title">
+					我要評價
+				</div>
+				<div class="mask_content">
+					<div class="mask_item" @click="goEva()">
+						評價商品
+					</div>
+					<div class="mask_item bg" @click="goEva()">
+						評價店家
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layui/layui.all.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+
+<script>
+	new Vue({
+		el: "#cart_body",
+		data() {
+			return {
+				tabType: 1,
+				storeId: 0,
+				storeName: '',
+				mask:false,
+				orderList:[]
+			}
+		},
+
+		created() {
+			var that = this;
+			that.getOptions();
+			this.getOrderList()
+		},
+		mounted() {
+			var that = this;
+		},
+		updated() {
+			var that = this;
+		},
+		methods: {
+			turn() {
+				var system = localStorage.getItem('system');
+				console.log("system", system);
+				appTurn(system)
+			},
+			/**
+			 * *获取路由参数
+			 */
+			goEva(){
+				window.location.href = "orderScore.html"
+			},
+			openMask(){
+				this.mask = true
+			},
+			getOptions() {
+				var that = this;
+				var optionsArr = getAllUrlParams(window.location.href);
+				that.storeId = optionsArr.id;
+				that.tabType = optionsArr.tabType || 1
+				that.storeName = decodeURI(optionsArr.name);
+			},
+			changeTab(type) {
+				this.tabType = type
+				this.getOrderList()
+			},
+			toList() {
+				window.location.href = "info-index.html?id=" + this.storeId + "&name=" + this.storeName;
+			},
+			gotoInfo(id){
+				window.location.href = "orderInfo.html?id="+id
+			},
+			getOrderList(){
+				let data = {
+					status : this.tabType,
+				}
+				getOrderList(data,(res)=>{
+					this.orderList = res.list
+				})
+			}
+		}
+	})
+</script>
+
+</html>

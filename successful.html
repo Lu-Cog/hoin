@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>订购成功</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./blis/layui/css/layui.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/cart.css?v=1.1">
+  <link rel="stylesheet" href="./css/successful.css">
+</head>
+
+<body>
+<div class="body cart_body" id="cart_body" v-cloak>
+  <div class="header_top"></div>
+  <h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-zuo  i-left"></i></a>
+    訂購成功
+  </h3>
+  <!-- 感谢您的订单 -->
+  <div class="thinks">
+    <div class="code">訂單代碼：{{order_no}}</div>
+    <div class="thinks_s">感謝您的訂購！</div>
+    <div class="itemized">訂單明細{{order_id}}</div>
+    <div style="text-align: center;">
+      <i class="iconfont icon-bottom" :style="state==true?'transform:translate(-50%) rotate(180deg)':''"
+         @click="changeState(state)"></i>
+    </div>
+  </div>
+  <div v-show="state">
+    <!-- 商品 -->
+    <div class="goods">
+      <div class="goods_item" v-for="(item,index) in goods_list">
+        <div class="left">
+          <img :src="item.img" alt="">
+        </div>
+        <div class="right">
+          <div class="title">{{item.goods_name}}</div>
+          <div class="title">规格：${{item.sku_str}}</div>
+          <div class="price_num">
+            <div class="price">${{item.price}}</div>
+            <div class="num">数量：<span>{{item.num}}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 总价 -->
+    <div class="all_block">
+      <div class="flex-bt">
+        <span class="name">商品金額小記</span><span class="price">${{total_price}}</span>
+      </div>
+      <div class="flex-bt">
+        <span class="name">折價券</span><span class="price">$0</span>
+      </div>
+      <div class="flex-bt">
+        <span class="name">IN幣折抵</span><span class="price">$0</span>
+      </div>
+      <div class="flex-bt">
+        <span class="name">商品金額小記</span><span class="price">${{total_price}}</span>
+      </div>
+      <hr>
+      <div class="flex-don flex-bt">
+        <span class="name">共{{goods_len}}項商品</span><span class="price">${{total_price}}</span>
+      </div>
+    </div>
+  </div>
+  <!-- 订单资讯 -->
+  <div class="information">
+    <div class="infor_top">
+      訂單資訊
+    </div>
+    <div class="infor_item">
+      <span class="left">付款資訊</span>
+      <span class="right">{{pay_type}}</span>
+    </div>
+    <div class="infor_item">
+      <span class="left">訂單狀態</span>
+      <span class="right">{{pay_status}}</span>
+    </div>
+    <div class="infor_item">
+      <span class="left">訂購商品</span>
+      <span class="right">共{{goods_len}}項</span>
+    </div>
+    <div class="infor_item">
+      <span class="left">收件人</span>
+      <span class="right">{{address_name}}</span>
+    </div>
+    <div class="infor_item">
+      <span class="left">聯絡電話</span>
+      <span class="right">{{telephone}}</span>
+    </div>
+    <div class="infor_item">
+      <span class="left">收件地址</span>
+      <span class="right">{{address}}</span>
+    </div>
+    <div class="infor_item">
+      <span class="left">訂單金額</span>
+      <span class="right">${{total_price}}</span>
+    </div>
+    <div class="hint">
+      您的商品會再付款資料確認後，儘速送紙您指定的收件地址。
+    </div>
+  </div>
+
+  <!-- ATM付款資訊 -->
+  <!-- <div class="information">
+    <div class="infor_top">
+      ATM付款資訊
+    </div>
+    <div class="infor_item">
+      <span class="left">轉帳銀行</span>
+      <span class="right"></span>
+    </div>
+    <div class="infor_item">
+      <span class="left">轉帳帳號</span>
+      <span class="right"></span>
+    </div>
+    <div class="infor_item">
+      <span class="left">繳款金額</span>
+      <span class="right"></span>
+    </div>
+    <div class="infor_item">
+      <span class="left">繳款期限</span>
+      <span class="right"></span>
+    </div>
+    <div class="hint">
+      <p>*此繳款帳號若已過繳款期限為無效帳號，如需購買請重新訂購（帳號僅供本次交易使用）</p>
+      <p>*此繳款帳號若已過繳款期限為無效帳號，如需購買請重新訂購（帳號僅供本次交易使用）</p>
+    </div>
+    <div class="atm">
+      <p>小心！提防ATM詐騙</p>
+      <p>由於網路詐騙案件層出不窮，手法也不斷更新，在此特別提醒您，本商家與工作人員，均不會要求消費者至提款機操作任何功能，請小心勿上當。
+        如果接獲不明人士來信或來電，應立即撥打165防詐騙專線或透過客服專線查詢，讓我們與您一起努力維護網路交易安全。</p>
+    </div>
+  </div> -->
+
+  <!-- 發票開立資訊 -->
+  <div class="invoicing">
+    <div class="inv_top">
+      <span>發票開立資訊</span><span><a href="invoice.html">變更發票資訊</a></span>
+    </div>
+    <div class="first">電子發票-會員載具</div>
+    <div class="last">存在本站會員發票</div>
+    <div class="retu">
+      <div class="ret_top">
+        <img src="./img/home .png" alt="">
+        <span>回首页</span>
+      </div>
+      <div class="ret_bottom">
+        <img src="./img/stroe11.png" alt="">
+        <span>订单查询</span>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="bottom">
+    <div>
+      <div><img src="./img/store1.png"></div>
+      <p>線上客服</p>
+    </div>
+    <div>
+      <div><img src="./img/store2.png"></div>
+      <p>客服電話</p>
+    </div>
+    <div>
+      <div><img src="./img/store4.png"></div>
+      <p>客服信箱</p>
+    </div>
+  </div>
+</div>
+
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layui/layui.all.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+
+<script>
+  new Vue({
+    el: "#cart_body",
+    data() {
+      return {
+        state         : false,
+        order_no      : '',
+        pay_type      : '',
+        transport     : '',
+        total_price   : 0,
+        pay_price     : 0,
+        pay_status    : '',
+        address_name  : '',
+        telephone     : '',
+        address       : '',
+        goods_len     : 0,
+        goods_list     : [],
+        order_id : 0
+      }
+    },
+
+    created() {
+      var that = this;
+      that.getOptions();
+      that.getorderView()
+    },
+    mounted() {
+      var that = this;
+    },
+    updated() {
+      var that = this;
+    },
+    methods: {
+      /**
+       * *获取路由参数
+       */
+      getOptions() {
+        var that = this;
+        var optionsArr = getAllUrlParams(window.location.href);
+        that.order_id = optionsArr.order_id
+      },
+      changeState(state) {
+        var that = this;
+        that.state = !state;
+        console.log(state);
+      },
+      getorderView() {
+        let that = this
+        let params = {
+          "order_id": that.order_id,
+        }
+        orderViewS(params, function (res) {
+          that.order_no = res.order_no
+          that.pay_type = res.pay_type
+          that.transport = res.transport
+          that.total_price = res.total_price
+          that.pay_price = res.pay_price
+          that.pay_status = res.pay_status
+          that.address_name = res.address_name
+          that.telephone = res.telephone
+          that.address = res.address
+          that.goods_len = res.goods_len
+          that.goods_list = res.goods_list
+        })
+      },
+    }
+  })
+</script>
+
+</html>

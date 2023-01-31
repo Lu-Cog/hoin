@@ -1,0 +1,108 @@
+.select_body {
+  margin-bottom: 0.7rem;
+  .select-title {
+    font-size: 0.14rem;
+    color: #a1a1a1;
+    border-bottom: 1px solid #a1a1a1;
+    padding: 0.4rem 0.12rem 0.08rem;
+  }
+  .select_li {
+    .select-title {
+      padding: 0.4rem 0.12rem 0.08rem;
+    }
+  }
+  .select_block {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    &:after {
+      content: "";
+      width: 30%;
+      border: 1px solid transparent;
+    }
+    .select_item {
+      width: 30%;
+      height: 0.3rem;
+      line-height: 0.3rem;
+      font-size: 0.16rem;
+      border-radius: 0.18rem;
+      border: 0.01rem solid rgba(151, 151, 151, 1);
+      margin-top: 0.15rem;
+      // margin-right: 0.15rem;
+      text-align: center;
+      &:nth-child(3n) {
+        // margin-right: 0;
+      }
+    }
+    .active {
+      background: rgba(253, 216, 53, 1);
+    }
+  }
+}
+
+// .select-category_body {
+//   .select_block {
+//     justify-content: space-between;
+//     .select_item {
+//       width: 1.54rem;
+//       margin-right: 0;
+//     }
+//   }
+// }
+
+.body_bottom {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding-bottom: 0.3rem;
+  background: #ffffff;
+}
+
+.lifeOther_body {
+  .select_cont.layui-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.15rem;
+    padding: 0 0.11rem;
+    &:after {
+      display: none;
+    }
+  }
+  .select_item {
+    width: 1rem;
+    display: flex;
+    justify-content: space-around;
+  }
+  .select_cont2 {
+    align-items: center;
+    margin-top: 0.15rem;
+    span {
+      display: inline-block;
+      width: 0.8rem;
+      text-align: left;
+      padding-left: 0.2rem;
+    }
+    .select_item {
+      margin: 0;
+      width: 1.2rem;
+    }
+  }
+}
+
+.select-category_body {
+  .select_tow {
+    &:after {
+      display: none;
+    }
+    .select_item {
+      // width: 1.54rem;
+      width: 48%;
+      // margin-right: 0.08rem;
+    }
+  }
+}
+
+.flex-start {
+  justify-content: start !important;
+}

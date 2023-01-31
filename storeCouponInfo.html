@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<title>店家優惠券详情</title>
+		<link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+		<link rel="stylesheet" href="./blis/layui/css/layui.css">
+		<link rel="stylesheet" type="text/css" href="css/storeCouponInfo.css" />
+		<link rel="stylesheet" href="./css/common.css">
+		<link rel="stylesheet" href="./css/loading.css">
+
+	</head>
+
+	<body>
+		<div class="loader">
+			<div>H</div>
+			<div>O</div>
+			<div>I</div>
+			<div>N</div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		<div class="page flex-col" id="storeCouponInfo" v-cloak>
+			<div class="outer1 flex-col">
+				<div class="box2 flex-row" v-if="conType==1">
+					<a href="javascript:history.back(-1);"><img src="img/1.png" alt=""></a>
+					<span class="info2">{{types==1?'優惠券':'票券'}}</span>
+					<span></span>
+					<!-- <img class="label1" referrerpolicy="no-referrer" src="img/shera.png" /> -->
+				</div>
+				<div class="box3 flex-col">
+					<img :src="coupon_info.thumb" alt="">
+				</div>
+				<span class="word1" v-html="coupon_info.title"></span>
+				<div class="box4 flex-row">
+					<div class="flex-row">
+						<div class="outer2 flex-col"><span class="info3">效期</span></div>
+						<span class="word2">{{coupon_info.end_time}}</span>
+					</div>
+					<span class="info4" v-if="types==1">剩餘：{{coupon_info.day}}天</span>
+					<span class="info4" @click="pjShow=true" v-else>轉贈票券</span>
+				</div>
+				<div class="box5 flex-col"></div>
+				<div class="pjList" v-if="types==2">
+					<div class="pjItem" :class="{'active':index==0}" v-for="(item,index) in list">
+						<span class="pjspan" v-if="index==0">已使用</span>
+						<span v-else>{{item}}</span>
+					</div>
+				</div>
+				<span class="paragraph1" v-html="coupon_info.note">
+				</span>
+
+				<div v-if="conType==1">
+					<div class="section6 flex-col"  v-if="coupon_info.receive>=1">
+						<div class="main1 flex-row">
+							<span class="word5">優惠券已領取</span>
+							<div class="block3 flex-col" @click.prevent="goMycoupon()">
+								<span class="txt3">我的優惠券</span>
+							</div>
+						</div>
+					</div>
+					<div class="box6 flex-col" v-else>
+						<div class="box7 flex-col" @click.prevent="getCoupon(1)"><span class="word3">領取優惠券</span></div>
+					</div>
+				</div>
+				<div v-else>
+					<!-- <div class="bottomFoot">
+						<img class="bottomImg" src="img/redeem.png" :layer-src="coupon_info.qrcode" @click="openImg()">
+						<div class="bottomTxt">請向店員出示此畫面並掃描QRcode進行兌換</div>
+					</div> -->
+					<div class="box6 flex-col"  v-if="coupon_info.status==0">
+						<div class="box7 flex-col" @click.prevent="getCoupon(2)"><span class="word3">核銷優惠券</span></div>
+					</div>
+					<div class="box6 flex-col"  v-if="coupon_info.status==1">
+						<div class="box7 flex-col" style="background-color: #999;"><span class="word3">核銷日期:{{coupon_info.usetime}}</span></div>
+						<!-- <div class="bottomTxt black">已核銷，</div> -->
+					</div>
+					<div class="box6 flex-col"   v-if="coupon_info.status==2">
+						<div class="box7 flex-col" style="background-color: #999;"><span class="word3">已過使用期限</span></div>
+						<!-- <div class="bottomTxt red">已過使用期限</div> -->
+					</div>
+				</div>
+			</div>
+			<div class="group3 flex-col" v-if="showMask">
+				<div class="main1 flex-col">
+					<div class="block1 flex-col">
+						<span class="word6">領取優惠券</span>
+						<span class="info12">
+							您已成功領取！您可以於[我的優惠券]中查看您已領取的優惠券
+						</span>
+						<div class="group4 flex-col" @click.prevent="showMask=false">
+							<span class="info3">確認</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="group3 flex-col" v-if="showMask1">
+				<div class="main1 flex-col">
+					<div class="block1 flex-col">
+						<span class="word6">核銷優惠券</span>
+						<span class="info12">
+							核銷成功！
+						</span>
+						<div class="group4 flex-col" @click.prevent="goHistory">
+							<span class="info3">確認</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="mask" v-if="pjShow">
+				<div class="mask_main">
+					<img @click="pjShow=false" src="./img/gbc.png" class="close" />
+					<div class="mask_title">
+						轉贈票券
+					</div>
+					<div class="mask_input">
+						<p>受贈會員ID</p>
+						<input type="" name="" id="" value="" />
+						<p class="input_tip">此會員ID無法使用,請再試一次。</p>
+					</div>
+					<div class="mask_num">
+						<p>轉贈數量</p>
+						<div class="number">
+							<span @click="sub">-</span><input type="number" maxlength="5" v-model="zsNum" /><span @click="add">+</span>
+						</div>
+					</div>
+					<p class="mask_tip">
+						注意事項:
+						進行票券轉贈者，請務必詳細閱讀並了解下述注意事項後，再進行票券轉贈。進行票券轉贈即視同願意接受並遵守以下條約及約定。
+						1. 轉出及轉入對象，需為HoIN之會員。
+						2. 務必確認所輸入資料之正確性，一經送出及完成票券轉贈，不得事後要求更換、取消、退還轉贈之票券。
+					</p>
+					<div class="mask_item bg" @click="pjShow=false;showMask=true">
+						確認送出
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./blis/layui/layui.all.js"></script>
+	<script src="./blis/layer_mobile/layer.js"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/router.js"></script>
+	<script src="./js/common.js"></script>
+
+	<script>
+		new Vue({
+			el: "#storeCouponInfo",
+			data() {
+				return {
+					tabType: 1,
+					storeId: 0,
+					showMask: false,
+					showMask1:false,
+					conType: 0,
+					coupon_info: {},
+					types: '',
+					list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+					pjShow: false,
+					zsNum:1,
+					back:0,
+				}
+			},
+
+			created() {
+				var that = this;
+				that.getOptions();
+			},
+			mounted() {
+				var that = this;
+			},
+			updated() {
+				var that = this;
+			},
+			methods: {
+				sub(){
+					if(this.zsNum<=1) return
+					this.zsNum -- 
+				},
+				add(){
+					// if(this.zsNum)
+					this.zsNum++
+				},
+				openImg() {
+					layui.use('layer', function() {
+						var layer = layui.layer;
+						layer.photos({
+							photos: '.bottomFoot',
+							anim: 5
+						});
+					});
+				},
+				couponInfo() {
+					couponInfo({
+						coupon_id: this.storeId
+					}, (res) => {
+						console.log(res)
+						this.coupon_info = res
+					},(res)=>{
+						setTimeout(()=>{
+							window.history.back()
+						},500)
+					})
+				},
+				
+				getCoupon(type) {
+					let data = {
+						coupon_id: this.storeId,
+						coupon_code: this.coupon_code
+					}
+					if(type==1){
+						getCoupon(data, (res) => {
+							this.showMask = true
+							this.couponInfo()
+						})
+					}else{
+						couponCheck(data, (res) => {
+							this.showMask1 = true
+							this.couponInfo()
+						})
+					}
+					
+				},
+				/**
+				 * *获取路由参数
+				 */
+				getOptions() {
+					var that = this;
+					var optionsArr = getAllUrlParams(window.location.href);
+					that.storeId = optionsArr.id;
+					that.conType = optionsArr.type;
+					that.back = optionsArr.back;
+					that.types = optionsArr.types;
+					if (that.types == 1) {
+						that.couponInfo()
+					}
+				},
+				changeTab(type) {
+					this.tabType = type
+				},
+				goHistory(){
+					this.showMask1=false
+					window.location.href = "myCoupon.html?type=9"
+
+				},
+				toList() {
+					window.location.href = "info-index.html?id=" + this.storeId;
+
+				},
+				goMycoupon() {
+					if(this.back){
+						window.history.back()
+					}else{
+						window.location.href = "myCoupon.html"
+					}
+				}
+			}
+		})
+	</script>
+
+</html>

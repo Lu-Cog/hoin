@@ -1,0 +1,576 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<meta name="format-detection" content="telephone=yes"/>
+		<title>店家主页</title>
+		<link rel="prefetch" href="storeCoupon.html" />
+		<link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+		<link rel="stylesheet" href="./css/iconfont.css">
+		<link rel="stylesheet" href="./css/base.css">
+		<link rel="stylesheet" href="./blis/swiper/css/swiper.min.css">
+		<link rel="stylesheet" href="./blis/layui/css/layui.css">
+		<link rel="stylesheet" href="./css/common.css">
+		<!-- 本業獨有，單獨引入 -->
+		<link rel="stylesheet" href="./css/store.css?v=1.1">
+		<link rel="stylesheet" href="./css/loading.css">
+	</head>
+
+	<body>
+		<div class="loader">
+			<div>H</div>
+			<div>O</div>
+			<div>I</div>
+			<div>N</div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		<div class="body store_body" id="store_body" v-cloak :style="maskHeight">
+			<h3 class="i_block flex-bt">
+				<img src="./img/i-back.png" alt="返回图标" @click="turn()">
+				<img src="./img/i-share.png" alt="分享图标" @click="turnPage(6,{'shareTitle':'HOIN分享','shareImg':'http://hoin.iqweb.net/web/show.png','shareUrl':'http://hoin.iqweb.net/web/about.html'})">
+			</h3>
+			<div class="swiper_body">
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						<img v-for="(item,index) in lifeSwiper" :key="item.id" :src="item.image" alt=""
+							class="swiper-slide">
+					</div>
+					<!-- 如果需要分页器 -->
+					<div class="swiper-pagination"></div>
+				</div>
+			</div>
+			<div class="main">
+				<div class="main_block">
+					<div class="block_top flex-start">
+						<div class="img_box flex-center">
+							<img class="img" :src="storeInfo.img" :alt="storeInfo.name"
+								onerror="onerror=null;src='./img/img_null.jpg'">
+						</div>
+						<div class="right_box">
+							<h3 class="name clamp">{{storeInfo.name}}</h3>
+							<p class="xilie">{{storeInfo.store_type==1?'實體店':storeInfo.store_type==2?'實體店+線上店':'線上店'}}
+							</p>
+							<p class="badge_box"><span class="badge"
+									v-show="storeInfo.serviceFlagName !=''">{{storeInfo.serviceFlagName}}</span><span
+									class="badge"
+									v-show="storeInfo.targetFlagName !=''">{{storeInfo.targetFlagName}}</span><span
+									class="badge"
+									v-show="storeInfo.themeFlagName !=''">{{storeInfo.themeFlagName}}</span>
+							</p>
+							<div class="rate_box flex-bt">
+								<div class=" flex-center">
+									<div id="tate" class="tate"></div>
+									<span>{{storeInfo.score}}</span>
+									<span class="score"
+										@click="toScore(storeInfo.id,storeInfo.name)">{{storeInfo.score_count}}個評論</span>
+								</div>
+								<button class="btn flex-center" @click="score()">我要評分</button>
+							</div>
+							<div v-if="false" class="test"> <br><br>
+								<p>
+									<span @click="turnPage(1)">首页</span>&nbsp;&nbsp;&nbsp;
+									<span @click="turnPage(2)">我的</span>&nbsp;&nbsp;&nbsp;
+									<span @click="turnPage(3)">订单列表</span>&nbsp;&nbsp;&nbsp;
+									<span @click="turnPage(4)">关闭</span>&nbsp;&nbsp;&nbsp;
+									<span @click="turnPage(5)">登录</span>&nbsp;&nbsp;&nbsp;
+									<span
+										@click="turnPage(6,{'shareTitle':'HOIN分享','shareImg':'http://hoin.iqweb.net/web/show.png','shareUrl':'http://hoin.iqweb.net/web/about.html'})">分享</span>&nbsp;&nbsp;&nbsp;
+								</p> <br><br>
+							</div>
+						</div>
+						<!-- <img class="i-so" :src="item.isCollection?'./img/i-so-s.png':'./img/i-so.png'" alt="收藏"> -->
+						<img class="so i-so" :src="storeInfo.isCollection?'./img/i-so-s.png':'./img/i-so.png'" alt="收藏"
+							@click="coll()">
+					</div>
+					<hr>
+					<div class="block_mid">
+						<div class="block_row block_time">
+							<!-- 箭頭按鈕 -->
+							<i class="iconfont icon-bottom" :style="state==true?'transform:rotate(180deg)':''"
+								@click="changeState(state)"></i>
+							<i class="iconfont icon-naozhong"></i> <span class="business color-green"
+								v-if="storeInfo.state===1">營業中</span>
+							<span class="business color-red" v-else>休息中</span>
+							<span class="end">{{storeInfo.manageDate}}</span>
+							<ul class="time_list" v-show="state==true">
+								<li class="time_item" v-for="(item,index) in storeInfo.stateTime" v-key="index"><span
+										class="week">{{item.week}}</span>{{item.time}}</li>
+							</ul>
+							<p class="badge_box" v-show="official_holiday != ''">
+								<span class="badge mb10">公休日</span>
+								<span class="badge mb10 newBag" style="width: auto;"
+									v-for="(item,index) in storeInfo.official_holiday" v-key="index">{{item}}</span>
+							</p>
+							<p class="text">{{storeInfo.stateInfo}}</p>
+							<p class="text">{{storeInfo.business_note1}}</p>
+							<p class="text">{{storeInfo.business_note2}}</p>
+							<p class="text">{{storeInfo.business_note3}}</p>
+						</div>
+						
+						<p class="block_row flex-start">
+							<i class="iconfont icon-dizhi1"></i><span
+								class="address clamp">{{storeInfo.cityName}}{{storeInfo.areaName}}{{storeInfo.addressName}}</span>
+							<!-- <button class="btn flex-center"><i class="iconfont icon-daohang"></i>導航</button> -->
+							<button class="btn flex-center" v-if='storeInfo.faceArr.length>0'><img src="img/gwds.png" alt="">自取件地址</button>
+						</p>
+						
+						<p class="block_row" v-show="distribution_area != '' && storeInfo.store_type!=1">
+							<i class="iconfont icon-peisong"></i><span
+								class="phone">配送區域：{{storeInfo.distribution_area}}</span>
+						</p>
+						<div class="block_row" v-show="storeInfo.faceArr.length>0">
+							<img src="img/gwd.png" alt="">面交區域：
+							<ul>
+								<li class="phone faceArr" v-for='item in storeInfo.faceArr'>{{item}}</li>
+							</ul>
+						</div>
+						<p class="block_row" @click="tel(storeInfo.city_mobile)">
+							<i class="iconfont icon-dianhua2"></i><span class="phone">{{storeInfo.city_mobile}}</span>
+						</p>
+						<p class="block_row"><i class="iconfont icon-sms"></i><span
+								@click="toOpinion(storeInfo.id,storeInfo.name)">意見回饋</span></p>
+					</div>
+					<ul class="block_dow flex-bt">
+						<!-- <li class="dow_item flex-center">
+							<img src="./img/store1.png" alt="線上客服">
+							<span>線上客服</span>
+						</li> -->
+						<li class="dow_item flex-center" style="flex: 1;">
+							<img src="./img/store2.png" alt="客服電話">
+							<span>客服電話</span>
+						</li>
+						<!-- <li class="dow_item flex-center" @click="appointment()">
+							<img src="./img/store3.png" alt="預約服務">
+							<span>預約服務</span>
+						</li> -->
+						<li class="dow_item flex-center" style="flex: 1;">
+							<img src="./img/store4.png" alt="客服信箱">
+							<span>客服信箱</span>
+						</li>
+					</ul>
+				</div>
+				<div class="main_block swiper_block" v-if="articleList">
+					<div class="swiper_body main_swiper">
+						<div class="swiper-container">
+							<div class="swiper-wrapper">
+								<div class="swiper-slide" v-for="(item,index) in articleList" v-key="index">
+									<h3 class="block_title">{{item.title}}</h3>
+									<p><span class="badge" v-if="item.isimportant ==='1'">重點消息</span>{{item.note}}</p>
+								</div>
+							</div>
+							<!-- 如果需要分页器 -->
+							<div class="swiper-pagination"></div>
+						</div>
+					</div>
+				</div>
+				<!-- 有狀態  判斷空-->
+				<ul class="main_block cart_block">
+					<!-- <li class="cart_item flex-center">
+						<img src="./img/stroe11.png" alt="圖標">
+						<span>好物預購</span>
+					</li>
+					<li class="cart_item flex-center">
+						<img src="./img/stroe12.png" alt="圖標">
+						<span>店家集點卡</span>
+					</li> -->
+					<li class="cart_item flex-center"
+						@click.prevent="goto('storeCoupon.html?id='+storeInfo.id+'&token='+token)">
+						<img src="./img/stroe13.png" alt="圖標">
+						<span>店家優惠券</span>
+					</li>
+				</ul>
+				<ul class="block_info flex-center">
+					<li class="flex-bt" @click="toInfo(storeInfo.id,storeInfo.name,1)" style="flex: 1;justify-content: center;margin-right: 0;">
+						<img src="./img/store5.png" alt="商家">
+						<p><span>營業 . 資訊</span><span>商家 . 介紹</span></p>
+					</li>
+					<!-- <li class="flex-bt" @click="toInfo(storeInfo.id,storeInfo.name,2)">
+						<img src="./img/store6.png" alt="服務">
+						<p><span>型錄 . 價格</span><span>服務 . 商品</span></p>
+					</li> -->
+				</ul>
+				<div class="main_row">
+					<h4>友好/關係夥伴</h4>
+					<hr>
+					<ul class="partner_list flex-start">
+						<li v-for="(item,index) in storeInfo.storeLinkList" v-key="index">
+							<a :href="'store.html?id='+item.id" class="item flex-center">
+								<img :src="item.logo" :alt="'头像'+item.id">
+								<p class="clamp">{{item.name}}</p>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="main_row">
+					<h4>其他連結</h4>
+					<hr>
+					<ul class="line_list flex-start">
+						<li class="item flex-center" v-for="(item,index) in storeInfo.storeWebSiteList" v-key="index">
+							<a :href="item.url">
+								<img :src="item.logo" alt="">
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<black-top></black-top>
+			<div class="mask" v-if="maskShow">
+				<div class="mask-center flex-center">
+					<span class="i-x" @click="closeMask()">×</span>
+					<h3>我要評分</h3>
+					<div id="rate2"></div>
+					<button class="btn" @click="confirmRate()">確認送出</button>
+				</div>
+			</div>
+			<div class="mask" v-if="maskShow2">
+				<div class="mask-dow">
+					<span class="i-x" @click="closeMask()">×</span>
+					<h3 class="title">預約服務</h3>
+					<ul class="list">
+						<li class="list_item flex-center">使用Ho聊-店家預約客服進行線上對談</li>
+						<li class="list_item flex-center">使用IN約-進行預約（無需對談）</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+	<script src="./blis/layui/layui.all.js"></script>
+	<script src="./blis/layer_mobile/layer.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/layui/2.7.6/layui.js" integrity="sha512-mIKH3M2bRlIyhG4tBEbJ8dn8t8JFlNJU2NXlJePgpQ72CK4jAYsZyCGFcASRGtPBbcAQhz67KTkA1Jw6Kizk9g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/router.js"></script>
+	<script src="./js/common.js?r=21"></script>
+	<script src="./blis/swiper/js/swiper.min.js"></script>
+	<!-- <script src=https://cdn.bootcss.com/eruda/1.5.4/eruda.js> </script> <script>
+  eruda.init()
+</script> -->
+	<!-- 轮播图 -->
+	<script>
+		
+		function mySwiper() {
+			var mySwiper = new Swiper('.swiper-container', {
+				// direction: 'vertical', // 垂直切换选项
+				loop: true, // 循环模式选项
+				autoplay: {
+					delay: 2500,
+					disableOnInteraction: false,
+				},
+				clickable: true,
+				// 如果需要分页器
+				pagination: {
+					el: '.swiper-pagination',
+				},
+			})
+
+			//鼠标滑过pagination控制swiper切换
+			for (i = 0; i < mySwiper.pagination.bullets.length; i++) {
+				mySwiper.pagination.bullets[i].onmouseover = function() {
+					this.click();
+				};
+			}
+			//如果你在swiper初始化后才决定使用clickable，可以这样设置
+			mySwiper.params.pagination.clickable = true;
+			//此外还需要重新初始化pagination
+			mySwiper.pagination.destroy()
+			mySwiper.pagination.init()
+			mySwiper.pagination.bullets.eq(0).addClass('swiper-pagination-bullet-active');
+		}
+	</script>
+	<script>
+		new Vue({
+			el: "#store_body",
+			data() {
+				return {
+					tomLog: 'test',
+					bodyHeight: '',
+					maskHeight: {
+						overflow: 'hidden',
+						height: '',
+					},
+					lifeSwiper: [],
+					imgCount: 0, //图片个数
+					currentIndex: 0, //当前图片
+					intervalID: '', //停止interval的唯一id
+					maskShow: false, //弹框遮罩显示
+					maskShow2: false,
+					storeId: '', //商家id
+					storeInfo: [], //商家详情
+					goodsList: [], //商品列表
+					collText: '追蹤',
+					changeRate: "",
+					state: false, //營業時間展開狀態  false關閉 true展開
+					official_holiday: '',
+					distribution_area: '',
+					articleList: [],
+					token:'',
+					href:'',
+				}
+			},
+
+
+
+			created() {
+				var that = this;
+				// that.getLifeSwiper();
+				that.getOptions();
+				that.getStoreInfo();
+				// that.getGoodsList()
+				that.getSupplyArticleList()
+			},
+			mounted() {
+				var that = this;
+				that.getRate();
+			},
+			updated() {
+				var that = this;
+				that.getRate()
+			},
+			methods: {
+				/**
+				 * *获取路由参数
+				 */
+				getOptions() {
+					var that = this;
+					this.href = window.location.href
+					var optionsArr = getAllUrlParams(window.location.href);
+					that.token = localStorage.getItem('token')
+					
+					// that.storeId = 41
+					that.storeId = optionsArr.id
+
+					console.log("storeId", that.storeId);
+					// getAllUrlParams();
+					console.log(window.location.href);
+
+					// that.familiesName = decodeURI(optionsArr.familiesName);//url传中文的转码
+				},
+
+				tel(phone){
+					var system = localStorage.getItem('system');
+					var u = navigator.userAgent;
+					var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+					if (isAndroid) {
+						appTurn(system, 39, {},phone)
+
+					}else{
+						appTurn(system, 9, {},phone)
+
+					}
+				},
+
+				/**
+				 * ?获取轮播图
+				 */
+				// getLifeSwiper() {
+				//   var that = this;
+				//   var params = {}
+				//   lifeSwiper(params, function (res) {
+				//     that.lifeSwiper = res;
+				//     // vue加载dome元素，需要加延时
+				//     setTimeout(function () {
+				//       mySwiper();
+				//       console.log('11', that.lifeSwiper);
+				//     }, 500)
+				//   });
+				// },
+
+				/**
+				 * ?获取商家详情
+				 */
+				getStoreInfo() {
+					var that = this;
+					var storeId = that.storeId;
+
+					var params = {
+						"id": storeId,
+					}
+					storeInfo(params, function(res) {
+						that.storeInfo = res;
+						that.official_holiday = res.official_holiday || '';
+						that.distribution_area = res.distribution_area || '';
+						that.lifeSwiper = res.banner;
+						setTimeout(function() {
+							mySwiper();
+							console.log('11', that.lifeSwiper);
+						}, 500)
+						var isCollection = res.isCollection;
+						that.collText = isCollection ? '追蹤中' : '追蹤'
+					});
+				},
+
+				/**
+				 * ?获取商家文章资讯
+				 */
+				getSupplyArticleList() {
+					var that = this;
+					var storeId = that.storeId;
+					var params = {
+						"supplyId": storeId,
+						// "type": pageIndex,
+						"isNew": 1
+					}
+					supplyArticleList(params, function(res) {
+						that.articleList = res;
+					});
+				},
+
+				goto(url) {
+					window.location.href = url
+				},
+
+				/**
+				 * *收藏
+				 */
+				coll() {
+					var that = this;
+
+					var storeId = that.storeId;
+					var params = {
+						"storeId": storeId,
+					}
+					storeCollection(params, function(res) {
+						that.getStoreInfo();
+
+						console.log("收藏", res);
+					});
+				},
+
+				/**
+				 * * 營業時間展開切換
+				 */
+				changeState(state) {
+					var that = this;
+					that.state = !state;
+					console.log(state);
+				},
+
+				/**
+				 * ! 跳转-详情
+				 * */
+				toOpinion(id, name) {
+					window.location.href = "store-opinion.html?id=" + id + "&name=" + name;
+				},
+
+				/**
+				 * ! 跳转-详情
+				 * */
+				toScore(id, name) {
+					window.location.href = "store-score.html?id=" + id + "&name=" + name;
+				},
+				/**
+				 * ! 跳转-商品列表
+				 * */
+				toInfo(id, name, type) {
+					if (type == 1) {
+						window.location.href = "storeInfo.html?id=" + id + "&name=" + name;
+					} else {
+						window.location.href = "info-index.html?id=" + id + "&name=" + name;
+					}
+				},
+				/**
+				 * ?评分
+				 */
+
+				getRate() {
+					var that = this;
+					layui.use(["rate"], function() {
+						var rate = layui.rate;
+
+						//渲染-只读
+						var ins1 = rate.render({
+							elem: '#tate', //绑定元素
+							value: that.storeInfo.score,
+							half: true,
+							readonly: true
+						});
+
+						let score = that.changeRate || 0;
+						var ins2 = rate.render({
+							elem: '#rate2',
+							value: score,
+							half: true,
+							choose: function(value) {
+								that.changeRate = value
+							}
+						});
+					})
+				},
+
+				/**
+				 * *确认评分
+				 */
+				confirmRate() {
+					var that = this;
+					let supplyId = that.storeId;
+					let score = that.changeRate;
+					console.log(score);
+
+					if (score != '') {
+						var params = {
+							"supplyId": supplyId,
+							"score": score,
+						}
+						supplyScore(params, function(res) {
+							that.maskShow = false;
+							msg('評分成功', 1)
+							that.getStoreInfo()
+						});
+					} else {
+						msg('请选择评分', 1)
+					}
+				},
+
+				/**
+				 * *我要评分遮罩
+				 */
+				score() {
+					var that = this;
+					// that.maskHeight.height = document.documentElement.clientHeight + 'px';
+					that.maskShow = true;
+
+					setTimeout(function() {
+						that.getRate()
+					}, 50)
+				},
+
+				/**
+				 * *預約服務
+				 */
+				appointment() {
+					var that = this;
+					that.maskShow2 = true;
+				},
+
+				/**
+				 * *关闭遮罩
+				 */
+				closeMask() {
+					var that = this;
+					that.maskHeight.height = ''
+					that.maskShow = false;
+					that.maskShow2 = false;
+				},
+				turn() {
+					var system = localStorage.getItem('system');
+					console.log("system", system);
+					appTurn(system)
+				},
+				turnPage(flag, param) {
+					var system = localStorage.getItem('system');
+					appTurn(system, flag, param)
+				}
+			}
+		})
+	</script>
+
+</html>

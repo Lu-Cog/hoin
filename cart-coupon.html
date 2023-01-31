@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>购物车-优惠活动</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./blis/layui/css/layui.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/cart-coupon.css">
+</head>
+
+<body>
+  <div class="body cart-coupon_body" id="cart-coupon_body" v-cloak :style="maskHeight">
+    <div class="header_top"></div>
+    <h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-del i-left"></i></a>優惠活動</h3>
+    <h4 class="select-title">可使用</h4>
+    <p class="state">未符合優惠活動</p>
+    <h4 class="select-title">本商品試用活動</h4>
+    <div class="gift_block" @click = "toExplain">
+      <p class="flex-center"><span class="badge">贈品</span>消費滿＄1200贈送美人計珍珠粉5包</p>
+    </div>
+    <div class="gift_block">
+      <p class="flex-center"><span class="badge">贈品</span>消費滿＄1200贈送美人計珍珠粉5包</p>
+    </div>
+    <div class="gift_block">
+      <p class="flex-center"><span class="badge">贈品</span>消費滿＄1200贈送美人計珍珠粉5包</p>
+    </div>
+    <div class="gift_block">
+      <p class="flex-center"><span class="badge">贈品</span>消費滿＄1200贈送美人計珍珠粉5包</p>
+    </div>
+  </div>
+
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layui/layui.all.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/router.js"></script>
+<script src="./js/common.js"></script>
+
+<script>
+  new Vue({
+    el: "#cart-coupon_body",
+    data() {
+      return {
+        bodyHeight: '',
+        maskHeight: {
+          overflow: 'hidden',
+          height: '',
+        },
+      }
+    },
+
+    created() {
+      var that = this;
+    },
+    mounted() {
+      var that = this;
+    },
+    updated() {
+      var that = this;
+    },
+    methods: {
+      toExplain(){
+        window.location.href="cart-explain.html"
+      }
+    }
+  })
+</script>
+
+</html>

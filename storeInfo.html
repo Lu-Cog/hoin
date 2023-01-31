@@ -1,0 +1,384 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<title>店家營業資訊</title>
+		<link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+		<link rel="stylesheet" href="./css/iconfont.css">
+		<link rel="stylesheet" href="./css/base.css">
+		<link rel="stylesheet" href="./blis/swiper/css/swiper.min.css">
+		<link rel="stylesheet" href="./blis/layui/css/layui.css">
+		<link rel="stylesheet" href="./css/common.css">
+		<link rel="stylesheet" href="./css/storeInfo.css">
+		<link rel="stylesheet" href="./css/loading.css">
+
+	</head>
+
+	<body>
+		<div class="loader">
+			<div>H</div>
+			<div>O</div>
+			<div>I</div>
+			<div>N</div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		<div class="body cart_body" id="cart_body" v-cloak>
+			<div class="header_top"></div>
+			<h3 class="header">
+				<a href="javascript:history.back(-1);"><i class="iconfont icon-zuo  i-left"></i></a>
+				{{storeName?storeName:''}}
+			</h3>
+			<div class="tab">
+				<p class="tab_item" :class="{active: tabType==1}" @click.prevent="changeTab(1)">基本資訊</p>
+				<!-- <p class="tab_item" :class="{active: tabType==2}" @click.prevent="changeTab(2)">營業交通</p> -->
+				<!-- <p class="tab_item" :class="{active: tabType==3}" @click.prevent="changeTab(3)">舊情水美</p> -->
+			</div>
+			<div class="storeInfo" v-if="tabType==1">
+				<div class="swiper_body">
+					<div class="swiper-container">
+						<div class="swiper-wrapper">
+							<img v-for="(item,index) in information.banner" :key="index"
+								:src="item.thumb" alt="" class="swiper-slide">
+						</div>
+						<!-- 如果需要分页器 -->
+						<div class="swiper-pagination"></div>
+					</div>
+				</div>
+				<div class="pad">
+					<div class="store_name">{{information.name}}</div>
+					<div class="store_content">
+						{{information.content}}
+					</div>
+					<!-- <div class="more">...</div> -->
+					<div class="store_title">
+						<p>營業屬性</p>
+					</div>
+					<div class="business" v-for="(item,index) in information.category_arr" :key='index'>
+						<div class="bus_left">
+							<p>{{item.name}}</p>
+						</div>
+						<div class="bus_right">
+							<div class="bus_right_item" v-for="(item1,index) in item.subclass" :key="index">
+								<p class="bus_title">{{item1.name}}</p>
+								<p class="bus_info">
+									<span v-for="(item2,index) in item1.subclass" :key="index">{{item2.name}}</span>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="store_title">
+						<p>消費屬性</p>
+					</div>
+					<div class="consume">
+						<div class="con_left">
+							<p>均消</p>
+						</div>
+						<div class="con_right">
+							<p>${{information.svg_price}}/人</p>
+						</div>
+					</div>
+					<div class="consume">
+						<div class="con_left">
+							<p>價格範圍</p>
+						</div>
+						<div class="con_right">
+							<p>${{information.min_price}}-{{information.max_price}}/人</p>
+						</div>
+					</div>
+					<div class="store_title">
+						<p>店面服務</p>
+					</div>
+					<div class="service">
+						<p v-for="(item,index) in information.the_store_service" :key="index">{{item.name}}</p>
+					</div>
+					<div class="store_title">
+						<p>適合對象</p>
+					</div>
+					<div class="service">
+						<p v-for="(item,index) in information.object_type" :key="index">{{item.name}}</p>
+					</div>
+					<div v-for="(item,index) in information.cateItem_arr" :key="index">
+						<div>
+							<div class="store_title">
+								<p>{{item.name}}</p>
+							</div>
+							<div class="service">
+								<p v-for="(itemz,indexz) in item.child" :key="indexz">{{itemz.name}}</p>
+							</div>
+						</div>
+						<div v-if="false">
+							<div class="store_title">
+								<p>客房設施/服務</p>
+							</div>
+							<div class="room">
+								<div class="bus_right">
+									<div class="bus_right_item">
+										<p class="bus_title">衛浴設備</p>
+										<p class="bus_info">
+											<span>播立衢浴</span>
+											<span>浴缸</span>
+											<span>盥洗用品</span>
+											<span>吹凤搬</span>
+											<span>浴巾</span>
+										</p>
+									</div>
+									<div class="bus_right_item">
+										<p class="bus_title">舒適設備</p>
+										<p class="bus_info">
+											<span>室内拖鞋</span>
+											<span>遮光窗廉</span>
+											<span>空鳃</span>
+											<span>暖氯</span>
+											<span>阳台/露台</span>
+										</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>					
+				</div>
+			</div>
+			<div class="storeTraffic" v-if="tabType==2">
+				<img :src="information.traffic" alt="" style="width: 100%;">
+				<!-- <div class="common">
+					<div class="comTitle">
+						營業時間
+					</div>
+					<div class="common_item">
+						<div class="comStitle">
+							大眾湯
+						</div>
+						<div class="comCont">
+							<p>每周四至隔周二：06:30-21:00</p>
+							<p>最後進場時間： 20：00</p>
+						</div>
+					</div>
+					<div class="common_item">
+						<div class="comStitle">
+							湯屋
+						</div>
+						<div class="comCont">
+							<p>每周四至隔周二：12:00-18:00</p>
+							<p>最後進場時間： 17：00</p>
+						</div>
+					</div>
+					<div class="common_item">
+						<div class="comStitle">
+							瀧乃小食/足湯 (關係夥伴)
+						</div>
+						<div class="comCont">
+							<p>週五-周日10:30-18:30</p>
+						</div>
+					</div>
+					<div class="common_item">
+						<div class="comStitle">
+							瀧萱坊(關係夥伴)
+						</div>
+						<div class="comCont">
+							<p>預約制(場地租借)</p>
+						</div>
+					</div>
+					<div class="common_item">
+						<div class="comStitle">
+							預約
+						</div>
+						<div class="comCont">
+							<p>大眾湯：無</p>
+							<p>湯屋：可,僅限當天電話或現場預約(上午6:30起)</p>
+						</div>
+					</div>
+				</div>
+				<div class="common">
+					<div class="comTitle">
+						連繫電話
+					</div>
+					<div class="common_item">
+						<div class="comStitle">
+							溫泉部(大眾湯與湯屋)
+						</div>
+						<div class="comCont">
+							<p>02-2891-2236(服務時間:同營業時間)</p>
+						</div>
+					</div>
+					<div class="common_item">
+						<div class="comStitle">
+							瀧乃小食/足湯
+						</div>
+						<div class="comCont">
+							<p>02-2892-2121 (服務時間:同營業時間)</p>
+						</div>
+					</div>
+					<div class="common_item">
+						<div class="comStitle">
+							行銷部/瀧萱坊(行銷洽談/場地租借)
+						</div>
+						<div class="comCont">
+							<p>02-2892-2121 (服務時間:周一至周五 10:00-18:00)</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="common">
+					<div class="comTitle">
+						交通資訊
+					</div>
+					<div class="common_item">
+						<div class="comStitle">
+							地理位置
+						</div>
+						<div class="comCont">
+							<img :src="information.traffic" alt="">
+						</div>
+					</div>
+					<div class="common_item">
+						<div class="comStitle">
+							停車資訊
+						</div>
+						<div class="comCont">
+							<p>無汽機車停車場（自行開車者，建議於新北投捷運站停車後，步行約８分鐘即可到達）</p>
+						</div>
+					</div>
+				</div> -->
+			</div>
+			<div class="storeAbout" v-if="tabType==3">
+				<div class="aboutItem">
+					<p class="aboutTitle">精致下午茶</p>
+					<img src="" alt="">
+					<p class="colorTitle">精擞下午茶$180+10%</p>
+					<p class="aboutContent">凡泡遏消费再加100元就可以享受下午茶曪!</p>
+					<a class="more" href="#">了解更多</a>
+				</div>
+				<div class="aboutItem">
+					<p class="aboutTitle">北投</p>
+					<p class="aboutContent">
+						女巫的故卿「北投」原尚平埔族中的凯蓬格N族(Ketagalan)部落居住的地方﹐而「北投」(Pataauw)菊「北投」(八投·八顾)·急了傅承·彀揭凯蓬格南人的文化﹐於北投温泉新水公圈到面的中山路上具建凯速格文化馆﹐供民罚阏藏北投的原住民文化徙女巫傅貌故事到溪人在北投開塑大磺嘴﹑大油坑﹑小
+					</p>
+					<div class="pmore">...</div>
+				</div>
+				<div class="aboutItem">
+					<p class="aboutTitle">新北投温泉</p>
+					<img src="" alt="">
+					<p class="aboutContent">
+						泉水根掾漓出的温度﹐可分海熟泉·温泉及冷泉。北投温泉凰於温泉﹐温度介於37~40度﹐PH質2.5~6.5海酸性﹐可分赢白磺·青磺·钺磺。白磺是弱酸性硫磺泉﹐封慢性皮虐病·闟箭炎和娠女</p>
+					<div class="pmore">...</div>
+				</div>
+			</div>
+			<!-- <div class="btn_blcok">
+				<a href="#">
+					<button @click.prevent="toList()" class="flex-center">前往商品介紹或服務項目介紹</button>
+				</a>
+			</div> -->
+			<black-top></black-top>
+
+		</div>
+
+	</body>
+	<script src="./js/jquery.min.js"></script>
+	<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+	<script src="./blis/layui/layui.all.js"></script>
+	<script src="./blis/layer_mobile/layer.js"></script>
+	<script src="./js/vue.js"></script>
+	<script src="./js/axios.min.js"></script>
+	<script src="./js/router.js?r=1"></script>
+	<script src="./js/common.js"></script>
+	<script src="./blis/swiper/js/swiper.min.js"></script>
+	<script>
+		function mySwiper() {
+			var mySwiper = new Swiper('.swiper-container', {
+				// direction: 'vertical', // 垂直切换选项
+				loop: true, // 循环模式选项
+				autoplay: {
+					delay: 2500,
+					disableOnInteraction: false,
+				},
+				clickable: true,
+				// 如果需要分页器
+				pagination: {
+					el: '.swiper-pagination',
+				},
+			})
+	
+			//鼠标滑过pagination控制swiper切换
+			for (i = 0; i < mySwiper.pagination.bullets.length; i++) {
+				console.log(123);
+				mySwiper.pagination.bullets[i].onmouseover = function() {
+					this.click();
+				};
+			}
+			//如果你在swiper初始化后才决定使用clickable，可以这样设置
+			mySwiper.params.pagination.clickable = true;
+			//此外还需要重新初始化pagination
+			mySwiper.pagination.destroy()
+			mySwiper.pagination.init()
+			mySwiper.pagination.bullets.eq(0).addClass('swiper-pagination-bullet-active');
+		}
+	</script>
+	<script>
+		new Vue({
+			el: "#cart_body",
+			data() {
+				return {
+					tabType: 1,
+					storeId: 0,
+					storeName: '',
+					information: {}
+				}
+			},
+
+			created() {
+				var that = this;
+				that.getOptions();
+
+			},
+			mounted() {
+				var that = this;
+			},
+			updated() {
+				var that = this;
+			},
+			methods: {
+				/**
+				 * *获取路由参数
+				 */
+
+				getOptions() {
+					var that = this;
+					var optionsArr = getAllUrlParams(window.location.href);
+					that.storeId = optionsArr.id;
+					that.storeName = decodeURI(optionsArr.name);
+					that.storeInformation(optionsArr.id)
+					
+				},
+				storeInformation(id) {
+					var that = this;
+					var params = {
+						"id": id,
+					}
+					storeInformation(params, (res) => {
+						this.information = res
+						setTimeout(()=>{
+							mySwiper();
+						},500)
+					})
+				},
+				changeTab(type) {
+					this.tabType = type
+					setTimeout(()=>{
+						mySwiper();
+					},500)
+				},
+				toList() {
+					window.location.href = "info-index.html?id=" + this.storeId + "&name=" + this.storeName;
+
+				}
+			}
+		})
+	</script>
+
+</html>

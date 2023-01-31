@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  <title>IN約</title>
+  <link rel="stylesheet" href="./blis/bootstrap3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./blis/layer_mobile/need/layer.css">
+  <link rel="stylesheet" href="./css/iconfont.css">
+  <link rel="stylesheet" href="./css/base.css">
+  <link rel="stylesheet" href="./css/common.css">
+  <!-- 本業獨有，單獨引入 -->
+  <link rel="stylesheet" href="./css/doctor.css">
+</head>
+
+<body>
+  <div class="body doctor_body" id="doctor_body" v-cloak>
+    <h3 class="header"><a href="javascript:history.back(-1);"><i class="iconfont icon-zuo i-left"></i></a> {{pageTitle}}</h3>
+    <div class="doctor_top list_item">
+      <div class="list-item_a a-block" href="">
+        <div class="list-item_left">
+          <img class="img" :src="clinicInfo.img" :alt="clinicInfo.name" onerror="onerror=null;src='./img/img_null.jpg'">
+        </div>
+        <div class="list-item_right">
+          <h5 class="title clamp">{{clinicInfo.name}}</h5>
+          <div class="row">
+            <p class="address clamp">{{clinicInfo.cityName}} {{clinicInfo.areaName}}</p>
+            <span v-if="type == 1" class="badge">診所介紹</span>
+            <span v-else class="badge">協會介紹</span>
+          </div>
+          <hr class="hr">
+          <div class="flex-bt">
+            <p class="address-item clamp"><i class="iconfont icon-fangzi1"></i>{{clinicInfo.address}}
+            </p>
+            <p class="address-item"><i class="iconfont icon-dizhi"></i>{{clinicInfo.distance}}M</p>
+          </div>
+          <p class="address-item"><i class="iconfont icon-ziyuan"></i>{{clinicInfo.tel}}</p>
+          <!-- <p class="address-item"><i class="iconfont icon-ziyuan"></i><a :href="'tel:' + clinicInfo.tel">{{clinicInfo.tel}}</a></p> -->
+        </div>
+      </div>
+    </div>
+    <div  v-if="title3 == ''" @click="toDoctorCategory()" class="search_select a-block">
+      <span :class="categoryId == undefined ? '' : 'selectColor' ">{{name}}</span><i class="iconfont icon-bottom"></i>
+    </div>
+    <ul class="doctor_list">
+      <li id="categoryNull" v-if="doctorList.length==0" style="margin-top:50px;text-align:center">暫無資料</li>
+      <li class="list_item" v-for="(item,index) in doctorList" :data-id="item.id" :key="item.id"
+        @click="urlClick(item.id)">
+        <div class="list-item_a a-block">
+          <div class="list-item_left">
+            <img class="img" :src="item.img" :alt="item.name" onerror="onerror=null;src='./img/img_null.jpg'">
+          </div>
+          <div class="list-item_right">
+            <h5 v-if="title3 != ''" class="title clamp">{{item.name}}</h5>
+            <h5 v-else class="title clamp">{{item.name}} {{item.position}}</h5>
+            <div class="row">
+              <p v-if="title3 != ''"  class="address clamp">{{title3}}</p>
+              <p v-else class="address clamp">{{item.categoryName1}} {{item.categoryName2}}</p>
+              <p class="address clamp">{{title2}}{{item.number}}</p>
+            </div>
+            <hr class="hr">
+            <p class="item clamp">{{item.intro}}</p>
+          </div>
+        </div>
+        <div class="list-item_button a-block">我要<br>預約</div>
+      </li>
+    </ul>
+    <black-top></black-top>
+  </div>
+</body>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/jquery.cookie.js"></script>
+<script src="./blis/bootstrap3.3.7/js/bootstrap.min.js"></script>
+<script src="./blis/layer_mobile/layer.js"></script>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.min.js"></script>
+<script src="./js/common.js"></script>
+<script src="./js/router.js?r=323"></script>
+
+
+
+<script>
+  var s_type = $.cookie('s_type');	//1诊所，2安检，3养生
+  
+  if(s_type == "null"){
+	location.href = "inyue.html";
+  }
+  
+  new Vue({
+    el: "#doctor_body",
+    data() {
+      return {
+		pageTitle: "",
+		title2: "",
+		title3: "",
+		type: 1,
+        category: [],//父级类别
+        families: [],//二级类别
+        clinicInfo: [],//诊所信息
+        doctorList: [],//医生列表
+        urlId: '',//诊所
+        categoryId: '',
+        familiesId: '',//科别ID
+        categoryName: '',//门诊name
+        familiesName: '',//科别name
+        name: '類別'
+      }
+    },
+
+    mounted() {
+      var that = this;
+	  this.type = s_type;
+	  if(s_type == 1){
+		this.pageTitle = "線上掛號";
+		this.title2 = "醫師代號：";
+	  }else if(s_type == 2){
+		this.pageTitle = "居家安檢";
+		this.title2 = "資歷：";
+		this.title3 = "學歷: 淡江大學";
+	  }else{
+		this.pageTitle = "養身美容";
+	  }
+	  
+      that.getOptions();
+      that.getDoctorList();
+      let clinicId = that.urlId;
+      let categoryId = that.categoryId;
+      let familiesId = that.familiesId;
+      let categoryName = that.categoryName;
+      let familiesName = that.familiesName;
+      let name = that.name;
+
+      // 类别文字显示
+      if (categoryName === 'undefined') {
+        that.name = "類別"
+      } else {
+        that.name = categoryName + " " + familiesName;
+      }
+      that.getClinicInfo(clinicId, categoryId, familiesId);
+
+    },
+
+    created() {
+      var that = this;
+    },
+
+
+    methods: {
+      /**
+       * *获取路由参数
+      */
+      getOptions() {
+        var that = this;
+        var optionsArr = getAllUrlParams(window.location.href);
+        that.urlId = optionsArr.id;
+        that.categoryId = optionsArr.categoryId;
+        that.familiesId = optionsArr.familiesId;
+        that.categoryName = decodeURI(optionsArr.categoryName);//url传中文的转码
+        that.familiesName = decodeURI(optionsArr.familiesName);//url传中文的转码
+      },
+      /**
+       * ?获取诊所详情
+      */
+      getClinicInfo() {
+        var that = this;
+        // var path = window.location.href.split("?id=") //分割url
+        var id = that.urlId; //获取参数
+        var params = {
+          "id": id,
+        }
+        clinicInfo(params, function (res) {
+          that.clinicInfo = res;
+        });
+      },
+
+      /**
+       * ?获取医生列表
+      */
+      getDoctorList(clinicId, categoryPid, categoryId, pageIndex) {
+        var that = this;
+        var clinicId = that.urlId;
+        var categoryId = that.categoryId;
+        var familiesId = that.familiesId;
+
+        var params = {
+          "clinicId": clinicId,
+          "categoryPid": categoryId,
+          "categoryId": familiesId,
+          "pageIndex": '',
+          "pageSize": ''
+        }
+        doctorList(params, function (res) {
+          that.doctorList = res.list;
+        });
+      },
+
+
+      /**
+       * ! 跳转-医生详情
+       * */
+      urlClick(id) {
+        window.location.href = "doctor-item.html?id=" + id;
+      },
+
+      /**
+       * ! 跳转-医生筛选
+       * */
+      toDoctorCategory() {
+        var that = this;
+        var urlId = that.urlId;
+        var categoryId = that.categoryId;
+        var familiesId = that.familiesId;
+        var categoryName = that.categoryName;
+        var familiesName = that.familiesName;
+
+        console.log("categoryName", categoryName);
+
+        // window.location.href = "doctor-category.html?id=" + id;
+        if (categoryId != '' || familiesId != '') {
+          window.location.href = "doctor-category.html?id=" + urlId + "&familiesId=" + familiesId + "&categoryId=" + categoryId + "&categoryName=" + categoryName + "&familiesName=" + familiesName;
+          console.log(111);
+        } else if (categoryId == undefined || categoryId == undefined) {
+          // window.location.href = "doctor-category.html?id=" + urlId;
+        } else {
+          // window.location.href = "doctor-category.html?id=" + urlId;
+        }
+      }
+    }
+  })
+</script>
+
+</html>
